@@ -15,7 +15,7 @@ Faire les captures dans un environnement de démonstration autorisé, interface 
 | `02-sharepoint-source.png` | 2, variante B | Un seul `consumption_2025.csv` retenu par nom et dossier ; URL masquée |
 | `02-cleaning.png` | 2, préparation | Suppression des vides et erreurs, types et `month_start` Date |
 | `02-destination.png` | 2, destination | `lh_lab`, `dbo.consumption`, sept colonnes, méthode Remplacer |
-| `02-pipeline-schedule.png` | 2, orchestration | Activité Dataflow, réussite, planification quotidienne et date de fin |
+| `02-pipeline-schedule.png` | 2, orchestration | Activité Dataflow et réussite de l'exécution manuelle ; nom de fichier conservé |
 | `03-visual-joins.png` | 3, jointures | Clés `site_id` et `year`, colonnes développées, pas de multiplication des lignes |
 | `03-monthly-view.png` | 3, résultat | `v_energy_monthly`, région, mois, kWh, kgCO2e et nombre d'observations |
 | `04-agent-sources.png` | 4, sources | `energy_agent`, `lh_lab`, exactement les trois tables sélectionnées |

@@ -49,7 +49,7 @@ La documentation des anciennes alertes sur tuiles de dashboard ne valide pas ce 
 
 ## Checklist J-1
 
-- [ ] Remplir une fiche privée par participant : tenant, compte, deux workspaces, rapport, fichier, Teams, contact, heure/fuseau et fin de planning.
+- [ ] Remplir une fiche privée par participant : tenant, compte, deux workspaces, rapport, fichier, Teams et contact. Le pipeline est exécuté manuellement ; la planification est facultative dans « Comprendre ».
 - [ ] Générer les données et conserver le corrigé calculé. Vérifier 30 sites, une ligne de facteurs, 10 950 lignes brutes et 10 840 propres.
 - [ ] Déposer les fichiers selon [data/README.md](../data/README.md). Vérifier les types des tables Delta, pas seulement la présence des CSV.
 - [ ] Préparer `consumption` nettoyée dans `lh_source` pour le rapport ; préparer `df_source_latest` séparément pour les changements en direct.
@@ -200,6 +200,7 @@ Les passages ci-dessous ont été retirés du texte participant lors de la relec
 | 0, prérequis et conventions | Vérifier la capacité payante active, les licences de lecture/création et le partage Read + ReadAll de `lh_source`, ainsi que la lecture de `energy_report` et de son modèle à identité fixe. L'accès à la source des raccourcis reste nécessaire au modèle personnel en SSO. Rappeler de ne publier aucun jeton, mot de passe, URL privée ou message d'erreur sensible dans le dépôt. Les cinq puces participant ne remplacent pas la checklist d'accès J-7. |
 | 1, dépannage | « L'animateur contrôle le rôle Viewer. » ; « L'animateur adapte le chemin si le lakehouse source est sans schémas. » Vérifier aussi ReadAll et sa propagation si l'item est visible mais sa donnée refusée. |
 | 2, contrôle et pause | Accompagner le contrôle des lignes écrites si les détails d'exécution sont difficiles à lire ; « L'animateur annonce l'heure de reprise. » |
+| 2, planification | Les anciennes étapes 15 à 21 d'« Orchestrer et planifier » deviennent trois lignes facultatives dans « Comprendre » : fréquence quotidienne, heure/fuseau/date de fin, enregistrement. Aucun planning n'est exigé au point de contrôle. Tester la locale du dataflow avant import ; la détection peut laisser `kwh_elec` en Texte à cause de `invalid`, d'où la correction conditionnelle conservée. |
 | 3, vue et contrôle | « Toutes les transformations doivent pouvoir être traduites en SQL par l'éditeur ; l'animateur vérifie ce parcours visuel avant la session. » ; « L'animateur dispose du corrigé calculé pour comparer les résultats. » Ne pas substituer du SQL au parcours visuel sans l'annoncer. |
 | 4, exemple et dépannage | « Si Q1 n'est pas correcte, l'animateur la vérifie avec vous avant l'ajout. » ; « L'animateur vérifie la capacité payante, la région et les paramètres tenant des data agents et de l'IA. » ; « Testez les instructions en français avant diffusion. » La capacité d'essai ne suffit pas au parcours prévu. |
 | 5, bouton indisponible | « Ce chemin doit avoir été validé à J-7 avec les mêmes droits et la même capacité. » ; « La documentation décrit également une expérience demandant Edit sur le rapport. » ; « L'animateur applique le plan B annoncé. » Ne pas accorder l'écriture sur l'espace commun ni imposer une copie sans annonce. |

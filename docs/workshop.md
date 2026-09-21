@@ -193,7 +193,7 @@ Utilisez ce mécanisme pour des référentiels ou des données gouvernées commu
 Les relevés énergétiques arrivent sous forme de fichiers imparfaits.  
 Un nettoyage reproductible rend les analyses comparables d'un jour à l'autre.
 
-**Objectif :** alimenter `consumption` avec un flux visuel et planifier son exécution quotidienne.
+**Objectif :** alimenter `consumption` avec un flux visuel et l'exécuter depuis un pipeline.
 
 **Durée : 35 min de pratique ; 5 min « Comprendre » en parcours complet ; pause de 15 min ensuite.**
 
@@ -206,7 +206,8 @@ Un nettoyage reproductible rend les analyses comparables d'un jour à l'autre.
 3. Recherchez « Dataflow Gen2 ».
 4. Sélectionnez « Dataflow Gen2 ».
 5. Nommez le flux `df_energy` dans le champ de nom proposé. <!-- TODO vérifier -->
-6. Ouvrez « Obtenir des données ».
+6. Choisissez « Options → Paramètres régionaux du dataflow → Anglais (États-Unis) ». <!-- TODO vérifier -->
+7. Ouvrez « Obtenir des données ».
 
 Choisissez **une seule variante**, celle indiquée sur votre fiche. Elles utilisent le même fichier `consumption_2025.csv`.
 
@@ -256,30 +257,20 @@ Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, 
 2. Ouvrez « Accueil ».
 3. Ouvrez « Supprimer les lignes ».
 4. Choisissez « Supprimer les lignes vides ».
-5. Sélectionnez `site_id`.
-6. Choisissez le type « Texte ».
-7. Sélectionnez `date`.
-8. Choisissez le type « Date ».
-9. Sélectionnez `year`.
-10. Choisissez le type « Nombre entier ».
-11. Sélectionnez `kwh_elec`.
-12. Ajoutez `kwh_gas` à la sélection avec Ctrl.
-13. Ajoutez `avg_temp` à la sélection avec Ctrl.
-14. Ouvrez « Modifier le type ».
-15. Choisissez « Utiliser les paramètres régionaux ». <!-- TODO vérifier -->
-16. Choisissez « Nombre décimal ».
-17. Choisissez « Anglais (États-Unis) » pour lire le point décimal du CSV.
-18. Validez.
-19. Sélectionnez les six colonnes.
-20. Ouvrez « Supprimer les lignes ».
-21. Choisissez « Supprimer les erreurs ».
-22. Sélectionnez `date`.
-23. Ouvrez « Ajouter une colonne ».
-24. Ouvrez « Date ».
-25. Ouvrez « Mois ».
-26. Choisissez « Début du mois ». <!-- TODO vérifier -->
-27. Renommez la colonne ajoutée `month_start`.
-28. Vérifiez que son type est « Date ».
+5. Vérifiez les types détectés : `site_id` Texte, `date` Date, `year` Nombre entier, `kwh_elec`, `kwh_gas` et `avg_temp` Nombre décimal.
+6. Corrigez uniquement un type incorrect avec l'icône de type de la colonne. <!-- TODO vérifier -->
+7. Sélectionnez les six colonnes.
+8. Ouvrez « Supprimer les lignes ».
+9. Choisissez « Supprimer les erreurs ».
+10. Sélectionnez `date`.
+11. Ouvrez « Ajouter une colonne ».
+12. Ouvrez « Date ».
+13. Ouvrez « Mois ».
+14. Choisissez « Début du mois ». <!-- TODO vérifier -->
+15. Renommez la colonne ajoutée `month_start`.
+16. Vérifiez que son type est « Date ».
+
+La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez alors cette colonne en Nombre décimal avant de supprimer les erreurs.
 
 ![Étapes de nettoyage, types des colonnes et colonne month_start](assets/02-cleaning.png)
 
@@ -313,7 +304,7 @@ Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, 
 
 ![Destination dbo.consumption dans lh_lab en mode Remplacer](assets/02-destination.png)
 
-### Orchestrer et planifier
+### Orchestrer et exécuter
 
 1. Revenez à votre workspace personnel.
 2. Sélectionnez « Nouvel élément ».
@@ -329,19 +320,12 @@ Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, 
 12. Enregistrez le pipeline.
 13. Sélectionnez « Exécuter ».
 14. Vérifiez la réussite de l'activité.
-15. Ouvrez « Planifier ». <!-- TODO vérifier -->
-16. Activez la planification.
-17. Choisissez la fréquence « Quotidienne ».
-18. Renseignez l'heure de votre fiche.
-19. Renseignez le fuseau horaire de votre fiche.
-20. Renseignez la date de fin de votre fiche pour limiter les exécutions après l'atelier.
-21. Enregistrez la planification.
 
-![Pipeline avec activité Dataflow et planification quotidienne bornée](assets/02-pipeline-schedule.png)
+![Pipeline avec activité Dataflow exécutée manuellement avec succès](assets/02-pipeline-schedule.png)
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir la table `consumption` avec sept colonnes et **10 840 lignes** après nettoyage, le flux et le pipeline réussis, et une planification quotidienne. Après la seconde exécution, il reste 10 840 lignes : le mode « Remplacer » ne cumule pas les chargements.
+> Vous devez voir la table `consumption` avec sept colonnes et **10 840 lignes** après nettoyage, ainsi que le flux et le pipeline réussis. Après l'exécution manuelle du pipeline, il reste 10 840 lignes : le mode « Remplacer » ne cumule pas les chargements.
 
 </div>
 
@@ -357,6 +341,10 @@ Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, 
 Dataflow Gen2 mémorise des transformations Power Query. À l'exécution, il relit la source et écrit le résultat. Le pipeline orchestre cette exécution ; il ne corrige pas lui-même le fichier.
 
 Utilisez un flux pour des préparations récurrentes accessibles aux analystes. Utilisez un pipeline pour organiser plusieurs activités et leur calendrier. Le mode « Remplacer » convient au petit historique complet du lab. En production, il faut traiter les mises à jour incrémentales, les rejets, les responsabilités et le suivi des coûts. Une donnée absente n'est pas réparée par une planification.
+
+Pour une exécution automatique facultative, ouvrez « Planifier » et choisissez « Quotidienne ». <!-- TODO vérifier -->  
+Définissez l'heure, le fuseau et une date de fin adaptés à votre besoin.  
+Enregistrez la planification ; ne l'activez que si vous souhaitez réellement ces exécutions.
 
 </details>
 
