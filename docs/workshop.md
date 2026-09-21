@@ -646,7 +646,7 @@ Une notification invite la bonne personne à examiner la situation au moment du 
 2. Vérifiez que le rapport est `energy_report` dans l'espace commun.
 3. Repérez le visuel **« consommation du dernier jour disponible par région »**.
 4. Vérifiez que le dernier jour disponible affiché est le 31 décembre 2025.
-5. Vérifiez que toutes les régions sont sous **20 000 kWh** dans l'état de départ.
+5. Vérifiez que toutes les régions sont sous **10 000 kWh** dans l'état de départ.
 
 Ne copiez pas le rapport. Vous restez lecteur dans l'espace commun. L'alerte, elle, sera enregistrée dans votre workspace personnel.
 
@@ -660,7 +660,7 @@ Ne copiez pas le rapport. Vous restez lecteur dans l'espace commun. L'alerte, el
 4. Vérifiez que la condition est évaluée pour chaque `region`.
 5. Choisissez « Devient » dans la condition. <!-- TODO vérifier -->
 6. Choisissez « Supérieur à ».
-7. Saisissez `20000`.
+7. Saisissez `10000`.
 8. Choisissez « Teams » comme canal de notification.
 9. Choisissez votre propre compte comme destinataire.
 10. Ouvrez « Sélectionner l'emplacement d'enregistrement ». <!-- TODO vérifier -->
@@ -673,7 +673,7 @@ Ne copiez pas le rapport. Vous restez lecteur dans l'espace commun. L'alerte, el
 
 Le canal Teams de l'atelier sert à l'entraide. Il n'est **pas** le destinataire de cette alerte : vous vous envoyez un message personnel.
 
-![Condition régionale de 20 000 kWh, notification Teams à soi et destination personnelle](assets/05-alert-settings.png)
+![Condition régionale de 10 000 kWh, notification Teams à soi et destination personnelle](assets/05-alert-settings.png)
 
 <!-- TODO vérifier -->
 
@@ -702,7 +702,7 @@ Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir `act_energy` dans **votre** workspace, une règle par région sur `latest_day_kwh`, le seuil de 20 000 kWh et votre compte comme destinataire. Après l'actualisation, une région franchit le seuil et une notification Teams vous est envoyée.
+> Vous devez voir `act_energy` dans **votre** workspace, une règle par région sur `latest_day_kwh`, le seuil de 10 000 kWh et votre compte comme destinataire. Après l'actualisation, une région franchit le seuil et une notification Teams vous est envoyée.
 
 </div>
 
@@ -1167,6 +1167,7 @@ Vérifiez dans l'aperçu si un événement satisfait la condition. Un bouton de 
 | Attend l'actualisation du modèle et l'évaluation | Dépend de l'arrivée et du traitement des événements |
 | Objet suivi : région | Objet suivi : station |
 | Valeur : kWh du dernier jour | Valeur : nombre de vélos de l'échantillon |
+| Seuil : 10 000 kWh par région | Seuil : moins de 5 vélos par station |
 | Action : notification Teams personnelle | Même famille d'action et même moteur Activator |
 
 <div class="task" data-title="Point de contrôle">

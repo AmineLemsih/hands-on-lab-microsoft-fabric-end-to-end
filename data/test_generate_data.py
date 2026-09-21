@@ -62,6 +62,7 @@ class DataTests(unittest.TestCase):
                          (self.after / "consumption_latest_day_after.csv").read_bytes())
 
     def test_exactly_one_region_crosses_alert_threshold(self):
+        self.assertEqual(generator.ALERT_THRESHOLD_KWH, Decimal("10000"))
         before = generator.regional_energy(generator.read_csv(self.before / "consumption_latest_day.csv"), self.sites)
         after = generator.regional_energy(generator.read_csv(self.after / "consumption_latest_day.csv"), self.sites)
         self.assertTrue(all(value < generator.ALERT_THRESHOLD_KWH for value in before.values()))

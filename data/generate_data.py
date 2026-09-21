@@ -13,7 +13,7 @@ from pathlib import Path
 SEED = 2025
 YEAR = 2025
 LAST_DAY = date(YEAR, 12, 31)
-ALERT_THRESHOLD_KWH = Decimal("20000")
+ALERT_THRESHOLD_KWH = Decimal("10000")
 REGIONS = (
     "Île-de-France",
     "Auvergne-Rhône-Alpes",
@@ -175,7 +175,7 @@ def validate_output(output, latest_state="before"):
     after = read_csv(output / "consumption_latest_day_after.csv")
     cleaned, blank_count, invalid_count = clean_rows(raw)
     actual_peaks = {
-        (row["site_id"], row["date"]) for row in cleaned if energy(row) > ALERT_THRESHOLD_KWH
+        (row["site_id"], row["date"]) for row in cleaned if energy(row) > Decimal("20000")
     }
     site_ids = {site["site_id"] for site in sites}
     before_totals = regional_energy(before, sites)
@@ -238,7 +238,7 @@ def write_answers(output, sites, factors, cleaned, scenario):
     top_month = max(month_energy, key=month_energy.get)
     active_sites = sum(site["opening_date"] <= "2025-01-01" for site in sites)
     peaks = sorted(
-        (row for row in cleaned if energy(row) > ALERT_THRESHOLD_KWH),
+        (row for row in cleaned if energy(row) > Decimal("20000")),
         key=lambda row: (-energy(row), row["site_id"], row["date"]),
     )
     lines = [

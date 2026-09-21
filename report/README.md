@@ -137,7 +137,7 @@ Si la capacité n'est pas le blocage, F64 ne remplace pas des droits Edit. Ne pa
 
 ## Faire partir l'alerte en section 5
 
-Avant la session, utiliser le fichier `consumption_latest_day_before.csv` comme contenu du fichier actif `consumption_latest_day.csv`. Charger la table et actualiser le modèle. Toutes les régions sont alors sous 20 000 kWh.
+Avant la session, utiliser le fichier `consumption_latest_day_before.csv` comme contenu du fichier actif `consumption_latest_day.csv`. Charger la table et actualiser le modèle. Toutes les régions sont alors sous 10 000 kWh, le seuil régional de l'alerte.
 
 Après activation des règles et observation de cet état, remplacer le fichier actif par le contenu de `consumption_latest_day_after.csv`. Exécuter `df_source_latest`, attendre sa réussite, actualiser `sm_energy_report`, puis vérifier les barres. **Bretagne : 2 724,55 → 36 724,55 kWh**. Les autres régions ne changent pas. La mesure conserve le même nom et la même date de jeu.
 

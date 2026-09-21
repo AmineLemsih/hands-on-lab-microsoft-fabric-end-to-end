@@ -53,7 +53,7 @@ La documentation des anciennes alertes sur tuiles de dashboard ne valide pas ce 
 - [ ] Générer les données et conserver le corrigé calculé. Vérifier 30 sites, une ligne de facteurs, 10 950 lignes brutes et 10 840 propres.
 - [ ] Déposer les fichiers selon [data/README.md](../data/README.md). Vérifier les types des tables Delta, pas seulement la présence des CSV.
 - [ ] Préparer `consumption` nettoyée dans `lh_source` pour le rapport ; préparer `df_source_latest` séparément pour les changements en direct.
-- [ ] Charger l'état `before` dans le fichier actif, exécuter le flux, puis actualiser le modèle. Vérifier que les six régions sont sous le seuil de 20 000 kWh.
+- [ ] Charger l'état `before` dans le fichier actif, exécuter le flux, puis actualiser le modèle. Vérifier que les six régions sont sous le seuil de 10 000 kWh.
 - [ ] Vérifier le rapport partagé, son lien, son modèle à identité fixe et sa dernière actualisation réussie.
 - [ ] Préparer un raccourci de démonstration et un workspace animateur, distincts des espaces participants.
 - [ ] Contrôler les tables du data agent de démonstration et les exemples. Conserver le corrigé accessible sans devoir exécuter un notebook en session.
@@ -139,7 +139,7 @@ La section 9 demande environ 15 minutes **supplémentaires**. Ne pas l'ajouter t
 
 ## Déclenchement contrôlé en section 5
 
-Le seuil de **20 000 kWh** est évalué **par région**. Il ne faut pas confondre ce seuil régional avec la question Q4 de l'agent, qui l'applique par couple site/jour. Les deux sont intentionnels, mais de granularités différentes.
+Le seuil de **10 000 kWh** est évalué **par région**. La question Q4 de l'agent conserve **20 000 kWh par couple site/jour**. Les deux seuils ont des valeurs et des granularités différentes.
 
 ### Avant les règles
 

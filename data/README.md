@@ -18,8 +18,8 @@ La graine vaut `2025`. Les sept fichiers sont écrits dans `data/out/`, exclu de
 | `emission_factors.csv` | 1 ligne, 2 facteurs | Facteurs annuels électricité et gaz |
 | `consumption_2025.csv` | 10 950 | Nettoyage et analyse de l'année 2025 |
 | `consumption_latest_day.csv` | 30 | Fichier actif, initialisé à l'état avant |
-| `consumption_latest_day_before.csv` | 30 | Toutes les régions sous 20 000 kWh |
-| `consumption_latest_day_after.csv` | 30 | Une région au-dessus de 20 000 kWh |
+| `consumption_latest_day_before.csv` | 30 | Toutes les régions sous 10 000 kWh |
+| `consumption_latest_day_after.csv` | 30 | Une région au-dessus de 10 000 kWh |
 | `questions_expected_answers.md` | 6 questions | Corrigé numérique et totaux régionaux avant/après |
 
 Format CSV : UTF-8 avec BOM, séparateur virgule, point décimal, dates ISO `YYYY-MM-DD`. Dans Power Query français, convertir les décimaux avec les paramètres régionaux « Anglais (États-Unis) ». Les régions restent des noms géographiques français. Les codes d'activité restent en anglais.
@@ -144,7 +144,7 @@ Cette version retire le pic de S030 **de l'instantané seulement**. Remplacer le
 Copy-Item data/out/consumption_latest_day_after.csv data/out/consumption_latest_day.csv -Force
 ```
 
-Pendant la section 5, remplacer uniquement le fichier actif et refaire la même chaîne d'actualisation. Les fichiers historiques restent identiques. Le seuil de démonstration est **20 000 kWh par région**, comparaison strictement supérieure ; ce n'est pas un seuil métier recommandé. Le script garantit que toutes les régions sont sous le seuil avant et exactement une au-dessus après. Le corrigé donne les totaux exacts des deux états.
+Pendant la section 5, remplacer uniquement le fichier actif et refaire la même chaîne d'actualisation. Les fichiers historiques restent identiques. Le seuil de démonstration est **10 000 kWh par région**, comparaison strictement supérieure ; ce n'est pas un seuil métier recommandé. Le script garantit que toutes les régions sont sous le seuil avant et exactement une au-dessus après. Le seuil Q4 reste **20 000 kWh par site et jour**. Le corrigé donne les totaux exacts des deux états.
 
 Le script génère les deux variantes en une exécution. `--latest-state after` initialise éventuellement le fichier actif à l'état après ; le défaut `before` est celui à utiliser avant la session. Une nouvelle génération écrase les sorties, y compris le fichier actif.
 

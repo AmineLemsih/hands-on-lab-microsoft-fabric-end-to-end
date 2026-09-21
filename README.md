@@ -70,7 +70,7 @@ python -m unittest discover -s data -p "test_*.py" -v
 python -m unittest discover -s setup -p "test_*.py" -v
 ```
 
-Attendus : 30 sites, une ligne de facteurs annuels avec deux coefficients, 10 950 lignes brutes, 110 rejets, 10 840 lignes propres, six pics historiques et 30 lignes par instantané. Toutes les régions sont sous 20 000 kWh dans l'état avant ; seule la Bretagne dépasse le seuil dans l'état après.
+Attendus : 30 sites, une ligne de facteurs annuels avec deux coefficients, 10 950 lignes brutes, 110 rejets, 10 840 lignes propres, six pics historiques et 30 lignes par instantané. Toutes les régions sont sous 10 000 kWh dans l'état avant ; seule la Bretagne dépasse le seuil dans l'état après. Q4 conserve son seuil distinct de 20 000 kWh par site et jour.
 
 Les fichiers générés et les paramètres réels restent exclus de Git. Le corrigé est calculé dans `data/out/questions_expected_answers.md`. Aucun script n'est exécuté en mode réel lors des tests locaux.
 
