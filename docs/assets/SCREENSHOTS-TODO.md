@@ -6,7 +6,7 @@ Faire les captures dans un environnement de démonstration autorisé, interface 
 
 | Fichier à fournir dans ce dossier | Section | Ce qu'on doit voir |
 | --- | --- | --- |
-| `banner.jpg` | En-tête | Bannière de l'atelier à fournir par l'auteur ; titre, aucune identité client |
+| `banner.jpg` | En-tête, non référencé tant qu'absent | Bannière à fournir, **1280 x 640 px** recommandés ; titre, aucune identité client ; ajouter `banner_url: assets/banner.jpg` seulement une fois le fichier présent |
 | `00-learning-path.png` | 0, fil rouge | Du fichier nettoyé à la réponse vérifiée ; branche rapport vers notification |
 | `00-architecture.png` | 0, architecture | Espace commun en lecture, espace personnel en écriture, raccourcis, rapport et Activator |
 | `01-lakehouse.png` | 1, création | `lh_lab` dans le workspace personnel ; zones Tables et Fichiers |

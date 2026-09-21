@@ -11,7 +11,6 @@ authors: [Amine Lemsih]
 contacts: ['@aminelemsih']
 duration_minutes: 300
 tags: fabric, onelake, lakehouse, dataflow gen2, pipeline, data agent, activator, real-time intelligence, csu, métiers
-banner_url: assets/banner.jpg
 audience: profils métiers, analystes, équipes data
 sections_title:
   - Introduction
