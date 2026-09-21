@@ -50,8 +50,8 @@ Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont ficti
 
 | Parcours | Public et format | Sections | Temps réservé |
 | --- | --- | --- | ---: |
-| **Parcours métiers 3 h** | Analystes métier, chefs de projet, contrôle de gestion, RSE ; distanciel, 15 à 20 personnes | 0 à 5, puis 10 ; sauter les blocs « Comprendre » | 180 min |
-| **Parcours complet 5 h** | Analystes et journée d'upskilling en présentiel | 0 à 8, puis 10 ; lire les cinq blocs « Comprendre » | 300 min |
+| **Parcours métiers 3 h** | Analystes métier, chefs de projet, contrôle de gestion, RSE ; distanciel, 15 à 20 personnes | 0 à 5, puis 10 ; sauter les blocs « Comprendre » | 180 min, dont 15 min de pause et 20 min d'aide |
+| **Parcours complet 5 h** | Analystes et journée d'upskilling en présentiel | 0 à 8, puis 10 ; lire les cinq blocs « Comprendre » | 300 min, dont 25 min de pauses et 25 min d'aide |
 | **Bonus Copilot** | Selon le temps disponible et les paramètres du tenant | 9 | Environ 15 min supplémentaires, hors des deux minutages |
 
 ### Prérequis participant

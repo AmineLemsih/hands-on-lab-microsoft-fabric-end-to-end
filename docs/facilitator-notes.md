@@ -243,7 +243,7 @@ Prévoir les résultats de référence pour poursuivre une explication si un par
 ## Checklist après la session
 
 - [ ] Confirmer que chacun a enregistré ce qu'il doit conserver ; ne pas supprimer sans l'accord prévu pour la session.
-- [ ] Arrêter les planifications quotidiennes, règles Activator et Eventstreams créés pour le lab.
+- [ ] Arrêter les éventuelles planifications facultatives, les règles Activator et les Eventstreams créés pour le lab.
 - [ ] Révoquer ou examiner les connexions et partages créés pour la session selon la politique de l'organisation.
 - [ ] Exécuter la simulation de suppression sur le journal, puis autoriser la suppression explicite des workspaces personnels. Ajouter l'espace commun uniquement s'il a été créé pour cette session et n'est plus utilisé.
 - [ ] Examiner manuellement un espace commun préexistant : le script ne le supprime pas et ne retire pas automatiquement les partages ajoutés.
@@ -278,7 +278,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 | --- | --- |
 | 0 | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la fiche |
 | 1 | Case schémas, menu `dbo`, propriétés du raccourci et accès cible ; variante S3 facultative : double indirection OneLake vers raccourci S3 et permissions de lecture/connexion |
-| 2 | Nommage/publication du flux ; navigation CSV binaire Lakehouse ; navigation Content SharePoint ; locale ; Début du mois ; destination Remplacer ; détails des lignes écrites ; planification |
+| 2 | Nommage/publication du flux ; locale unique avant import et vérification des types détectés ; navigation CSV Lakehouse/Content SharePoint ; Début du mois ; destination Remplacer ; lignes écrites ; planification facultative dans Comprendre |
 | 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX ; les marqueurs invisibles des anciennes opérations restent des repères de relecture. |
 | 4 | Libellé agent ; détails de réponse ; instructions françaises ; éditeur et validation d'exemples ; remise à zéro du chat |
 | 5 | Bouton alerte en lecture ; F64/tenant ; condition Devient ; workspace destination ; validation et activation ; ouverture/historique Activator ; latence réelle |
@@ -313,7 +313,7 @@ Hypothèses retenues au-delà des décisions validées :
 | --- | --- |
 | Génération et contrôles intégrés | Réussis localement sur le schéma anglais ; six tests de reproductibilité, volumes, résultats et états d'alerte réussis |
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
-| Construction MOAW | Réussie avec la CLI 1.6.1 ; 11 sections, frontmatter YAML, liens locaux, 28 placeholders et totaux 180/300 contrôlés |
+| Construction MOAW | CLI 1.6.1 ; 11 sections, frontmatter YAML et totaux 180/300 ; 27 références d'images et une bannière à fournir mais non référencée |
 | Rendu navigateur | Introduction, navigation, encadrés, SQL replié/ouvert et trois blocs KQL vérifiés ; ordinateur et mobile 390 px, tableaux défilants ; images absentes prévues |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
@@ -321,4 +321,27 @@ Hypothèses retenues au-delà des décisions validées :
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.
 
-Recette locale du 21 septembre 2026 : les 60 commentaires `TODO vérifier` du workshop se répartissent entre les sections 0 à 9 (respectivement 2, 3, 11, 9, 7, 7, 6, 4, 9 et 2). Ils concernent la version française de l'interface et les comportements à répéter sur tenant. Les guides comportent aussi leurs propres points de validation. Le registre ci-dessus les regroupe ; la présence de ces marqueurs exclut une affirmation de validation cloud complète.
+Après relecture du 21 septembre 2026, les 63 commentaires `TODO vérifier` du workshop se répartissent entre les sections 0 à 9 (respectivement 2, 4, 12, 9, 7, 7, 7, 4, 9 et 2). Les marqueurs invisibles existants ont été conservés ; les vérifications restent dans les notes, pas dans le texte destiné au participant. La présence de ces marqueurs exclut une affirmation de validation cloud complète.
+
+### Bilan des étapes après relecture
+
+Comptage des lignes numérotées écrites, hors blocs de code, comparé au premier commit `c5ec06a`. Les deux variantes d'ingestion sont comptées dans le total du fichier, même si une seule est suivie. Les répétitions indiquées en prose ne sont pas développées artificiellement.
+
+| Section | Avant | Après |
+| --- | ---: | ---: |
+| 0 | 0 | 0 |
+| 1 | 30 | 47, dont 17 facultatives S3 |
+| 2 | 102 | 84, soit 70 avec une seule source |
+| 3 | 69 | 49 |
+| 4 | 37 | 35 |
+| 5 | 31 | 31 |
+| 6 | 65 | 33 |
+| 7 | 40 | 40 |
+| 8 | 72 | 72 |
+| 9 | 19 | 19 |
+| 10 | 10 | 10 |
+| **Total écrit** | **475** | **420** |
+
+Dans la section 2, le parcours réel passe de 88 à 70 étapes avec une seule source, dont une correction de type conditionnelle. Les trois lignes de planification facultative ne sont plus des étapes numérotées ni un critère de réussite. La variante S3 et le bonus Copilot restent hors des 180/300 minutes.
+
+Hypothèses de cette relecture : l'introduction conserve dix minutes d'accueil mais vise cinq minutes de lecture ; les durées des sections 2 et 3 restent inchangées pour garder du temps de contrôle ; seuls les dix minutes gagnées en section 6 vont à la réserve. Les fichiers et identifiants existants restent stables, y compris les noms historiques des placeholders pipeline. L'exception du point 5 autorise uniquement le changement du seuil régional, sa vérification et la régénération du texte du corrigé : les six CSV sont conservés octet par octet et Q4 reste à 20 000 kWh.

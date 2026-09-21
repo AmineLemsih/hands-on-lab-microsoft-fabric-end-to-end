@@ -17,6 +17,8 @@ La section 9, **Bonus Copilot**, demande environ 15 minutes supplémentaires, si
 
 La **variante S3** de la section 1 demande 10 minutes supplémentaires, hors minutage, uniquement si la fiche participant indique qu'elle est disponible.
 
+La section 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification n'est qu'une option du bloc « Comprendre ». La section 6 dure 20 minutes : les dix minutes gagnées portent la réserve du parcours complet à 25 minutes. L'introduction garde dix minutes d'accueil, dont environ cinq de lecture.
+
 ## Ouvrir l'atelier
 
 - [Rendu MOAW](https://aka.ms/ws?src=gh:aminelemsih/hands-on-lab-microsoft-fabric-end-to-end/main/docs/).
