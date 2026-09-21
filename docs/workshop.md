@@ -31,29 +31,21 @@ sections_title:
 
 ## 0. Introduction
 
-**Durée : 10 minutes.**
+**Durée : 10 minutes, dont environ 5 minutes de lecture.**
 
-Contoso est une entreprise fictive. Elle possède des bureaux, des entrepôts, des usines et des agences. Elle veut comparer la consommation énergétique de ses bâtiments et repérer les situations à examiner.
-
-Vous jouez le rôle d'un analyste métier. Vous partez de fichiers synthétiques. Vous préparez une analyse vérifiable, puis une alerte. Vous n'avez pas besoin de programmer dans le parcours métiers.
+Contoso est une entreprise fictive qui possède des bureaux, des entrepôts, des usines et des agences. Elle veut comparer leur consommation énergétique et repérer les situations à examiner.
 
 ### Ce que vous allez construire
 
-Le fil rouge se lit ainsi :
+Vous préparez une analyse vérifiable, puis une alerte, à partir de données synthétiques.
 
 **Fichier annuel → nettoyage visuel → table commune aux analyses → question métier → réponse vérifiée → décision.**
 
 **Dernier jour disponible → rapport fourni → seuil dépassé → notification Teams personnelle.**
 
-Votre analyse et le rapport fourni utilisent le même schéma. Le rapport est déjà prêt dans l'espace commun : il ne dépend pas de la fin du travail de chaque participant.
+Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont fictifs et ne servent pas à un reporting réel.
 
 ![Fil rouge : du fichier énergétique à une réponse vérifiée et à une notification](assets/00-learning-path.png)
-
-<div class="warning" data-title="Des données pour apprendre, pas pour déclarer">
-
-> Tout est synthétique. Les facteurs carbone sont fictifs. Les résultats ne constituent ni un bilan carbone réel ni un reporting réglementaire. Une hausse de consommation indique une situation à examiner, pas sa cause.
-
-</div>
 
 ### Modalités
 
@@ -63,29 +55,26 @@ Votre analyse et le rapport fourni utilisent le même schéma. Le rapport est d�
 | **Parcours complet 5 h** | Analystes et journée d'upskilling en présentiel | 0 à 8, puis 10 ; lire les cinq blocs « Comprendre » | 300 min |
 | **Bonus Copilot** | Selon le temps disponible et les paramètres du tenant | 9 | Environ 15 min supplémentaires, hors des deux minutages |
 
-Le minutage inclut les temps de contrôle et les blocs « Contexte (optionnel) ».
+### Prérequis participant
 
-| Section | Activité | Métiers | Complet |
-| --- | --- | ---: | ---: |
-| 0 | Introduction | 10 min | 10 min |
-| 1 | Prise en main | 20 min | 20 + 5 min |
-| 2 | Ingestion | 35 min | 35 + 5 min |
-| Pause | Après la section 2 | 15 min | 15 min |
-| 3 | Exploration | 25 min | 25 + 5 min |
-| 4 | Data agent | 30 min | 30 + 5 min |
-| 5 | Alerte | 15 min | 15 + 5 min |
-| 6 | Extension : Entrepôt et T-SQL | Sauter | 30 min |
-| 7 | Extension : Modèle sémantique Direct Lake | Sauter | 25 min |
-| Pause | Après la section 7 | Sans objet | 10 min |
-| 8 | Extension : Temps réel | Sauter | 35 min |
-| 9 | Bonus Copilot | Hors minutage | Hors minutage |
-| 10 | Conclusion | 10 min | 10 min |
-| Réserve | Aide, transitions et questions | 20 min | 15 min |
-| **Total** | **Pauses comprises, sans le bonus** | **180 min** | **300 min** |
+- Un navigateur récent, avec Fabric en français.
+- Le compte professionnel indiqué sur votre fiche participant.
+- Le rôle **Membre** sur votre workspace personnel.
+- Le rôle **Lecteur** sur l'espace commun de votre fiche.
+- L'accès Teams de votre fiche pour l'entraide et vos notifications personnelles.
 
-Sans les explications « Comprendre », les activités du tronc commun valent 145 minutes. Les extensions 6 à 8 ajoutent 90 minutes. Les cinq explications ajoutent 25 minutes. On ne compte pas les attentes techniques comme du contenu pédagogique.
+<!-- TODO vérifier -->
+<!-- TODO vérifier -->
 
-### Architecture
+### Conventions et aide
+
+- Conservez les **identifiants en anglais**, même si le texte est français ; utilisez les liens et noms de workspace de votre fiche.
+- Une ligne numérotée correspond à une action ; les libellés d'interface sont entre « guillemets ».
+- Arrêtez-vous à chaque **point de contrôle** avant de poursuivre.
+- Pour demander de l'aide, indiquez section, étape et message d'erreur au contact ou dans le canal de votre fiche ; en présentiel, signalez votre blocage.
+
+<details>
+<summary>Contexte (optionnel) : les briques utilisées</summary>
 
 Un **workspace**, ou espace de travail, regroupe les éléments Fabric et leurs droits d'accès. Une **capacité** est la ressource de calcul partagée par ces éléments. Un **tenant** est l'environnement de votre organisation.
 
@@ -105,36 +94,9 @@ Un **raccourci OneLake** référence une table existante sans en créer une copi
 
 ![Architecture : source commune en lecture, espace personnel en écriture et alerte personnelle](assets/00-architecture.png)
 
-### Prérequis participant
+**SSO**, ou authentification unique, signifie que le moteur utilise votre identité. Une **identité fixe** utilise celle d'une connexion autorisée, comme pour le modèle du rapport commun.
 
-Votre **fiche participant privée** contient les liens et les noms propres à votre session. Utilisez-la à chaque fois qu'un lien, un workspace ou un contact est demandé.
-
-- Un navigateur récent, avec Fabric en français.
-- Le compte professionnel indiqué sur votre fiche, déjà connecté au bon tenant.
-- Un espace personnel avec le rôle **Membre**, sur une capacité Fabric payante active.
-- Le rôle **Lecteur**, ou Viewer, dans l'espace commun.
-- Le partage de `lh_source` au groupe avec `Read` et **`ReadAll`**, via l'option « Lire toutes les données Apache Spark » ou « Lire toutes les données OneLake ». <!-- TODO vérifier --> Viewer seul ne donne pas tous les accès OneLake nécessaires.
-- L'accès en lecture à `energy_report` et à son modèle. Ce modèle commun utilise une **identité fixe** : une connexion autorisée porte l'accès à la source. Ce choix ne remplace pas votre ReadAll pour les raccourcis.
-- Une licence adaptée aux exercices de votre fiche. Sous F64, ouvrir le rapport partagé nécessite Power BI Pro ou une licence compatible. F64 ne dispense pas de vérifier les droits et licences de création.
-- L'accès Teams indiqué sur votre fiche, pour recevoir une notification personnelle.
-
-**SSO**, ou authentification unique, signifie que le moteur utilise votre identité. Le modèle Direct Lake de l'extension 7 utilise SSO ; vous devez donc conserver la lecture de la cible des raccourcis dans `lh_source`.
-
-<!-- TODO vérifier -->
-
-### Conventions et aide
-
-- Le texte est français. **Ne traduisez jamais les identifiants en anglais**, ni les noms de fichiers, tables ou colonnes.
-- `lh_lab` et les autres noms d'items sont identiques pour chacun : les workspaces sont séparés. Les noms exacts des workspaces sont sur votre fiche.
-- Les lakehouses, warehouses, tables et colonnes utilisent des lettres, chiffres et underscores, sans espace ni tiret. Les tirets de `ws-lab-...` concernent uniquement le nom du workspace.
-- Une ligne numérotée correspond à une action. Les libellés d'interface sont entre « guillemets ». Certaines versions gardent un libellé anglais ; demandez son équivalent à l'animateur.
-- Un encadré « Point de contrôle » indique le résultat attendu. Arrêtez-vous au contrôle avant de poursuivre.
-- En parcours 3 h, laissez « Comprendre » replié. Le T-SQL replié est une variante facultative, jamais un prérequis du parcours métiers.
-
-Pour demander de l'aide, indiquez la section et le numéro de l'étape dans le canal de votre fiche. Joignez le message d'erreur sans identifiant sensible. Ne publiez ni jeton, ni mot de passe, ni URL privée dans le dépôt GitHub. En présentiel, signalez votre blocage à l'animateur.
-
-<details>
-<summary>Contexte (optionnel) : les unités et le périmètre</summary>
+Les lakehouses, warehouses, tables et colonnes du lab utilisent des lettres, chiffres et underscores, sans espace ni tiret. Les tirets de `ws-lab-...` concernent le workspace. Les items comme `lh_lab` portent le même nom pour chacun, dans des workspaces séparés.
 
 Un **kWh** mesure une quantité d'énergie. Un **kW** mesure une puissance. Un **kgCO2e** exprime une masse de gaz à effet de serre ramenée à un équivalent CO2. Multiplier les kWh par un facteur en kgCO2e/kWh donne une estimation en kgCO2e.
 

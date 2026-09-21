@@ -77,6 +77,28 @@ La documentation des anciennes alertes sur tuiles de dashboard ne valide pas ce 
 
 Les horaires sont relatifs au début. La réserve en fin de tableau peut être répartie plus tôt ; elle n'ajoute pas de nouvelles activités.
 
+### Tableau détaillé déplacé de l'introduction
+
+La lecture de la section 0 vise cinq minutes ; le créneau d'accueil de dix minutes inclut les échanges et le démarrage. Les contrôles et contextes optionnels restent dans le budget de chaque module.
+
+| Section | Activité | Métiers | Complet |
+| --- | --- | ---: | ---: |
+| 0 | Introduction | 10 min | 10 min |
+| 1 | Prise en main | 20 min | 20 + 5 min |
+| 2 | Ingestion | 35 min | 35 + 5 min |
+| Pause | Après la section 2 | 15 min | 15 min |
+| 3 | Exploration | 25 min | 25 + 5 min |
+| 4 | Data agent | 30 min | 30 + 5 min |
+| 5 | Alerte | 15 min | 15 + 5 min |
+| 6 | Extension : Entrepôt et T-SQL | Sauter | 30 min |
+| 7 | Extension : Modèle sémantique Direct Lake | Sauter | 25 min |
+| Pause | Après la section 7 | Sans objet | 10 min |
+| 8 | Extension : Temps réel | Sauter | 35 min |
+| 9 | Bonus Copilot | Hors minutage | Hors minutage |
+| 10 | Conclusion | 10 min | 10 min |
+| Réserve | Aide, transitions et questions | 20 min | 15 min |
+| **Total** | **Pauses comprises, sans le bonus** | **180 min** | **300 min** |
+
 ### Parcours métiers 3 h
 
 | Horaire | Activité | Minutes |
@@ -175,6 +197,7 @@ Les passages ci-dessous ont été retirés du texte participant lors de la relec
 | 0, architecture et fiche | « L'animateur prépare et actualise les données. » ; « Votre animateur vous transmet une fiche participant privée. » |
 | 0, Préparation obligatoire de l'alerte | « L'animateur teste à J-7 le bouton Définir une alerte depuis le rapport commun avec un compte Viewer, sur la capacité cible, en choisissant un workspace personnel comme destination. » Les prérequis de capacité et d'édition diffèrent selon l'expérience disponible ; le test autorise le déroulement individuel, sans copie nominale du rapport. |
 | 0, auteur | « Les animateurs réutilisent le kit sans ajouter de contexte client au document public. » |
+| 0, prérequis et conventions | Vérifier la capacité payante active, les licences de lecture/création et le partage Read + ReadAll de `lh_source`, ainsi que la lecture de `energy_report` et de son modèle à identité fixe. L'accès à la source des raccourcis reste nécessaire au modèle personnel en SSO. Rappeler de ne publier aucun jeton, mot de passe, URL privée ou message d'erreur sensible dans le dépôt. Les cinq puces participant ne remplacent pas la checklist d'accès J-7. |
 | 1, dépannage | « L'animateur contrôle le rôle Viewer. » ; « L'animateur adapte le chemin si le lakehouse source est sans schémas. » Vérifier aussi ReadAll et sa propagation si l'item est visible mais sa donnée refusée. |
 | 2, contrôle et pause | Accompagner le contrôle des lignes écrites si les détails d'exécution sont difficiles à lire ; « L'animateur annonce l'heure de reprise. » |
 | 3, vue et contrôle | « Toutes les transformations doivent pouvoir être traduites en SQL par l'éditeur ; l'animateur vérifie ce parcours visuel avant la session. » ; « L'animateur dispose du corrigé calculé pour comparer les résultats. » Ne pas substituer du SQL au parcours visuel sans l'annoncer. |
