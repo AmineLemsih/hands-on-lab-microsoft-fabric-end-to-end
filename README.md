@@ -15,6 +15,8 @@ Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de sol
 
 La section 9, **Bonus Copilot**, demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Elle n'entre dans aucun des deux totaux. La seconde pause de 10 minutes intervient après la section 7.
 
+La **variante S3** de la section 1 demande 10 minutes supplémentaires, hors minutage, uniquement si la fiche participant indique qu'elle est disponible.
+
 ## Ouvrir l'atelier
 
 - [Rendu MOAW](https://aka.ms/ws?src=gh:aminelemsih/hands-on-lab-microsoft-fabric-end-to-end/main/docs/).

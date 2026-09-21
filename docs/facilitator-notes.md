@@ -24,6 +24,8 @@ La table `consumption` (consommation) contient les observations annuelles nettoy
 - [ ] Vérifier Membre sur chaque workspace personnel et Viewer sur le workspace commun.
 - [ ] Partager **explicitement `lh_source` avec le groupe**, option `ReadAll`, « Lire toutes les données Apache Spark » / « Lire toutes les données OneLake » selon l'interface. <!-- TODO vérifier --> Ce partage ajoute Read mais n'accorde pas Write. Tester le raccourci avec un compte participant, pas l'administrateur.
 - [ ] Vérifier les politiques de sécurité OneLake et, si elles sont actives, le rôle de lecture de la source. Tester Direct Lake en SSO depuis le modèle personnel et ses raccourcis.
+- [ ] Si la variante S3 est retenue, créer dans « Fichiers » de `lh_source` un raccourci vers un bucket de démonstration autorisé, avec une clé d'accès limitée à la lecture des fichiers et à leur parcours. Stocker la clé dans une connexion Fabric, jamais dans la fiche ni le dépôt ; prévoir sa rotation/révocation après l'atelier.
+- [ ] Tester à J-7 la **double indirection** : raccourci OneLake de `lh_lab` vers le raccourci S3 de `lh_source`, avec le compte participant et ses droits de connexion/cible. <!-- TODO vérifier --> Ne renseigner « oui » dans la fiche qu'après lecture réussie des fichiers via ce chemin. S'il n'est pas pris en charge, laisser « non » et sauter la variante, sans exposer la clé aux participants.
 - [ ] Contrôler les paramètres tenant Copilot / Azure OpenAI intégré et data agents, leurs groupes autorisés et leur disponibilité régionale. Les libellés et règles de traitement/stockage interrégional doivent être vérifiés dans la documentation courante et avec l'organisation. <!-- TODO vérifier --> Ne pas activer une option cross-geo sans approbation.
 - [ ] Créer un data agent de test sur les tables du lab. Vérifier les six questions, les instructions françaises, l'exemple validé et l'affichage des requêtes. Aucun secret Azure OpenAI n'est nécessaire pour le chat intégré.
 - [ ] Répéter les deux variantes CSV. Choisir une variante par session et l'indiquer sur la fiche. Vérifier locale décimale, suppression des erreurs et nombre final de lignes.
@@ -136,6 +138,8 @@ Les cinq blocs « Comprendre », les extensions et Copilot ne sont pas lus dans 
 | **Total** | 145 tronc + 80 extensions + 25 explications + 25 pauses + 25 réserve | **300** |
 
 La section 9 demande environ 15 minutes **supplémentaires**. Ne pas l'ajouter tacitement à 5 h, ni retirer la seconde pause pour la caser. Si le groupe finit réellement en avance, l'animateur peut l'utiliser sans dépasser l'horaire annoncé.
+
+La variante S3 de la section 1 demande **10 minutes supplémentaires**, hors des deux minutages. Elle ne remplace pas les raccourcis des tables de référence ; renseigner sa disponibilité et son emplacement dans les fiches privées.
 
 ## Déclenchement contrôlé en section 5
 
@@ -271,7 +275,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 | Section ou support | Vérifications regroupées |
 | --- | --- |
 | 0 | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la fiche |
-| 1 | Case schémas, menu `dbo`, propriétés du raccourci et accès cible |
+| 1 | Case schémas, menu `dbo`, propriétés du raccourci et accès cible ; variante S3 facultative : double indirection OneLake vers raccourci S3 et permissions de lecture/connexion |
 | 2 | Nommage/publication du flux ; navigation CSV binaire Lakehouse ; navigation Content SharePoint ; locale ; Début du mois ; destination Remplacer ; détails des lignes écrites ; planification |
 | 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX ; les marqueurs invisibles des anciennes opérations restent des repères de relecture. |
 | 4 | Libellé agent ; détails de réponse ; instructions françaises ; éditeur et validation d'exemples ; remise à zéro du chat |

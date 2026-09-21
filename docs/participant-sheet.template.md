@@ -11,6 +11,8 @@ Auteur : Amine Lemsih. Cette fiche remplie est privée : ne pas la publier dans 
 | Compte participant | ______________________________ |
 | Nom exact de votre workspace | ______________________________ |
 | Nom exact du workspace commun | ______________________________ |
+| Raccourci S3 disponible | oui / non |
+| Emplacement du raccourci S3, si disponible | ______________________________ |
 | Lien du rapport partagé `energy_report` | ______________________________ |
 | Variante du fichier | Lakehouse / SharePoint |
 | Emplacement de `consumption_2025.csv` | ______________________________ |

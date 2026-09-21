@@ -169,6 +169,34 @@ Si l'assistant ne permet qu'une sélection, créez `sites`, puis répétez les m
 
 </div>
 
+### Variante : parcourir une source S3 (10 min, si votre fiche l'indique)
+
+Cette variante est **hors minutage des deux parcours**. Suivez-la uniquement si votre fiche indique « Raccourci S3 disponible : oui ». Un **bucket S3** est un conteneur de fichiers dans un stockage objet. Son raccourci de démonstration est déjà disponible dans `lh_source`.
+
+1. Ouvrez l'espace commun indiqué sur votre fiche.
+2. Ouvrez `lh_source`.
+3. Développez « Fichiers ».
+4. Ouvrez le raccourci S3 à l'emplacement indiqué sur votre fiche.
+5. Parcourez les fichiers de démonstration.
+6. Revenez à votre workspace personnel.
+7. Ouvrez `lh_lab`.
+8. Ouvrez le menu de « Fichiers ».
+9. Sélectionnez « Nouveau raccourci ».
+10. Choisissez « Microsoft OneLake ».
+11. Sélectionnez l'espace commun de votre fiche.
+12. Sélectionnez `lh_source`.
+13. Dans « Fichiers », sélectionnez le raccourci S3 déjà parcouru comme cible. <!-- TODO vérifier -->
+14. Sélectionnez « Suivant ».
+15. Conservez le nom du raccourci proposé.
+16. Sélectionnez « Créer ».
+17. Ouvrez le nouveau raccourci dans `lh_lab`.
+
+<div class="task" data-title="Point de contrôle de la variante">
+
+> Vous devez voir les mêmes fichiers de démonstration depuis `lh_source` et `lh_lab`, à travers les raccourcis, sans avoir lancé de copie.
+
+</div>
+
 ### Si ça bloque
 
 - **Source invisible :** vérifiez le tenant et le workspace indiqués sur votre fiche.
