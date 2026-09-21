@@ -1267,11 +1267,6 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 
 ## 10. Conclusion
 
-**Pourquoi c'est important pour Contoso**
-
-La valeur vient d'une chaîne comprise et contrôlée, pas d'une accumulation d'outils.  
-Une prochaine expérimentation doit relier une décision métier à des données et à un responsable.
-
 **Objectif :** retenir les usages pertinents et choisir un prochain cas d'application.
 
 **Durée : 10 min dans les deux parcours.**
@@ -1289,13 +1284,13 @@ Une prochaine expérimentation doit relier une décision métier à des données
 
 ![Récapitulatif des éléments créés et de leurs rôles dans le fil rouge](assets/10-recap.png)
 
+### Et chez vous ?
+
 1. Choisissez une décision métier que vous pourriez améliorer avec ce chemin.
 2. Identifiez une source de données disponible et son responsable.
 3. Notez un contrôle de qualité indispensable.
 4. Notez une permission à faire valider.
 5. Partagez votre prochaine étape dans le canal indiqué sur votre fiche.
-
-### Et chez vous ?
 
 Commencez par un périmètre limité : quelques bâtiments, une période, deux sources connues et un responsable de la décision. Définissez l'unité, les règles de nettoyage et le calcul attendu avant de demander une réponse à un agent. Remplacez les facteurs fictifs par des facteurs adaptés et documentés. Choisissez ensuite une alerte qui invite à une vérification utile, avec un destinataire et un délai acceptables.
 
@@ -1314,12 +1309,6 @@ Commencez par un périmètre limité : quelques bâtiments, une période, deux s
 > Vous devez voir votre travail enregistré et avoir transmis les éléments à arrêter. Vous savez distinguer données observées, données manquantes et réponses à vérifier.
 
 </div>
-
-### Si ça bloque
-
-- **Travail non enregistré :** vérifiez l'état de sauvegarde avant de fermer l'onglet.
-- **Question sans réponse :** transmettez la section, l'étape et le message d'erreur au contact de votre fiche.
-- **Doute sur une suppression :** ne cliquez pas sur « Supprimer ».
 
 ### Takeaways
 
