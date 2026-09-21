@@ -598,19 +598,17 @@ Pour Q2, cherchez dans les étapes l'usage des deux facteurs. Pour Q4, vérifiez
 
 ### Ajouter un exemple sans écrire de code
 
-Un **exemple de requête** associe une question à une requête déjà vérifiée. Vous réutilisez ici une requête générée ; vous n'avez pas à l'écrire.
+Un **exemple de requête** associe une question à une requête déjà vérifiée. La requête Q1 validée est fournie dans votre fiche participant ; vous n'avez pas à l'écrire.
 
-1. Posez de nouveau Q1 avec les instructions enregistrées.
-2. Développez la requête générée.
-3. Faites valider son résultat par l'animateur avec le corrigé.
-4. Copiez la requête validée à l'aide du bouton de copie.
-5. Ouvrez « Exemples de requêtes ». <!-- TODO vérifier -->
-6. Sélectionnez la source `lh_lab`.
-7. Sélectionnez « Ajouter un exemple ».
-8. Saisissez Q1 comme question.
-9. Collez la requête générée validée dans le champ de requête.
-10. Lancez la validation de l'exemple. <!-- TODO vérifier -->
-11. Enregistrez seulement si la validation réussit.
+1. Ouvrez la rubrique « Requête Q1 validée pour l'exemple » de votre fiche.
+2. Copiez la requête fournie.
+3. Ouvrez « Exemples de requêtes ». <!-- TODO vérifier -->
+4. Sélectionnez la source `lh_lab`.
+5. Sélectionnez « Ajouter un exemple ».
+6. Saisissez Q1 comme question.
+7. Collez la requête de votre fiche dans le champ de requête.
+8. Lancez la validation de l'exemple. <!-- TODO vérifier -->
+9. Enregistrez seulement si la validation réussit.
 
 Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple SQL.
 

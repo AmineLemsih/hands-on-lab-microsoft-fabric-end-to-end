@@ -20,6 +20,7 @@ Auteur : Amine Lemsih. Cette fiche remplie est privée : ne pas la publier dans 
 | Chemin du dossier SharePoint, si variante retenue | ______________________________ |
 | Canal Teams de l'atelier | ______________________________ |
 | Contact animateur | ______________________________ |
+| Requête Q1 validée pour l'exemple | ______________________________ |
 | Licence confirmée et capacité cible | ______________________________ |
 | Section 5 validée à J-7 | Manipulation individuelle / Démonstration annoncée |
 
