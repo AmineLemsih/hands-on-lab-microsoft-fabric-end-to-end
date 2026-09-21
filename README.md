@@ -11,7 +11,7 @@ Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de sol
 | Parcours | Contenu | Public | Durée |
 | --- | --- | --- | ---: |
 | **Parcours métiers 3 h** | Sections 0 à 5, puis 10 ; pas de code à écrire ; blocs « Comprendre » sautés | Analystes métier, projets, contrôle de gestion, RSE ; distanciel, 15 à 20 participants | 145 min d'activités + 15 min de pause + 20 min d'aide |
-| **Parcours complet 5 h** | Tronc commun, cinq blocs « Comprendre », extensions 6 à 8, conclusion | Analystes, journée d'upskilling en présentiel | 235 min d'activités + 25 min d'explications + 25 min de pauses + 15 min d'aide |
+| **Parcours complet 5 h** | Tronc commun, cinq blocs « Comprendre », extensions 6 à 8, conclusion | Analystes, journée d'upskilling en présentiel | 225 min d'activités + 25 min d'explications + 25 min de pauses + 25 min d'aide |
 
 La section 9, **Bonus Copilot**, demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Elle n'entre dans aucun des deux totaux. La seconde pause de 10 minutes intervient après la section 7.
 

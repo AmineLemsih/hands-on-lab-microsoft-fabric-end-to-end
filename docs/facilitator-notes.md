@@ -32,7 +32,7 @@ La table `consumption` (consommation) contient les observations annuelles nettoy
 - [ ] Effectuer le **test bloquant « Définir une alerte » depuis `energy_report` sur la capacité cible**, avec compte Viewer dans `ws-shared` et Membre dans son espace personnel. Enregistrer `act_energy` dans l'espace personnel, sans copier le rapport. <!-- TODO vérifier -->
 - [ ] Vérifier l'exigence **F64 ou plus** indiquée pour le parcours d'alertes Power BI retenu, ainsi que le paramètre tenant autorisant le bouton. <!-- TODO vérifier --> Prévoir une montée temporaire PAYG en F64, approuvée et chiffrée, puis refaire le test avec exactement les mêmes permissions.
 - [ ] Mesurer la latence réelle du franchissement avant/après jusqu'à Teams. Préparer une capture de la notification et de l'historique comme plan B.
-- [ ] Pour le parcours complet, vérifier Upsert/staging du pipeline Warehouse, mesure DAX Direct Lake, échantillon Bicycles et champs KQL, mappage et destination Activator.
+- [ ] Pour le parcours complet, exécuter séparément les trois créations de tables Warehouse par sélection inter-bases depuis `lh_lab.dbo`, vérifier les types produits et la précision des facteurs, puis répéter DAX Direct Lake, Bicycles/KQL et Activator. <!-- TODO vérifier -->
 - [ ] Pour le bonus seulement, tester Copilot dans Dataflow Gen2 et dans le jeu de requêtes KQL. Son indisponibilité ne bloque pas les deux parcours principaux.
 
 ### Le point d'attention Viewer et F64
@@ -90,13 +90,13 @@ La lecture de la section 0 vise cinq minutes ; le créneau d'accueil de dix minu
 | 3 | Exploration | 25 min | 25 + 5 min |
 | 4 | Data agent | 30 min | 30 + 5 min |
 | 5 | Alerte | 15 min | 15 + 5 min |
-| 6 | Extension : Entrepôt et T-SQL | Sauter | 30 min |
+| 6 | Extension : Entrepôt et T-SQL | Sauter | 20 min |
 | 7 | Extension : Modèle sémantique Direct Lake | Sauter | 25 min |
 | Pause | Après la section 7 | Sans objet | 10 min |
 | 8 | Extension : Temps réel | Sauter | 35 min |
 | 9 | Bonus Copilot | Hors minutage | Hors minutage |
 | 10 | Conclusion | 10 min | 10 min |
-| Réserve | Aide, transitions et questions | 20 min | 15 min |
+| Réserve | Aide, transitions et questions | 20 min | 25 min |
 | **Total** | **Pauses comprises, sans le bonus** | **180 min** | **300 min** |
 
 ### Parcours métiers 3 h
@@ -127,13 +127,13 @@ Les cinq blocs « Comprendre », les extensions et Copilot ne sont pas lus dans 
 | 01:30 - 02:00 | 3. Exploration + Comprendre | 30 |
 | 02:00 - 02:35 | 4. Data agent + Comprendre | 35 |
 | 02:35 - 02:55 | 5. Alerte + Comprendre | 20 |
-| 02:55 - 03:25 | 6. Entrepôt et T-SQL | 30 |
-| 03:25 - 03:50 | 7. Direct Lake | 25 |
-| 03:50 - 04:00 | Deuxième pause | 10 |
-| 04:00 - 04:35 | 8. Temps réel | 35 |
-| 04:35 - 04:50 | Aide, transitions et questions, réaffectables | 15 |
+| 02:55 - 03:15 | 6. Entrepôt et T-SQL | 20 |
+| 03:15 - 03:40 | 7. Direct Lake | 25 |
+| 03:40 - 03:50 | Deuxième pause | 10 |
+| 03:50 - 04:25 | 8. Temps réel | 35 |
+| 04:25 - 04:50 | Aide, transitions et questions, réaffectables | 25 |
 | 04:50 - 05:00 | 10. Conclusion | 10 |
-| **Total** | 145 tronc + 90 extensions + 25 explications + 25 pauses + 15 réserve | **300** |
+| **Total** | 145 tronc + 80 extensions + 25 explications + 25 pauses + 25 réserve | **300** |
 
 La section 9 demande environ 15 minutes **supplémentaires**. Ne pas l'ajouter tacitement à 5 h, ni retirer la seconde pause pour la caser. Si le groupe finit réellement en avance, l'animateur peut l'utiliser sans dépasser l'horaire annoncé.
 
@@ -228,7 +228,7 @@ Les passages ci-dessous ont été retirés du texte participant lors de la relec
 | Mauvais total électrique | Conversion des points décimaux, erreurs supprimées, mode Remplacer, pas d'imputation. |
 | Carbone doublé | Facteurs non uniques par année, relation incorrecte ou résultats de deux sources ajoutés par l'agent. |
 | Exemple d'agent ignoré | Validation SQL non terminée ou exemple incompatible avec les tables sélectionnées. Les modèles sémantiques n'utilisent pas ces paires SQL/KQL. |
-| Upsert après un Insert en double | Le chargement par clé ne supprime pas les doublons existants ; remettre la cible de démonstration à zéro avant reprise. |
+| Table Warehouse déjà existante | Une création de table par sélection ne se rejoue pas comme une actualisation. Vérifier le contenu de la table existante ; préparer un environnement neuf avant le lab plutôt que demander une suppression aveugle. |
 | Direct Lake en erreur | Vérifier les relations et les accès de l'utilisateur/propriétaire à la cible des raccourcis. Ne pas remplacer discrètement SSO par une identité fixe dans l'exercice personnel. |
 | KQL vide | Contrôler noms et types mappés, casse, plage des dates de l'échantillon et arrivée de nouvelles données. |
 
@@ -262,7 +262,7 @@ Ne pas changer les noms techniques pour une traduction. Les seuls éléments con
 
 Utiliser les supports de présentation existants le matin pour les concepts, la gouvernance, la sécurité et les cas d'usage. Réserver réellement cinq heures l'après-midi, par exemple 13 h - 18 h, pauses comprises. Un créneau de trois heures n'est pas un parcours complet compressé.
 
-Préparer en plus : postes analystes pour copier les requêtes, licences de création Power BI, répétition Direct Lake/DAX, connecteurs et staging Warehouse, échantillon RTI et quotas de capacité, arrêt des flux, appui d'un second animateur si besoin. Précharger seulement les sources communes ; les participants construisent leurs propres éléments. Les corrigés et captures de reprise restent disponibles. Aucun deck ni simulateur de compteurs n'est créé dans la v1 du kit.
+Préparer en plus : postes analystes pour copier les requêtes, licences de création Power BI, répétition Direct Lake/DAX, lecture inter-bases Warehouse et types des tables créées, échantillon RTI et quotas de capacité, arrêt des flux, appui d'un second animateur si besoin. Précharger seulement les sources communes ; les participants construisent leurs propres éléments. Les corrigés et captures de reprise restent disponibles. Aucun deck ni simulateur de compteurs n'est créé dans la v1 du kit.
 
 ## Registre des vérifications produit
 
@@ -276,7 +276,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 | 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX ; les marqueurs invisibles des anciennes opérations restent des repères de relecture. |
 | 4 | Libellé agent ; détails de réponse ; instructions françaises ; éditeur et validation d'exemples ; remise à zéro du chat |
 | 5 | Bouton alerte en lecture ; F64/tenant ; condition Devient ; workspace destination ; validation et activation ; ouverture/historique Activator ; latence réelle |
-| 6 | Libellé Warehouse ; création automatique ; types de mappage ; staging workspace ; Upsert et sélection des clés |
+| 6 | Libellé Warehouse ; nom en trois parties `lh_lab.dbo` depuis le même workspace ; lecture des raccourcis ; types produits par CREATE TABLE AS SELECT et précision des facteurs |
 | 7 | Création/édition explicite du modèle ; mode Direct Lake/SSO ; gestion des relations ; permissions des sources de l'agent |
 | 8 | Source intégrée/casse/champs ; ingestion directe/configuration/mappage ; jeu KQL ; destination Activator ; objet/propriété/condition ; test d'action distinct du test de franchissement |
 | 9 | Disponibilité des deux surfaces Copilot, paramètres tenant/région et chemins français |
@@ -298,7 +298,7 @@ Hypothèses retenues au-delà des décisions validées :
 6. Le groupe bénéficie de ReadAll sur la source. Les permissions fines supplémentaires sont vérifiées, pas automatisées avec une API conjecturale.
 7. L'échantillon Bicycles est disponible ; son mapping vers `event_time`, `station_id`, `bike_count` est testé avant diffusion.
 8. L'option de clonage reste une interface réservée qui échoue avant toute mutation lorsqu'elle est demandée en mode réel.
-9. Les réserves de 20 et 15 minutes servent à l'aide et aux transitions ; les temps d'installation/préparation ne font pas partie de la session.
+9. Les réserves de 20 et 25 minutes servent à l'aide et aux transitions ; les temps d'installation/préparation ne font pas partie de la session.
 10. Le lien de rendu cible la branche `main` du dépôt fourni ; aucune publication GitHub n'est effectuée automatiquement.
 
 ## État de la recette

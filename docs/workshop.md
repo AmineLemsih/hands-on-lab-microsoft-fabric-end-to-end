@@ -734,66 +734,50 @@ Un entrepôt leur fournit une surface d'écriture et de lecture adaptée à cett
 
 **Objectif :** copier les données propres dans un warehouse et vérifier trois requêtes T-SQL.
 
-**Durée : 30 min, parcours complet uniquement.**
+**Durée : 20 min, parcours complet uniquement.**
 
 Un **warehouse**, ou entrepôt, est un stockage analytique organisé en tables et piloté par SQL. **T-SQL** est le dialecte SQL utilisé par le warehouse Fabric. À partir de cette extension, des requêtes commentées sont fournies à copier-coller.
 
-### Charger les tables par pipeline
+### Charger les tables en T-SQL
 
 1. Ouvrez votre workspace personnel.
 2. Sélectionnez « Nouvel élément ».
 3. Choisissez « Warehouse » ou « Entrepôt ». <!-- TODO vérifier -->
 4. Saisissez `wh_energy`.
 5. Sélectionnez « Créer ».
-6. Revenez au workspace.
-7. Créez un élément « Pipeline de données ».
-8. Nommez-le `pl_energy_warehouse`.
-9. Ajoutez une activité « Copier les données ».
-10. Nommez l'activité `copy_consumption`.
-11. Ouvrez l'onglet « Source ».
-12. Sélectionnez le connecteur « Lakehouse ».
-13. Sélectionnez `lh_lab` dans votre workspace.
-14. Choisissez la table `dbo.consumption`.
-15. Ouvrez « Destination ».
-16. Sélectionnez `wh_energy`.
-17. Choisissez « Créer automatiquement la table ». <!-- TODO vérifier -->
-18. Saisissez `dbo` comme schéma.
-19. Saisissez `consumption` comme table.
-20. Ouvrez « Mappage ».
-21. Sélectionnez « Importer les schémas ».
-22. Vérifiez `date` et `month_start` de type Date.
-23. Définissez les colonnes d'énergie et de température en `decimal(18,2)` dans la destination. <!-- TODO vérifier -->
-24. Ouvrez « Paramètres ».
-25. Activez la mise en zone intermédiaire, « Staging », si demandée. <!-- TODO vérifier -->
-26. Choisissez « Espace de travail » comme stockage intermédiaire, sans créer de compte de stockage externe.
-27. Enregistrez le pipeline.
-28. Exécutez-le une première fois.
-29. Vérifiez la réussite et les 10 840 lignes copiées.
-30. Revenez aux paramètres de destination de l'activité.
-31. Choisissez « Upsert » comme comportement d'écriture. <!-- TODO vérifier -->
-32. Définissez `site_id` et `date` comme clés de correspondance.
-33. Enregistrez.
+6. Ouvrez une « Nouvelle requête SQL » dans `wh_energy`.
+7. Collez les trois instructions ci-dessous dans l'éditeur.
+8. Sélectionnez uniquement la première instruction, jusqu'au point-virgule.
+9. Sélectionnez « Exécuter ».
+10. Sélectionnez uniquement la deuxième instruction.
+11. Sélectionnez « Exécuter ».
+12. Sélectionnez uniquement la troisième instruction.
+13. Sélectionnez « Exécuter ».
+14. Actualisez l'explorateur du warehouse.
+15. Vérifiez la présence de `consumption`, `sites` et `emission_factors` sous `dbo`.
 
-**Upsert** met à jour une ligne dont la clé existe et insère une ligne nouvelle. Avec ce jeu fixe, une relance ne doit pas doubler les lignes. Ne relancez pas en mode « Insert » sans nettoyage de la destination.
+Le nom en trois parties désigne le lakehouse `lh_lab` du même workspace, son schéma `dbo` et sa table. <!-- TODO vérifier -->
 
-1. Dupliquez l'activité sous le nom `copy_sites`.
-2. Remplacez sa source par `dbo.sites` dans `lh_lab`.
-3. Remplacez sa destination par `dbo.sites` dans `wh_energy`.
-4. Réimportez son mappage.
-5. Remplacez ses clés Upsert par `site_id` uniquement.
-6. Dupliquez l'activité sous le nom `copy_emission_factors`.
-7. Remplacez sa source par `dbo.emission_factors` dans `lh_lab`.
-8. Remplacez sa destination par `dbo.emission_factors` dans `wh_energy`.
-9. Réimportez son mappage.
-10. Définissez les deux facteurs en `decimal(12,6)` pour préserver leur précision.
-11. Remplacez ses clés Upsert par `year` uniquement.
-12. Enregistrez le pipeline.
-13. Exécutez le pipeline.
-14. Vérifiez la réussite des trois activités.
+```sql
+-- Copier l'historique nettoyé dans une nouvelle table du warehouse.
+CREATE TABLE dbo.consumption AS
+SELECT * FROM lh_lab.dbo.consumption;
+
+-- Copier le référentiel des sites, lu à travers le raccourci du lakehouse.
+CREATE TABLE dbo.sites AS
+SELECT * FROM lh_lab.dbo.sites;
+
+-- Copier les deux facteurs annuels, sans modifier leur précision.
+CREATE TABLE dbo.emission_factors AS
+SELECT * FROM lh_lab.dbo.emission_factors;
+```
+
+Les types de destination sont déduits de la sélection ; vérifiez les dates et les nombres dans l'explorateur. <!-- TODO vérifier --> Ces instructions créent des tables nouvelles : si une table existe déjà, ne la supprimez pas et passez à son contrôle avant de relancer sa création.
 
 <!-- TODO vérifier -->
-
-![Pipeline avec les trois tables copiées vers wh_energy et clés de mise à jour](assets/06-warehouse-pipeline.png)
+<!-- TODO vérifier -->
+<!-- TODO vérifier -->
+<!-- TODO vérifier -->
 
 ### Exécuter trois requêtes guidées
 
@@ -886,15 +870,28 @@ Dans cette extension, vous avez **copié** les tables pour apprendre l'entrepôt
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir les trois tables et `v_energy_monthly` dans `wh_energy`. Les trois requêtes retrouvent les valeurs attendues. Après une relance du pipeline en Upsert, `consumption` conserve 10 840 lignes.
+> Vous devez voir les trois tables et `v_energy_monthly` dans `wh_energy`. `consumption` contient 10 840 lignes, `sites` 30 et `emission_factors` une. Les trois requêtes retrouvent les valeurs attendues.
 
 </div>
 
 ### Si ça bloque
 
 - **Écriture SQL refusée :** vérifiez que vous êtes dans `wh_energy`, pas dans le point de terminaison SQL du lakehouse.
-- **Copie en erreur :** contrôlez la connexion, les types de destination et la disponibilité des raccourcis source.
-- **Doublons ou Upsert refusé :** vérifiez les clés propres à chaque table et signalez les doublons avant de relancer.
+- **Source introuvable :** vérifiez `lh_lab` dans le même workspace et les tables de son point de terminaison SQL.
+- **Table déjà existante :** contrôlez son contenu sans relancer sa création ni la supprimer.
+
+<details>
+<summary>Contexte (optionnel) : copier par pipeline</summary>
+
+Un pipeline peut aussi copier ces tables avec une activité « Copier les données ».
+La source est `lh_lab` et la destination est `wh_energy`, dans votre espace.
+Les activités `copy_consumption`, `copy_sites` et `copy_emission_factors` peuvent être regroupées dans `pl_energy_warehouse`.
+Ce mécanisme convient à des copies récurrentes dont vous suivez les exécutions.
+Dans cet exercice, les trois instructions T-SQL suffisent : aucun pipeline supplémentaire n'est à créer.
+
+![Alternative de copie par pipeline entre lh_lab et wh_energy](assets/06-warehouse-pipeline.png)
+
+</details>
 
 <details>
 <summary>Contexte (optionnel) : le choix appartient au besoin</summary>

@@ -24,7 +24,7 @@ Faire les captures dans un environnement de démonstration autorisé, interface 
 | `05-alert-settings.png` | 5, configuration | Seuil par région, mesure `latest_day_kwh`, destinataire personnel anonymisé et workspace personnel |
 | `05-activator-rule.png` | 5, règle | `act_energy`, observations avant/après, franchissement et action horodatée |
 | `05-alert-notification.png` | Notes animateur, plan B | Notification Teams réellement reçue en répétition ; date et caractère « répétition » explicites |
-| `06-warehouse-pipeline.png` | 6, copie | Trois activités vers `wh_energy`, mappage et clés Upsert propres à chaque table |
+| `06-warehouse-pipeline.png` | 6, contexte optionnel | Alternative de copie des trois tables entre `lh_lab` et `wh_energy`, sans étapes de configuration |
 | `06-sql-results.png` | 6, requêtes | Volumes corrects, classement régional, six pics et vue mensuelle |
 | `07-direct-lake-model.png` | 7, modèle | Trois tables, Direct Lake, deux relations simples, mesure `total_kgco2e` |
 | `07-agent-semantic-model.png` | 7, agent | Source `sm_energy_lab`, requête DAX et résultat vérifié |
