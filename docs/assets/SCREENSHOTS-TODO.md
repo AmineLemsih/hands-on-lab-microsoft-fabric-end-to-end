@@ -17,7 +17,7 @@ Faire les captures dans un environnement de démonstration autorisé, interface 
 | `02-destination.png` | 2, destination | `lh_lab`, `dbo.consumption`, sept colonnes, méthode Remplacer |
 | `02-pipeline-schedule.png` | 2, orchestration | Activité Dataflow et réussite de l'exécution manuelle ; nom de fichier conservé |
 | `03-visual-joins.png` | 3, jointures | Clés `site_id` et `year`, colonnes développées, pas de multiplication des lignes |
-| `03-monthly-view.png` | 3, résultat | `v_energy_monthly`, région, mois, kWh, kgCO2e et nombre d'observations |
+| `03-monthly-view.png` | 3, résultat | `v_energy_monthly`, `region`, `month_start`, `total_kwh_elec`, `total_kwh_gas` et `observation_count` |
 | `04-agent-sources.png` | 4, sources | `energy_agent`, `lh_lab`, exactement les trois tables sélectionnées |
 | `04-agent-comparison.png` | 4, contrôle | Instructions et exemple validés, avant/après, requête générée et unités |
 | `05-energy-report.png` | 5, lecture | Les deux visuels du rapport commun, six régions sous le seuil et date du jeu |

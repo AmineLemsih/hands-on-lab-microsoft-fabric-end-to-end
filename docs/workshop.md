@@ -360,10 +360,10 @@ Enregistrez la planification ; ne l'activez que si vous souhaitez réellement ce
 
 **Pourquoi c'est important pour Contoso**
 
-Des kWh seuls ne permettent pas de comparer l'empreinte carbone des régions.  
-Une analyse partagée doit appliquer les bons facteurs sans multiplier les observations.
+Les relevés de chaque site doivent pouvoir être comparés par région et par mois.  
+Une analyse partagée rapproche les référentiels sans multiplier les observations.
 
-**Objectif :** produire une vue de la consommation et des kgCO2e par région et par mois, sans écrire de requête.
+**Objectif :** produire une vue des consommations électriques et de gaz par région et par mois, sans écrire de requête.
 
 **Durée : 25 min de pratique ; 5 min « Comprendre » en parcours complet.**
 
@@ -412,55 +412,39 @@ La table des facteurs possède **une seule ligne par année**, avec deux colonne
 
 ![Jointures visuelles sur site_id puis year sans duplication des observations](assets/03-visual-joins.png)
 
-### Calculer et regrouper
+### Regrouper les consommations
 
-1. Sélectionnez `kwh_elec`.
-2. Ajoutez `elec_kgco2e_per_kwh` à la sélection avec Ctrl.
-3. Dans « Ajouter une colonne », ouvrez « Standard ». <!-- TODO vérifier -->
-4. Choisissez « Multiplier » pour les deux colonnes sélectionnées. <!-- TODO vérifier -->
-5. Renommez la colonne obtenue `elec_kgco2e`.
-6. Sélectionnez `kwh_gas`.
-7. Ajoutez `gas_kgco2e_per_kwh` à la sélection avec Ctrl.
-8. Choisissez de nouveau « Multiplier » dans « Ajouter une colonne ».
-9. Renommez le résultat `gas_kgco2e`.
-10. Sélectionnez `elec_kgco2e`.
-11. Ajoutez `gas_kgco2e` à la sélection avec Ctrl.
-12. Choisissez « Ajouter » dans « Standard ». <!-- TODO vérifier -->
-13. Renommez le résultat `kgco2e`.
-14. Sélectionnez `kwh_elec`.
-15. Ajoutez `kwh_gas` à la sélection avec Ctrl.
-16. Choisissez « Ajouter » dans « Standard ».
-17. Renommez le résultat `total_kwh`.
-18. Sélectionnez « Regrouper par ».
-19. Choisissez le mode « Avancé ».
-20. Ajoutez `region` comme première clé.
-21. Ajoutez `month_start` comme seconde clé.
-22. Ajoutez l'agrégation `total_kwh`, opération « Somme », sur `total_kwh`.
-23. Ajoutez l'agrégation `kgco2e`, opération « Somme », sur `kgco2e`.
-24. Ajoutez `observation_count`, opération « Nombre de lignes ».
-25. Validez.
-26. Ouvrez le filtre de `kgco2e`.
-27. Choisissez le tri décroissant pour examiner les résultats.
+<!-- TODO vérifier -->
+<!-- TODO vérifier -->
+<!-- TODO vérifier -->
+
+1. Sélectionnez « Regrouper par ».
+2. Choisissez le mode « Avancé ».
+3. Ajoutez `region` comme première clé.
+4. Ajoutez `month_start` comme seconde clé.
+5. Ajoutez `total_kwh_elec`, opération « Somme », sur `kwh_elec`.
+6. Ajoutez `total_kwh_gas`, opération « Somme », sur `kwh_gas`.
+7. Ajoutez `observation_count`, opération « Nombre de lignes ».
+8. Validez.
 
 ### Enregistrer la vue
 
 1. Sélectionnez la dernière étape du résultat agrégé.
 2. Vérifiez « Activer le chargement » dans son menu. <!-- TODO vérifier -->
-3. Retirez l'étape de tri dans les étapes appliquées avant de créer la vue.
-4. Sélectionnez « Enregistrer comme vue ».
-5. Choisissez le schéma `dbo`.
-6. Saisissez `v_energy_monthly`.
-7. Confirmez l'enregistrement.
-8. Actualisez l'explorateur.
-9. Ouvrez la vue créée.
+3. Sélectionnez « Enregistrer comme vue ».
+4. Choisissez le schéma `dbo`.
+5. Saisissez `v_energy_monthly`.
+6. Confirmez l'enregistrement.
+7. Actualisez l'explorateur.
+8. Ouvrez la vue créée.
 
-Le tri sert à l'exploration. Une vue SQL ne garantit pas l'ordre de ses lignes. Il sera choisi à la lecture ou dans le rapport. <!-- TODO vérifier -->
+Une vue SQL ne garantit pas l'ordre de ses lignes. <!-- TODO vérifier -->
 
-![Vue v_energy_monthly avec région, mois, énergie, émissions et nombre d'observations](assets/03-monthly-view.png)
+![Vue v_energy_monthly avec région, mois, sommes électriques et de gaz et nombre d'observations](assets/03-monthly-view.png)
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir `v_energy_monthly`, avec **72 couples région/mois** : six régions et douze mois. La somme des `observation_count` vaut 10 840. Les totaux ne doivent pas doubler après la jointure des facteurs.
+> Vous devez voir `v_energy_monthly`, avec **72 couples région/mois**, `total_kwh_elec`, `total_kwh_gas` et `observation_count`. La somme des `observation_count` vaut **10 840**. Les jointures ne doivent pas doubler les observations.
 
 </div>
 
@@ -468,7 +452,7 @@ Le tri sert à l'exploration. Une vue SQL ne garantit pas l'ordre de ses lignes.
 
 - **Table absente en SQL :** vérifiez la table ou le raccourci dans le lakehouse, puis actualisez l'explorateur après la synchronisation.
 - **Totaux doublés ou facteurs vides :** vérifiez les clés `site_id` et `year`, leurs types et l'unicité de `emission_factors.year`.
-- **Vue impossible à enregistrer :** retirez le tri et transmettez le message d'erreur avec le nom de l'étape concernée.
+- **Vue impossible à enregistrer :** sélectionnez le résultat regroupé et transmettez le message avec le nom de l'étape concernée.
 
 <details>
 <summary>Variante T-SQL (optionnelle, hors parcours métiers sans code)</summary>
@@ -510,6 +494,8 @@ ORDER BY kgco2e DESC, region, month_start;
 <summary>Comprendre : une même donnée, plusieurs lectures (5 min)</summary>
 
 Le point de terminaison SQL lit les tables Delta. Il peut conserver une définition de vue, mais ne permet pas d'écrire les relevés comme un warehouse. Le lakehouse et la vue ne sont donc pas deux bases contenant deux copies des consommations.
+
+La vue visuelle conserve séparément les kWh électriques et de gaz. Le calcul en kgCO2e reste dans la variante T-SQL repliée, les instructions de l'agent en section 4 et la mesure DAX en section 7. Exécuter la variante T-SQL remplace `v_energy_monthly` par sa version avec calcul carbone : choisissez une variante, pas deux définitions à cumuler.
 
 Utilisez la vue pour une logique de lecture partagée. Le calcul carbone dépend de la validité des clés et des coefficients. Le moteur ne sait pas qu'une jointure a doublé vos résultats. Une vue agrégée perd aussi le détail : le data agent doit conserver l'accès aux tables pour retrouver un jour anormal.
 

@@ -273,7 +273,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 | 0 | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la fiche |
 | 1 | Case schémas, menu `dbo`, propriétés du raccourci et accès cible |
 | 2 | Nommage/publication du flux ; navigation CSV binaire Lakehouse ; navigation Content SharePoint ; locale ; Début du mois ; destination Remplacer ; détails des lignes écrites ; planification |
-| 3 | Accès endpoint SQL ; fusion/développement ; opérations arithmétiques sur colonnes ; chargement actif ; repli SQL et sauvegarde de vue sans tri |
+| 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX ; les marqueurs invisibles des anciennes opérations restent des repères de relecture. |
 | 4 | Libellé agent ; détails de réponse ; instructions françaises ; éditeur et validation d'exemples ; remise à zéro du chat |
 | 5 | Bouton alerte en lecture ; F64/tenant ; condition Devient ; workspace destination ; validation et activation ; ouverture/historique Activator ; latence réelle |
 | 6 | Libellé Warehouse ; création automatique ; types de mappage ; staging workspace ; Upsert et sélection des clés |
