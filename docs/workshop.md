@@ -63,7 +63,7 @@ Votre analyse et le rapport fourni utilisent le même schéma. Le rapport est d�
 | **Parcours complet 5 h** | Analystes et journée d'upskilling en présentiel | 0 à 8, puis 10 ; lire les cinq blocs « Comprendre » | 300 min |
 | **Bonus Copilot** | Selon le temps disponible et les paramètres du tenant | 9 | Environ 15 min supplémentaires, hors des deux minutages |
 
-Le minutage inclut les temps de contrôle. Les temps d'aide sont répartis par l'animateur. Les blocs « Contexte (optionnel) » restent dans le budget du module.
+Le minutage inclut les temps de contrôle et les blocs « Contexte (optionnel) ».
 
 | Section | Activité | Métiers | Complet |
 | --- | --- | ---: | ---: |
@@ -91,7 +91,7 @@ Un **workspace**, ou espace de travail, regroupe les éléments Fabric et leurs 
 
 | Emplacement | Éléments | Votre usage |
 | --- | --- | --- |
-| Espace commun, nom générique `ws-shared` | `lh_source`, fichiers et tables de référence ; `energy_report` et son modèle `sm_energy_report` | Lecture. L'animateur prépare et actualise les données. |
+| Espace commun, nom générique `ws-shared` | `lh_source`, fichiers et tables de référence ; `energy_report` et son modèle `sm_energy_report` | Lecture. |
 | Votre espace, nom générique `ws-lab-<email_local_part>` | `lh_lab`, `df_energy`, `pl_energy_daily`, `energy_agent`, `act_energy` | Création et modification de vos propres éléments. |
 | Extensions, dans votre espace | `wh_energy`, `sm_energy_lab`, `es_sample`, `eh_sample`, `act_sample` | Entrepôt SQL, modèle d'analyse et flux d'exemple. |
 
@@ -107,7 +107,7 @@ Un **raccourci OneLake** référence une table existante sans en créer une copi
 
 ### Prérequis participant
 
-Votre animateur vous transmet une **fiche participant privée**. Elle contient les liens et les noms propres à votre session. Utilisez-la à chaque fois qu'un lien, un workspace ou un contact est demandé.
+Votre **fiche participant privée** contient les liens et les noms propres à votre session. Utilisez-la à chaque fois qu'un lien, un workspace ou un contact est demandé.
 
 - Un navigateur récent, avec Fabric en français.
 - Le compte professionnel indiqué sur votre fiche, déjà connecté au bon tenant.
@@ -120,11 +120,7 @@ Votre animateur vous transmet une **fiche participant privée**. Elle contient l
 
 **SSO**, ou authentification unique, signifie que le moteur utilise votre identité. Le modèle Direct Lake de l'extension 7 utilise SSO ; vous devez donc conserver la lecture de la cible des raccourcis dans `lh_source`.
 
-<div class="important" data-title="Préparation obligatoire de l'alerte">
-
-> L'animateur teste à J-7 le bouton « Définir une alerte » depuis le rapport commun avec un compte Viewer, sur la capacité cible, en choisissant un workspace personnel comme destination. <!-- TODO vérifier --> Les prérequis de capacité et d'édition diffèrent selon l'expérience Power BI disponible. Le test, pas la seule taille de capacité, autorise le déroulement individuel de la section 5. Aucune copie du rapport n'est prévue dans le parcours nominal.
-
-</div>
+<!-- TODO vérifier -->
 
 ### Conventions et aide
 
@@ -148,7 +144,7 @@ Le fichier annuel couvre l'année civile 2025. Le « dernier jour disponible » 
 
 ### Auteur
 
-**Amine Lemsih** : conception et rédaction de l'atelier. Contact : **@aminelemsih**. Les animateurs réutilisent le kit sans ajouter de contexte client au document public.
+**Amine Lemsih** : conception et rédaction de l'atelier. Contact : **@aminelemsih**.
 
 ---
 
@@ -213,9 +209,9 @@ Si l'assistant ne permet qu'une sélection, créez `sites`, puis répétez les m
 
 ### Si ça bloque
 
-- **Source invisible :** vérifiez le tenant et le workspace de la fiche. L'animateur contrôle le rôle Viewer.
-- **Table visible mais données refusées :** faites vérifier le partage explicite ReadAll de `lh_source` et la propagation des permissions.
-- **Nom refusé ou schéma introuvable :** utilisez `lh_lab`, avec underscore. Ne créez pas un dossier `dbo` dans « Fichiers ». L'animateur adapte le chemin si le lakehouse source est sans schémas.
+- **Source invisible :** vérifiez le tenant et le workspace indiqués sur votre fiche.
+- **Données refusées :** transmettez le message d'accès refusé au contact de votre fiche.
+- **Nom refusé ou schéma introuvable :** utilisez `lh_lab` ; cherchez `dbo` sous « Tables », pas sous « Fichiers ».
 
 <details>
 <summary>Comprendre : partager une référence, pas une copie (5 min)</summary>
@@ -348,7 +344,7 @@ Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, 
 13. Exécutez le flux si la publication ne l'a pas déjà lancé.
 14. Ouvrez son historique d'actualisation.
 15. Attendez l'état de réussite.
-16. Contrôlez avec l'animateur les lignes écrites dans les détails de l'exécution. <!-- TODO vérifier -->
+16. Contrôlez les lignes écrites dans les détails de l'exécution. <!-- TODO vérifier -->
 17. Ouvrez `lh_lab`.
 18. Actualisez la liste de ses tables.
 19. Ouvrez `consumption`.
@@ -389,9 +385,9 @@ Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, 
 
 ### Si ça bloque
 
-- **Fichier refusé ou plusieurs fichiers importés :** vérifiez ReadAll pour la variante A ; vérifiez l'URL du site, `Name` et `Folder Path` pour la variante B.
-- **Décimaux ou dates en erreur :** vérifiez la locale de conversion et l'ordre des étapes. Les valeurs `invalid` sont les seules erreurs de type attendues dans le jeu fourni.
-- **Échec de destination ou doublons :** vérifiez `lh_lab` dans votre espace, les autorisations de la connexion et « Remplacer ». Ne relancez pas en boucle un flux qui échoue.
+- **Fichier refusé ou import multiple :** vérifiez l'emplacement de votre fiche et les filtres `Name` et `Folder Path` ; signalez un accès refusé.
+- **Décimaux ou dates en erreur :** vérifiez la locale de conversion et l'ordre des étapes.
+- **Échec de destination ou doublons :** vérifiez votre workspace, `lh_lab` et la méthode « Remplacer ».
 
 <details>
 <summary>Comprendre : préparer les données et organiser le travail (5 min)</summary>
@@ -404,7 +400,7 @@ Utilisez un flux pour des préparations récurrentes accessibles aux analystes. 
 
 <div class="info" data-title="Pause : 15 minutes">
 
-> La pause commence maintenant. L'animateur annonce l'heure de reprise. Laissez les éléments ouverts ; ne supprimez rien.
+> Faites une pause de 15 minutes. Laissez les éléments ouverts ; ne supprimez rien.
 
 </div>
 
@@ -508,21 +504,21 @@ La table des facteurs possède **une seule ligne par année**, avec deux colonne
 8. Actualisez l'explorateur.
 9. Ouvrez la vue créée.
 
-Le tri sert à l'exploration. Une vue SQL ne garantit pas l'ordre de ses lignes. Il sera choisi à la lecture ou dans le rapport. Toutes les transformations doivent pouvoir être traduites en SQL par l'éditeur ; l'animateur vérifie ce parcours visuel avant la session. <!-- TODO vérifier -->
+Le tri sert à l'exploration. Une vue SQL ne garantit pas l'ordre de ses lignes. Il sera choisi à la lecture ou dans le rapport. <!-- TODO vérifier -->
 
 ![Vue v_energy_monthly avec région, mois, énergie, émissions et nombre d'observations](assets/03-monthly-view.png)
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir `v_energy_monthly`, avec **72 couples région/mois** : six régions et douze mois. La somme des `observation_count` vaut 10 840. Les totaux ne doivent pas doubler après la jointure des facteurs. L'animateur dispose du corrigé calculé pour comparer les résultats.
+> Vous devez voir `v_energy_monthly`, avec **72 couples région/mois** : six régions et douze mois. La somme des `observation_count` vaut 10 840. Les totaux ne doivent pas doubler après la jointure des facteurs.
 
 </div>
 
 ### Si ça bloque
 
-- **Table absente du point de terminaison SQL :** la synchronisation peut prendre du temps. Vérifiez d'abord la table ou le raccourci dans le lakehouse, puis actualisez l'explorateur.
+- **Table absente en SQL :** vérifiez la table ou le raccourci dans le lakehouse, puis actualisez l'explorateur après la synchronisation.
 - **Totaux doublés ou facteurs vides :** vérifiez les clés `site_id` et `year`, leurs types et l'unicité de `emission_factors.year`.
-- **Vue impossible à enregistrer :** retirez le tri et repérez l'étape non traduisible. Faites intervenir l'animateur ; ne remplacez pas spontanément l'exercice métiers par du code.
+- **Vue impossible à enregistrer :** retirez le tri et transmettez le message d'erreur avec le nom de l'étape concernée.
 
 <details>
 <summary>Variante T-SQL (optionnelle, hors parcours métiers sans code)</summary>
@@ -652,7 +648,7 @@ Un **exemple de requête** associe une question à une requête déjà vérifié
 10. Lancez la validation de l'exemple. <!-- TODO vérifier -->
 11. Enregistrez seulement si la validation réussit.
 
-Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple SQL. Si Q1 n'est pas correcte, l'animateur la vérifie avec vous avant l'ajout.
+Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple SQL.
 
 ### Comparer après configuration
 
@@ -682,9 +678,9 @@ Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple S
 
 ### Si ça bloque
 
-- **Élément agent absent :** l'animateur vérifie la capacité payante, la région et les paramètres tenant des data agents et de l'IA. Une capacité d'essai ne suffit pas à ce parcours.
-- **Source vide ou refusée :** vérifiez la synchronisation SQL, les trois tables cochées et ReadAll sur la cible des raccourcis.
-- **Réponse ou exemple incorrect :** vérifiez la requête et le schéma réels avec l'animateur. Testez les instructions en français avant diffusion. <!-- TODO vérifier --> Ne considérez jamais un texte assuré comme une preuve.
+- **Élément agent absent :** vérifiez votre workspace, puis signalez l'absence au contact de votre fiche.
+- **Source vide ou refusée :** vérifiez les trois tables cochées et leur visibilité dans le point de terminaison SQL.
+- **Réponse ou exemple incorrect :** comparez les noms de tables et de colonnes de la requête avec votre source, puis signalez l'écart. <!-- TODO vérifier -->
 
 <details>
 <summary>Comprendre : guider une réponse, pas garantir la vérité (5 min)</summary>
@@ -714,7 +710,7 @@ Une notification invite la bonne personne à examiner la situation au moment du 
 2. Vérifiez que le rapport est `energy_report` dans l'espace commun.
 3. Repérez le visuel **« consommation du dernier jour disponible par région »**.
 4. Vérifiez que le dernier jour disponible affiché est le 31 décembre 2025.
-5. Vérifiez avec l'animateur que toutes les régions sont sous **20 000 kWh** dans l'état de départ.
+5. Vérifiez que toutes les régions sont sous **20 000 kWh** dans l'état de départ.
 
 Ne copiez pas le rapport. Vous restez lecteur dans l'espace commun. L'alerte, elle, sera enregistrée dans votre workspace personnel.
 
@@ -743,17 +739,13 @@ Le canal Teams de l'atelier sert à l'entraide. Il n'est **pas** le destinataire
 
 ![Condition régionale de 20 000 kWh, notification Teams à soi et destination personnelle](assets/05-alert-settings.png)
 
-<div class="warning" data-title="Si le bouton n'est pas disponible">
-
-> Prévenez l'animateur. Ce chemin doit avoir été validé à J-7 avec les mêmes droits et la même capacité. La documentation décrit également une expérience demandant Edit sur le rapport. <!-- TODO vérifier --> Ne demandez pas l'écriture sur l'espace commun et ne créez pas une copie de votre propre initiative. L'animateur applique le plan B annoncé.
-
-</div>
+<!-- TODO vérifier -->
 
 ### Voir le déclenchement et ouvrir Activator
 
 1. Signalez à l'animateur que votre règle est active.
 2. Attendez sa confirmation que l'état sous le seuil a été observé.
-3. Observez le changement du rapport après le remplacement du fichier par l'animateur et l'actualisation du modèle.
+3. Observez le changement des barres dans le rapport actualisé.
 4. Ouvrez vos notifications Teams.
 5. Repérez le message de dépassement pour la région concernée.
 6. Revenez au volet d'alerte du rapport.
@@ -762,7 +754,7 @@ Le canal Teams de l'atelier sert à l'entraide. Il n'est **pas** le destinataire
 9. Ouvrez la règle dans `act_energy`.
 10. Repérez la valeur observée, la condition, le destinataire et l'historique des actions. <!-- TODO vérifier -->
 
-L'animateur remplace uniquement le fichier actif du dernier jour, recharge sa table puis actualise le modèle. Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'actualise pas le modèle sémantique.
+Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'actualise pas le modèle sémantique.
 
 ![Règle Activator personnelle, condition et historique d'action après franchissement](assets/05-activator-rule.png)
 
@@ -774,15 +766,15 @@ L'animateur remplace uniquement le fichier actif du dernier jour, recharge sa ta
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir `act_energy` dans **votre** workspace, une règle par région sur `latest_day_kwh`, le seuil de 20 000 kWh et votre compte comme destinataire. Après l'actualisation, une région franchit le seuil. La notification peut arriver après la fin du module : sa latence est mesurée à J-7. Si le plan B capture est utilisé, distinguez clairement la règle créée aujourd'hui de la notification reçue en répétition.
+> Vous devez voir `act_energy` dans **votre** workspace, une règle par région sur `latest_day_kwh`, le seuil de 20 000 kWh et votre compte comme destinataire. Après l'actualisation, une région franchit le seuil et une notification Teams vous est envoyée.
 
 </div>
 
 ### Si ça bloque
 
-- **Bouton absent ou destination refusée :** vérifiez le test J-7, le paramètre tenant autorisant les alertes et le rôle Membre dans votre workspace. La capacité F64 ne donne pas à elle seule de nouveaux droits.
-- **Rapport inchangé :** l'animateur vérifie le remplacement du fichier, la réussite de `df_source_latest`, la table et l'actualisation de `sm_energy_report` avec son identité fixe.
-- **Pas de notification :** vérifiez règle active, région, destinataire et observation des deux états. Les filtres du rapport sont capturés lors de la création de l'alerte ; les changer ensuite ne modifie pas la règle.
+- **Bouton absent ou destination refusée :** vérifiez le workspace personnel choisi, puis transmettez le message au contact de votre fiche.
+- **Rapport inchangé :** signalez que les barres n'ont pas changé et conservez votre règle active.
+- **Pas de notification :** vérifiez la règle active, la région, votre destinataire et les deux états observés dans l'historique.
 
 <details>
 <summary>Comprendre : surveiller un état et déclencher une action (5 min)</summary>
@@ -863,7 +855,7 @@ Un **warehouse**, ou entrepôt, est un stockage analytique organisé en tables e
 13. Exécutez le pipeline.
 14. Vérifiez la réussite des trois activités.
 
-Le chargement automatique avec Upsert et la sélection des clés doivent être testés sur la version du connecteur de la session. <!-- TODO vérifier --> Si cette combinaison n'est pas disponible, l'animateur prépare les tables de destination avant le lab ; n'improvisez pas une succession de chargements en ajout.
+<!-- TODO vérifier -->
 
 ![Pipeline avec les trois tables copiées vers wh_energy et clés de mise à jour](assets/06-warehouse-pipeline.png)
 
@@ -965,8 +957,8 @@ Dans cette extension, vous avez **copié** les tables pour apprendre l'entrepôt
 ### Si ça bloque
 
 - **Écriture SQL refusée :** vérifiez que vous êtes dans `wh_energy`, pas dans le point de terminaison SQL du lakehouse.
-- **Copie en erreur :** contrôlez connexion, staging dans l'espace de travail, types de destination et disponibilité des raccourcis source.
-- **Doublons ou Upsert refusé :** vérifiez les clés propres à chaque table. Upsert n'efface pas les doublons déjà créés par un chargement en ajout ; l'animateur remet la table de démonstration à zéro avant un nouvel essai.
+- **Copie en erreur :** contrôlez la connexion, les types de destination et la disponibilité des raccourcis source.
+- **Doublons ou Upsert refusé :** vérifiez les clés propres à chaque table et signalez les doublons avant de relancer.
 
 <details>
 <summary>Contexte (optionnel) : le choix appartient au besoin</summary>
@@ -1002,7 +994,7 @@ Un **modèle sémantique** décrit les relations et les mesures utilisées pour 
 8. Créez le modèle.
 9. Ouvrez le modèle en modification. <!-- TODO vérifier -->
 10. Vérifiez le mode de stockage « Direct Lake » des tables.
-11. Vérifiez avec l'animateur que le mode de connexion retenu pour ce modèle personnel utilise SSO. <!-- TODO vérifier -->
+11. Vérifiez que le mode de connexion de ce modèle personnel utilise SSO. <!-- TODO vérifier -->
 
 Ne sélectionnez pas `v_energy_monthly` : c'est une vue SQL, pas une table Delta physique. Une vue peut entraîner un chemin DirectQuery selon le type de modèle. **DirectQuery** interroge la source à chaque requête au lieu de charger ses colonnes en mémoire comme Direct Lake.
 
@@ -1075,8 +1067,8 @@ Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source mod�
 ### Si ça bloque
 
 - **Relation impossible :** vérifiez les types des clés et l'absence de doublons du côté « un ».
-- **Accès Direct Lake refusé :** contrôlez ReadAll sur `lh_source`, la cible des raccourcis et le propriétaire du modèle. En SSO, Membre de votre espace ne remplace pas la lecture de la source commune.
-- **Mesure ou source absente :** vérifiez l'enregistrement du modèle et les permissions de lecture de l'agent. Ne confondez pas `sm_energy_lab` personnel avec `sm_energy_report`, le modèle commun à identité fixe.
+- **Accès Direct Lake refusé :** ouvrez la table source du raccourci et transmettez le message d'accès refusé au contact de votre fiche.
+- **Mesure ou source absente :** vérifiez l'enregistrement de `sm_energy_lab` et sa sélection dans l'agent.
 
 <div class="info" data-title="Deuxième pause : 10 minutes">
 
@@ -1124,7 +1116,7 @@ Un **Eventstream** reçoit et distribue des événements. Un **Eventhouse** héb
 15. Ouvrez l'aperçu des événements.
 16. Repérez `Timestamp`, `BikepointID` et `No_Bikes` avec leur casse exacte. <!-- TODO vérifier -->
 
-Le schéma des exemples intégrés peut évoluer. L'animateur le confirme à J-7. Si les champs diffèrent, adaptez leur mappage, pas leur sens. La documentation des [requêtes du tutoriel temps réel](https://learn.microsoft.com/fabric/real-time-intelligence/tutorial-5-query-data) illustre ces champs.
+Si les champs de l'aperçu diffèrent, signalez les noms affichés avant de poursuivre le mappage.
 
 ### Acheminer vers Eventhouse
 
@@ -1227,7 +1219,7 @@ La troisième requête peut légitimement être vide. Une valeur de stock comme 
 
 La destination Eventhouse a renommé ses colonnes par mappage. La destination Activator reçoit encore les champs du flux d'origine : c'est pourquoi elle utilise `BikepointID`, `Timestamp` et `No_Bikes` pour construire l'objet.
 
-Si aucun événement ne satisfait la condition, l'animateur choisit avec vous un seuil de démonstration cohérent avec l'aperçu. Un bouton de test de notification, s'il est utilisé, vérifie le canal ; il ne prouve pas qu'un événement a franchi le seuil. <!-- TODO vérifier -->
+Vérifiez dans l'aperçu si un événement satisfait la condition. Un bouton de test de notification vérifie le canal, pas le franchissement du seuil. <!-- TODO vérifier -->
 
 ![Règle Activator branchée sur le flux Bicycles avec identité de station et propriété numérique](assets/08-stream-activator.png)
 
@@ -1250,8 +1242,8 @@ Si aucun événement ne satisfait la condition, l'animateur choisit avec vous un
 ### Si ça bloque
 
 - **Aucune ligne :** vérifiez la publication, les connexions du canevas et la fin de configuration de la destination Eventhouse.
-- **Requête vide ou colonne absente :** contrôlez le mappage, la casse et l'horodatage. Si l'échantillon rejoue des dates anciennes, l'animateur adapte la fenêtre à la plage affichée ; n'effacez pas le filtre sans comprendre le périmètre.
-- **Alerte muette ou répétitive :** vérifiez identité de station, propriété numérique, condition, règle démarrée et fréquence de notification. L'animateur arrête les règles et le flux après l'exercice pour éviter le bruit et les coûts.
+- **Requête vide ou colonne absente :** contrôlez le mappage, la casse et la date affichée dans les derniers événements.
+- **Alerte muette ou répétitive :** vérifiez la station, la propriété numérique, la condition, l'activation et la fréquence de notification.
 
 ---
 
@@ -1266,7 +1258,7 @@ La responsabilité de vérifier les unités, les filtres et les résultats reste
 
 **Durée indicative : 15 min supplémentaires. Bonus, si le temps et les paramètres du tenant le permettent. Hors minutage des parcours 3 h et 5 h.**
 
-**Copilot** est l'assistance générative intégrée à certaines expériences Fabric. Ce n'est ni le planificateur du pipeline ni une garantie de qualité des données. L'animateur vérifie sa disponibilité et les règles de traitement des données avant la session.
+**Copilot** est l'assistance générative intégrée à certaines expériences Fabric. Ce n'est ni le planificateur du pipeline ni une garantie de qualité des données.
 
 ### Générer une transformation
 
@@ -1301,15 +1293,15 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir une transformation conforme à la somme demandée et une requête limitée à la bonne table et à la bonne période. Vous devez pouvoir nommer au moins un contrôle effectué avant acceptation. Une fonction indisponible dans le tenant n'est pas un exercice échoué.
+> Vous devez voir une transformation conforme à la somme demandée et une requête limitée à la bonne table et à la bonne période. Vous devez pouvoir nommer au moins un contrôle effectué avant acceptation.
 
 </div>
 
 ### Si ça bloque
 
-- **Bouton absent :** vérifiez avec l'animateur les paramètres tenant, la région, la capacité et l'expérience concernée. Passez à la conclusion si les conditions ne sont pas réunies.
-- **Suggestion incorrecte :** reformulez avec les noms exacts et un résultat attendu. N'acceptez pas une proposition pour simplement terminer le bonus.
-- **Pas de données récentes :** vérifiez les dates de l'échantillon et la fenêtre de comparaison. Copilot ne crée pas les événements manquants.
+- **Bouton absent :** signalez son absence et passez à la conclusion.
+- **Suggestion incorrecte :** reformulez avec les noms exacts et le résultat attendu avant de l'accepter.
+- **Pas de données récentes :** vérifiez les dates de l'échantillon et la fenêtre de comparaison.
 
 ---
 
@@ -1347,8 +1339,6 @@ Une prochaine expérimentation doit relier une décision métier à des données
 
 Commencez par un périmètre limité : quelques bâtiments, une période, deux sources connues et un responsable de la décision. Définissez l'unité, les règles de nettoyage et le calcul attendu avant de demander une réponse à un agent. Remplacez les facteurs fictifs par des facteurs adaptés et documentés. Choisissez ensuite une alerte qui invite à une vérification utile, avec un destinataire et un délai acceptables.
 
-L'animateur adapte ce paragraphe oralement ou dans les supports privés de la session. Aucun nom de client, lien de tenant ou objectif confidentiel ne doit être ajouté au workshop public.
-
 ### Fermer l'atelier
 
 1. Enregistrez votre travail en cours.
@@ -1357,19 +1347,19 @@ L'animateur adapte ce paragraphe oralement ou dans les supports privés de la se
 4. Attendez sa confirmation de prise en charge du nettoyage.
 5. Fermez les onglets quand la collecte des travaux est terminée.
 
-**Ne supprimez rien vous-même.** L'animateur arrête les planifications, les alertes et les flux, puis supprime les workspaces de la session à partir de son journal. Il gère la capacité selon l'accord de l'organisation. Un espace commun préexistant n'est pas supprimé automatiquement.
+**Ne supprimez rien vous-même.**
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir votre travail enregistré et avoir transmis les éléments à arrêter. Vous savez distinguer données observées, données manquantes et réponses à vérifier. Les captures du brouillon et les tests tenant restent des prérequis de diffusion, pas des preuves de fonctionnement déjà réalisées.
+> Vous devez voir votre travail enregistré et avoir transmis les éléments à arrêter. Vous savez distinguer données observées, données manquantes et réponses à vérifier.
 
 </div>
 
 ### Si ça bloque
 
 - **Travail non enregistré :** vérifiez l'état de sauvegarde avant de fermer l'onglet.
-- **Question sans réponse :** transmettez section, étape et message d'erreur à l'animateur sans secret ni lien privé public.
-- **Doute sur une suppression :** ne cliquez pas sur « Supprimer ». Seul l'animateur applique le nettoyage prévu.
+- **Question sans réponse :** transmettez la section, l'étape et le message d'erreur au contact de votre fiche.
+- **Doute sur une suppression :** ne cliquez pas sur « Supprimer ».
 
 ### Takeaways
 
@@ -1385,7 +1375,7 @@ L'animateur adapte ce paragraphe oralement ou dans les supports privés de la se
 - [Catalogue des exercices Microsoft Learn Fabric](https://microsoftlearning.github.io/mslearn-fabric/).
 - [Mother Of All Workshops](https://aka.ms/moaw).
 
-Ces ressources sont des prolongements. Les exercices de ce document ont été réécrits pour Contoso ; certains liens de référence sont en anglais.
+Certains liens de référence sont en anglais.
 
 ### Contribuer
 

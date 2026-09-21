@@ -165,6 +165,34 @@ Montrer les observations, la condition et les étapes déjà réussies, puis la 
 
 ## Pièges connus et reprise
 
+### Consignes déplacées du workshop
+
+Les passages ci-dessous ont été retirés du texte participant lors de la relecture. Les extraits gardent leur origine pour faciliter la revue ; les procédures actives et les checklists de ce guide font foi.
+
+| Section source | Phrases déplacées et consigne conservée ici |
+| --- | --- |
+| 0, modalités | « Les temps d'aide sont répartis par l'animateur. » |
+| 0, architecture et fiche | « L'animateur prépare et actualise les données. » ; « Votre animateur vous transmet une fiche participant privée. » |
+| 0, Préparation obligatoire de l'alerte | « L'animateur teste à J-7 le bouton Définir une alerte depuis le rapport commun avec un compte Viewer, sur la capacité cible, en choisissant un workspace personnel comme destination. » Les prérequis de capacité et d'édition diffèrent selon l'expérience disponible ; le test autorise le déroulement individuel, sans copie nominale du rapport. |
+| 0, auteur | « Les animateurs réutilisent le kit sans ajouter de contexte client au document public. » |
+| 1, dépannage | « L'animateur contrôle le rôle Viewer. » ; « L'animateur adapte le chemin si le lakehouse source est sans schémas. » Vérifier aussi ReadAll et sa propagation si l'item est visible mais sa donnée refusée. |
+| 2, contrôle et pause | Accompagner le contrôle des lignes écrites si les détails d'exécution sont difficiles à lire ; « L'animateur annonce l'heure de reprise. » |
+| 3, vue et contrôle | « Toutes les transformations doivent pouvoir être traduites en SQL par l'éditeur ; l'animateur vérifie ce parcours visuel avant la session. » ; « L'animateur dispose du corrigé calculé pour comparer les résultats. » Ne pas substituer du SQL au parcours visuel sans l'annoncer. |
+| 4, exemple et dépannage | « Si Q1 n'est pas correcte, l'animateur la vérifie avec vous avant l'ajout. » ; « L'animateur vérifie la capacité payante, la région et les paramètres tenant des data agents et de l'IA. » ; « Testez les instructions en français avant diffusion. » La capacité d'essai ne suffit pas au parcours prévu. |
+| 5, bouton indisponible | « Ce chemin doit avoir été validé à J-7 avec les mêmes droits et la même capacité. » ; « La documentation décrit également une expérience demandant Edit sur le rapport. » ; « L'animateur applique le plan B annoncé. » Ne pas accorder l'écriture sur l'espace commun ni imposer une copie sans annonce. |
+| 5, changement des données | « L'animateur remplace uniquement le fichier actif du dernier jour, recharge sa table puis actualise le modèle. » Vérifier `df_source_latest` et `sm_energy_report` avec son identité fixe si le rapport ne change pas. |
+| 5, contrôle et dépannage | « La notification peut arriver après la fin du module : sa latence est mesurée à J-7. » ; « Si le plan B capture est utilisé, distinguez clairement la règle créée aujourd'hui de la notification reçue en répétition. » Contrôler les droits et le paramètre tenant ; F64 ne donne pas Edit. Les filtres sont capturés à la création de la règle. |
+| 6, chargement et dépannage | Le chargement automatique et les modes de copie doivent être répétés sur la version du connecteur utilisée ; préparer les destinations si nécessaire. « L'animateur remet la table de démonstration à zéro avant un nouvel essai. » Ne pas improviser des chargements en ajout après un échec. |
+| 7, connexion et dépannage | Accompagner la vérification de SSO, des accès de l'utilisateur et du propriétaire à la cible du raccourci. Membre de l'espace personnel ne remplace pas la lecture de `lh_source`. |
+| 8, schéma | « Le schéma des exemples intégrés peut évoluer. L'animateur le confirme à J-7. » Adapter le mappage si nécessaire. Référence déplacée : [requêtes du tutoriel temps réel](https://learn.microsoft.com/fabric/real-time-intelligence/tutorial-5-query-data), qui illustre les champs. |
+| 8, règle et dépannage | « Si aucun événement ne satisfait la condition, l'animateur choisit avec vous un seuil de démonstration cohérent avec l'aperçu. » ; « Si l'échantillon rejoue des dates anciennes, l'animateur adapte la fenêtre à la plage affichée. » ; « L'animateur arrête les règles et le flux après l'exercice pour éviter le bruit et les coûts. » |
+| 9, préparation et contrôle | « L'animateur vérifie sa disponibilité et les règles de traitement des données avant la session. » ; « Une fonction indisponible dans le tenant n'est pas un exercice échoué. » Vérifier région, capacité et paramètres avant d'annoncer le bonus. |
+| 10, adaptation | « L'animateur adapte ce paragraphe oralement ou dans les supports privés de la session. Aucun nom de client, lien de tenant ou objectif confidentiel ne doit être ajouté au workshop public. » |
+| 10, fermeture | « L'animateur arrête les planifications, les alertes et les flux, puis supprime les workspaces de la session à partir de son journal. Il gère la capacité selon l'accord de l'organisation. Un espace commun préexistant n'est pas supprimé automatiquement. » ; « Seul l'animateur applique le nettoyage prévu. » |
+| 10, contrôle et ressources | « Les captures du brouillon et les tests tenant restent des prérequis de diffusion, pas des preuves de fonctionnement déjà réalisées. » Les exercices ont été réécrits pour Contoso, sans copie de la prose des sources. |
+
+### Diagnostics
+
 | Situation | Diagnostic et action |
 | --- | --- |
 | Table invisible en SQL | Vérifier Delta et raccourci dans le lakehouse, attendre la synchronisation, actualiser l'explorateur. Ne pas recréer immédiatement la table. |
