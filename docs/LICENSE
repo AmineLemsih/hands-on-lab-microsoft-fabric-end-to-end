@@ -1,0 +1,27 @@
+Creative Commons Attribution - Partage dans les Mêmes Conditions 4.0 International
+SPDX-License-Identifier: CC-BY-SA-4.0
+
+Le contenu pédagogique de ce dépôt est mis à disposition par Amine Lemsih
+sous la licence Creative Commons Attribution - Partage dans les Mêmes
+Conditions 4.0 International (CC BY-SA 4.0).
+
+Texte juridique officiel, incorporé par référence :
+https://creativecommons.org/licenses/by-sa/4.0/legalcode.fr
+
+Résumé explicatif de la licence :
+https://creativecommons.org/licenses/by-sa/4.0/deed.fr
+
+Cette licence couvre le workshop, les guides Markdown du dépôt, les données
+synthétiques et les futures captures originales de l'atelier, y compris
+les guides hors de docs/. Le code Python et les extraits de code relèvent
+de la licence MIT située à la racine. Les ressources externes et les marques
+conservent leurs conditions propres.
+
+Attribution à reproduire :
+« Product Hands-on Lab - Microsoft Fabric de bout en bout », Amine Lemsih,
+https://github.com/aminelemsih/hands-on-lab-microsoft-fabric-end-to-end,
+contenu sous CC BY-SA 4.0.
+
+Lors d'une adaptation, conservez l'attribution, fournissez un lien vers la
+licence, indiquez les modifications et distribuez le contenu adapté sous
+la même licence. Ce résumé ne remplace pas le texte juridique officiel.
