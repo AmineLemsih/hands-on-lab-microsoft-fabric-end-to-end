@@ -397,125 +397,82 @@ Vous allez passer des relevés de chaque bâtiment à une comparaison des régio
 
 **Durée : 25 min.**
 
-Le **point de terminaison SQL** expose les tables Delta du lakehouse pour leur lecture avec SQL, un langage de requête. Une **jointure** rapproche des tables par une clé commune. Une **vue** conserve une définition de requête, pas une nouvelle copie des résultats.
-
 ### Ouvrir la requête visuelle
 
-1. Ouvrez `lh_lab`.
-2. Ouvrez « Analyser les données avec ». <!-- TODO vérifier -->
-3. Choisissez « Point de terminaison d'analytique SQL ». <!-- TODO vérifier -->
+Vous allez lire vos tables depuis le point de terminaison SQL du lakehouse, puis construire l'analyse sur un canevas visuel. Vous utiliserez les tables déjà créées, sans écrire de SQL ni recopier les données.
 
-<!-- ![Point de terminaison SQL de lh_lab](assets/lab03-01-sql-endpoint.png) -->
+1. Dans `lh_lab`, choisissez **Analyser les données avec > Point de terminaison d'analytique SQL**, puis actualisez l'explorateur. <!-- TODO vérifier -->
 
-4. Actualisez l'explorateur.
-5. Vérifiez la présence de `consumption`, `sites` et `emission_factors`.
-6. Sélectionnez « Nouvelle requête visuelle ».
-7. Nommez-la `q_energy_monthly`.
-8. Faites glisser `consumption` sur le canevas.
-9. Faites glisser `sites` sur le canevas.
-10. Faites glisser `emission_factors` sur le canevas.
+  *[capture : point de terminaison SQL, tables consumption, sites et emission_factors]*
 
-<!-- ![Trois tables sur le canevas](assets/lab03-02-visual-canvas.png) -->
+2. Sélectionnez **Nouvelle requête visuelle**, nommez-la `q_energy_monthly`, puis faites glisser `consumption`, `sites` et `emission_factors` sur le canevas.
 
+  *[capture : requête q_energy_monthly avec les trois tables sur le canevas]*
 
 ### Rapprocher les tables
 
-1. Ouvrez le menu du bloc `consumption`.
-2. Sélectionnez « Fusionner les requêtes ». <!-- TODO vérifier -->
-3. Choisissez `sites` comme seconde table.
-4. Sélectionnez `site_id` dans la première table.
-5. Sélectionnez `site_id` dans la seconde table.
-6. Choisissez la jointure « Externe gauche ».
+Vous allez donner une région à chaque relevé, puis lui associer les facteurs de son année. Les jointures **Externes gauches** conservent les observations de `consumption`, même si une référence manque : une valeur vide pourra ainsi révéler le problème.
 
-<!-- ![Jointure externe gauche sur site_id](assets/lab03-03-sites-join.png) -->
+1. Dans le menu du bloc `consumption`, choisissez **Fusionner les requêtes**. Dans le dialogue, sélectionnez `sites` comme seconde table, `site_id` dans les deux tables et **Externe gauche**, puis validez. <!-- TODO vérifier -->
 
-7. Validez.
-8. Ouvrez le bouton de développement de la colonne issue de `sites`.
-9. Conservez seulement `region`.
+  *[capture : fusion avec sites, clé site_id et jointure Externe gauche]*
 
-<!-- ![Colonne region à développer](assets/lab03-04-sites-expansion.png) -->
+2. Sur la colonne issue de `sites`, ouvrez le bouton de développement, gardez seulement `region`, décochez l'option de préfixe du nom de colonne et validez. <!-- TODO vérifier -->
 
-10. Décochez l'option de préfixe du nom de colonne. <!-- TODO vérifier -->
-11. Validez.
+  *[capture : développement de region sans préfixe]*
 
-<!-- ![Résultat après ajout de region](assets/lab03-05-sites-result.png) -->
+3. Dans le menu du résultat fusionné, choisissez **Fusionner les requêtes**. Sélectionnez `emission_factors`, la clé `year` dans les deux tables et **Externe gauche**, puis validez.
 
-12. Ouvrez le menu du résultat fusionné.
-13. Sélectionnez « Fusionner les requêtes ».
-14. Choisissez `emission_factors` comme seconde table.
-15. Sélectionnez `year` dans la première table.
-16. Sélectionnez `year` dans la seconde table.
-17. Choisissez « Externe gauche ».
+  *[capture : fusion avec emission_factors sur year]*
 
-<!-- ![Jointure externe gauche sur year](assets/lab03-06-factors-join.png) -->
+4. Développez la colonne issue de `emission_factors`, gardez `elec_kgco2e_per_kwh` et `gas_kgco2e_per_kwh`, décochez le préfixe et validez.
 
-18. Validez.
-19. Développez la colonne issue de `emission_factors`.
-20. Conservez `elec_kgco2e_per_kwh`.
-21. Conservez aussi `gas_kgco2e_per_kwh`.
+  *[capture : développement des deux coefficients sans préfixe]*
 
-<!-- ![Deux colonnes de facteurs](assets/lab03-07-factors-expansion.png) -->
-
-22. Décochez l'option de préfixe.
-23. Validez.
-
-<!-- ![Résultat des deux jointures](assets/lab03-08-joined-result.png) -->
-
-
-La table des facteurs possède **une seule ligne par année**, avec deux colonnes de coefficients. Chaque observation doit donc rester une seule observation après la jointure. Ne joignez jamais les deux énergies comme deux lignes sans adapter le schéma.
-
+La table des facteurs possède **une seule ligne par année**, avec deux colonnes de coefficients. Chaque observation doit rester une seule observation après la jointure ; transformer les deux énergies en deux lignes changerait ce résultat.
 
 ### Regrouper les consommations
 
-1. Sélectionnez « Regrouper par ».
-2. Choisissez le mode « Avancé ».
-3. Ajoutez `region` comme première clé.
-4. Ajoutez `month_start` comme seconde clé.
-5. Ajoutez `total_kwh_elec`, opération « Somme », sur `kwh_elec`.
-6. Ajoutez `total_kwh_gas`, opération « Somme », sur `kwh_gas`.
-7. Ajoutez `observation_count`, opération « Nombre de lignes ».
+Vous allez passer du détail site/jour à une ligne par région et par mois. Vous garderez les deux énergies séparées et compterez les observations : ce nombre vous servira à détecter un doublon introduit par une jointure.
 
-<!-- ![region/month_start, sommes et comptage](assets/lab03-09-group-dialog.png) -->
+1. Dans **Regrouper par**, choisissez **Avancé** et les clés `region` puis `month_start`. Ajoutez `total_kwh_elec` avec **Somme** sur `kwh_elec`, `total_kwh_gas` avec **Somme** sur `kwh_gas`, puis `observation_count` avec **Nombre de lignes** ; validez.
 
-8. Validez.
-
-<!-- ![Résultat regroupé](assets/lab03-10-grouped-result.png) -->
-
+  *[capture : dialogue Regrouper par, deux clés et trois agrégations]*
 
 ### Enregistrer la vue
 
-1. Sélectionnez la dernière étape du résultat agrégé.
-2. Vérifiez « Activer le chargement » dans son menu. <!-- TODO vérifier -->
-3. Sélectionnez « Enregistrer comme vue ».
-4. Choisissez le schéma `dbo`.
-5. Saisissez `v_energy_monthly`.
+Vous allez conserver cette analyse sous le nom `v_energy_monthly` pour la retrouver sans reconstruire le canevas. La vue enregistre la définition de votre lecture, pas une nouvelle copie des résultats.
 
-<!-- ![Dialogue dbo.v_energy_monthly](assets/lab03-11-save-view.png) -->
+1. Sélectionnez la dernière étape du résultat agrégé, activez **Activer le chargement** si nécessaire dans son menu, puis choisissez **Enregistrer comme vue**. <!-- TODO vérifier -->
 
-6. Confirmez l'enregistrement.
-7. Actualisez l'explorateur.
-8. Ouvrez la vue créée.
+  *[capture : menu du résultat final, chargement actif et Enregistrer comme vue]*
 
-<!-- ![Vue et 72 couples région/mois](assets/lab03-12-view-preview.png) -->
+2. Dans le dialogue, choisissez le schéma `dbo`, saisissez `v_energy_monthly` et confirmez l'enregistrement.
 
-
-Une vue SQL ne garantit pas l'ordre de ses lignes. <!-- TODO vérifier -->
-
+  *[capture : enregistrement de dbo.v_energy_monthly]*
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous avez maintenant une lecture mensuelle de la consommation de Contoso. Retrouvez dans `v_energy_monthly` les **72 couples région/mois**, avec `total_kwh_elec`, `total_kwh_gas` et `observation_count`. Vérifiez que la somme des `observation_count` vaut **10 840** : c'est votre contrôle pour ne pas compter deux fois les observations après les jointures.
+> Dans l'explorateur du **point de terminaison SQL** de `lh_lab`, actualisez la liste des vues et ouvrez `dbo.v_energy_monthly`. Le résultat doit contenir **72 couples région/mois** et les colonnes `total_kwh_elec`, `total_kwh_gas` et `observation_count`. La somme des `observation_count` doit être **10 840**, pas le double. Sur le canevas de `q_energy_monthly`, revenez au résultat des jointures pour contrôler `region` et les deux coefficients : ils ne doivent pas être vides pour les données Contoso. L'ordre d'affichage des lignes de la vue n'est pas garanti. <!-- TODO vérifier -->
 
 </div>
 
+*[capture : résultat des jointures avec region et les deux coefficients]*
+
+*[capture : résultat regroupé avec les 72 couples région/mois]*
+
+*[capture : vue v_energy_monthly ouverte depuis l'explorateur SQL]*
+
 ### Si ça bloque
+
+Un résultat inattendu vient souvent d'une clé ou du mauvais bloc sélectionné. Revenez à l'étape concernée du canevas, sans refaire toute l'analyse.
 
 - **Table absente en SQL :** vérifiez la table ou le raccourci dans le lakehouse, puis actualisez l'explorateur après la synchronisation.
 - **Totaux doublés ou facteurs vides :** vérifiez les clés `site_id` et `year`, leurs types et l'unicité de `emission_factors.year`.
-- **Vue impossible à enregistrer :** sélectionnez le résultat regroupé et transmettez le message avec le nom de l'étape concernée.
+- **Vue impossible à enregistrer :** sélectionnez le résultat regroupé et transmettez le message avec le nom de l'étape concernée dans le canal Teams $$teams_channel:de l'atelier$$.
 
 <details>
-<summary>Variante T-SQL (optionnelle, hors parcours principal sans code)</summary>
+<summary>Contexte (optionnel) : variante T-SQL, hors parcours principal sans code</summary>
 
 Sur le **point de terminaison SQL** de `lh_lab`, ouvrez une nouvelle requête SQL. La variante utilise les mêmes tables et la même définition métier. Le schéma est `dbo`.
 
@@ -551,7 +508,7 @@ ORDER BY kgco2e DESC, region, month_start;
 </details>
 
 <details>
-<summary>Comprendre : une même donnée, plusieurs lectures (optionnel, 5 min)</summary>
+<summary>Contexte (optionnel) : une même donnée, plusieurs lectures (5 min)</summary>
 
 Le point de terminaison SQL lit les tables Delta. Il peut conserver une définition de vue, mais ne permet pas d'écrire les relevés comme un warehouse. Le lakehouse et la vue ne sont donc pas deux bases contenant deux copies des consommations.
 
