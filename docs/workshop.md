@@ -62,9 +62,6 @@ Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont ficti
 - Le rôle **Lecteur** sur l'espace commun de votre fiche.
 - L'accès Teams de votre fiche pour l'entraide et vos notifications personnelles.
 
-<!-- TODO vérifier -->
-<!-- TODO vérifier -->
-
 ### Conventions et aide
 
 - Conservez les **identifiants en anglais**, même si le texte est français ; utilisez les liens et noms de workspace de votre fiche.
@@ -441,10 +438,6 @@ La table des facteurs possède **une seule ligne par année**, avec deux colonne
 
 ### Regrouper les consommations
 
-<!-- TODO vérifier -->
-<!-- TODO vérifier -->
-<!-- TODO vérifier -->
-
 1. Sélectionnez « Regrouper par ».
 2. Choisissez le mode « Avancé ».
 3. Ajoutez `region` comme première clé.
@@ -700,8 +693,6 @@ Le canal Teams de l'atelier sert à l'entraide. Il n'est **pas** le destinataire
 
 ![Condition régionale de 10 000 kWh, notification Teams à soi et destination personnelle](assets/05-alert-settings.png)
 
-<!-- TODO vérifier -->
-
 ### Voir le déclenchement et ouvrir Activator
 
 1. Signalez à l'animateur que votre règle est active.
@@ -798,11 +789,6 @@ SELECT * FROM lh_lab.dbo.emission_factors;
 ```
 
 Les types de destination sont déduits de la sélection ; vérifiez les dates et les nombres dans l'explorateur. <!-- TODO vérifier --> Ces instructions créent des tables nouvelles : si une table existe déjà, ne la supprimez pas et passez à son contrôle avant de relancer sa création.
-
-<!-- TODO vérifier -->
-<!-- TODO vérifier -->
-<!-- TODO vérifier -->
-<!-- TODO vérifier -->
 
 ### Exécuter trois requêtes guidées
 

@@ -272,14 +272,14 @@ Préparer en plus : postes analystes pour copier les requêtes, licences de cré
 
 ## Registre des vérifications produit
 
-Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concernée. Cette table regroupe leur objet ; retirer un commentaire seulement après observation sur la version de l'interface et le rôle de la session.
+Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concernée. Cette table regroupe leur objet ; retirer un commentaire applicable seulement après observation sur la version de l'interface et le rôle de la session. Les commentaires devenus orphelins après suppression d'une instruction sont retirés sans considérer la fonctionnalité comme validée.
 
 | Section ou support | Vérifications regroupées |
 | --- | --- |
-| 0 | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la fiche |
+| Préparation de la section 0, hors texte participant | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la fiche |
 | 1 | Case schémas, menu `dbo`, propriétés du raccourci et accès cible ; variante S3 facultative : double indirection OneLake vers raccourci S3 et permissions de lecture/connexion |
 | 2 | Nommage/publication du flux ; locale unique avant import et vérification des types détectés ; navigation CSV Lakehouse/Content SharePoint ; Début du mois ; destination Remplacer ; lignes écrites ; planification facultative dans Comprendre |
-| 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX ; les marqueurs invisibles des anciennes opérations restent des repères de relecture. |
+| 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX. |
 | 4 | Libellé agent ; détails de réponse ; instructions françaises ; éditeur et validation d'exemples ; remise à zéro du chat |
 | 5 | Bouton alerte en lecture ; F64/tenant ; condition Devient ; workspace destination ; validation et activation ; ouverture/historique Activator ; latence réelle |
 | 6 | Libellé Warehouse ; nom en trois parties `lh_lab.dbo` depuis le même workspace ; lecture des raccourcis ; types produits par CREATE TABLE AS SELECT et précision des facteurs |
@@ -321,7 +321,7 @@ Hypothèses retenues au-delà des décisions validées :
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.
 
-Après relecture du 21 septembre 2026, les 63 commentaires `TODO vérifier` du workshop se répartissent entre les sections 0 à 9 (respectivement 2, 4, 12, 9, 7, 7, 7, 4, 9 et 2). Les marqueurs invisibles existants ont été conservés ; les vérifications restent dans les notes, pas dans le texte destiné au participant. La présence de ces marqueurs exclut une affirmation de validation cloud complète.
+Après nettoyage du 22 septembre 2026, les 53 commentaires `TODO vérifier` du workshop se répartissent entre les sections 0 à 9 (respectivement 0, 4, 12, 6, 7, 6, 3, 4, 9 et 2). Les dix commentaires orphelins ont été supprimés, sans changer le texte visible ni les étapes. Les trois vérifications d'accès des sections 1, 4 et 5 restent à effectuer sur tenant ; ce nettoyage ne les valide pas.
 
 ### Bilan des étapes après relecture
 
@@ -345,3 +345,38 @@ Comptage des lignes numérotées écrites, hors blocs de code, comparé au premi
 Dans la section 2, le parcours réel passe de 88 à 70 étapes avec une seule source, dont une correction de type conditionnelle. Les trois lignes de planification facultative ne sont plus des étapes numérotées ni un critère de réussite. La variante S3 et le bonus Copilot restent hors des 180/300 minutes.
 
 Hypothèses de cette relecture : l'introduction conserve dix minutes d'accueil mais vise cinq minutes de lecture ; les durées des sections 2 et 3 restent inchangées pour garder du temps de contrôle ; seuls les dix minutes gagnées en section 6 vont à la réserve. Les fichiers et identifiants existants restent stables, y compris les noms historiques des placeholders pipeline. L'exception du point 5 autorise uniquement le changement du seuil régional, sa vérification et la régénération du texte du corrigé : les six CSV sont conservés octet par octet et Q4 reste à 20 000 kWh.
+
+## Faire votre premier test de bout en bout
+
+Prévoir un temps de préparation distinct du parcours chronométré. Utiliser deux comptes dans deux profils de navigateur : un compte animateur pour préparer les sources, et un **compte participant distinct** pour les manipulations. Tester avec le compte administrateur seul masquerait les problèmes de droits. Garder les résultats de cette répétition dans un support privé, sans nom de client ni identifiant de tenant dans le dépôt.
+
+### Préparer une session à un participant
+
+1. Faire confirmer une capacité payante active, la région et les licences nécessaires. Ne pas démarrer ou redimensionner une capacité mutualisée sans autorisation de son propriétaire.
+2. Suivre [setup/README.md](../setup/README.md) avec une seule ligne dans la liste privée des participants : simulation, examen du plan, puis exécution réelle autorisée. Conserver le journal pour le nettoyage.
+3. Vérifier Membre sur l'espace personnel, Viewer sur l'espace commun, puis partager `lh_source` avec ReadAll au groupe participant. Vérifier que le compte n'hérite pas d'un rôle plus élevé par un autre groupe.
+4. Exécuter `python data/generate_data.py`, puis suivre [data/README.md](../data/README.md) pour déposer les fichiers et préparer les tables communes, y compris `consumption` nettoyée et `consumption_latest_day` dans l'état `before`.
+5. Construire et publier le vrai `energy_report` selon [report/README.md](../report/README.md), avec son modèle à identité fixe ; aucun rapport Power BI prêt à importer n'est livré dans le kit.
+6. Remplir une copie privée de [participant-sheet.template.md](participant-sheet.template.md). Choisir une seule variante d'ingestion ; laisser S3 sur « non » et omettre Copilot pour la première passe.
+
+### Vérifier d'abord les trois points bloquants
+
+| Section | Action avec le compte participant | Réussite attendue |
+| --- | --- | --- |
+| 1 | Créer `lh_lab` et ses raccourcis, puis ouvrir les données avec Viewer + ReadAll sur la source | Lecture de `sites` et `emission_factors`, pas seulement visibilité de leurs noms |
+| 4 | Chercher et ouvrir la création de « Agent de données Fabric » dans l'espace personnel ; le configurer après l'ingestion | Élément disponible avec la capacité et les paramètres tenant retenus, puis lecture effective des trois tables |
+| 5 | Ouvrir `energy_report` en lecture, créer la règle régionale à 10 000 kWh et choisir le workspace personnel comme destination | Règle enregistrée dans `act_energy`, puis notification personnelle Teams après franchissement réel |
+
+Pour le test de section 5, le compte animateur effectue la procédure « Déclenchement contrôlé » de ce guide : état `before` observé, remplacement par `after`, exécution de `df_source_latest`, puis actualisation de `sm_energy_report`. Noter les heures de fin d'actualisation, d'action Activator et de réception Teams. Ne pas assimiler l'envoi d'une notification de test à une détection réelle. La capacité F64 est un repli à faire approuver et tester, pas un substitut aux permissions requises.
+
+### Dérouler et chronométrer
+
+Suivre ensuite le workshop dans l'ordre avec le compte participant. Si la vérification initiale a déjà créé un élément, le réutiliser pour la recette fonctionnelle ; pour mesurer le temps d'un vrai débutant, prévoir ensuite un espace personnel vierge préparé par l'animateur. Réinitialiser le fichier actif à `before`, recharger la table et actualiser le modèle avant de refaire la section 5.
+
+Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/out/questions_expected_answers.md`. Générer et valider Q1 sur le tenant avant de la placer dans la fiche du futur participant. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
+
+La section 2 représente **70 étapes avec une seule source**, et non les 84 lignes numérotées du document : mesurer si elle tient en 35 minutes avec les contrôles. La section 8 représente **72 étapes pour 35 minutes** : mesurer avec un profil analyste et consigner le dépassement éventuel. Elle reste hors parcours métiers 3 h ; ne pas la raccourcir ni changer son temps sans retour de répétition.
+
+Pour le parcours complet, poursuivre les sections 6 à 8 après réussite du tronc commun, puis conclure en section 10. Garder S3 et Copilot pour des passes séparées. Le simulateur de compteurs vers Eventstream reste une piste v1.1 du backlog, non implémentée dans cette passe cosmétique.
+
+À la fin, suivre la checklist de nettoyage : arrêter les flux, alertes et éventuelles planifications, vérifier le journal avant suppression, puis remettre la capacité de formation dans l'état convenu. Transmettre pour correction les résultats de répétition anonymisés, section et étape à l'appui. Maintenir `published: false` tant que la recette tenant n'est pas terminée.
