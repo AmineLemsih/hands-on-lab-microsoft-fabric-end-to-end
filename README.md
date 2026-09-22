@@ -4,7 +4,7 @@ Un atelier hands-on réutilisable pour relier données, analyse et action dans M
 
 Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de solutions cloud, dans un environnement autorisé. Aucun nom de client, URL de tenant, secret ou lien privé n'est intégré au contenu public.
 
-**État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les images sont des placeholders. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
+**État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les captures absentes sont masquées ; les trois schémas attendus séparément restent référencés. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
 
 ## Les deux parcours
 
@@ -13,9 +13,9 @@ Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de sol
 | **Parcours métiers 3 h** | Introduction, Labs 1 à 5, Conclusion ; pas de code à écrire ; blocs « Comprendre » sautés | Analystes métier, projets, contrôle de gestion, RSE ; distanciel, 15 à 20 participants | 145 min d'activités + 15 min de pause + 20 min d'aide |
 | **Parcours complet 5 h** | Tronc commun, cinq blocs « Comprendre », extensions 6 à 8, conclusion | Analystes, journée d'upskilling en présentiel | 225 min d'activités + 25 min d'explications + 25 min de pauses + 25 min d'aide |
 
-Le bonus Copilot, **Bonus Copilot**, demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Elle n'entre dans aucun des deux totaux. La seconde pause de 10 minutes intervient après le Lab 7.
+Le **bonus Copilot** demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Il n'entre dans aucun des deux totaux. La seconde pause de 10 minutes intervient après le Lab 7.
 
-La **variante S3** de le Lab 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
+La **variante S3** du Lab 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
 
 Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification n'est qu'une option du bloc « Comprendre ». Le Lab 6 dure 20 minutes : les dix minutes gagnées portent la réserve du parcours complet à 25 minutes. L'introduction garde dix minutes d'accueil, dont environ cinq de lecture.
 
@@ -26,7 +26,13 @@ Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipelin
 - [Dépôt GitHub cible](https://github.com/aminelemsih/hands-on-lab-microsoft-fabric-end-to-end).
 - [Mother Of All Workshops](https://aka.ms/moaw).
 
-Le lien de rendu devient utilisable après publication des fichiers sur la branche `main`. `published: false` empêche le référencement dans le catalogue, **pas l'accès par lien direct** : ce n'est pas une protection de confidentialité. La création locale du kit n'effectue ni commit ni push.
+Le participant reçoit **un lien et se connecte, rien d'autre**. Les variables MOAW permettent d'adapter les noms et les liens sans modifier le contenu du dépôt. Exemple de session avec valeurs fictives :
+
+[Ouvrir la session de démonstration Contoso](https://aka.ms/ws?src=gh:AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/docs/&vars=shared_ws:ws-shared,lab_ws:ws-lab-demo,teams_channel:Atelier%20Contoso,contact:Amine%20Lemsih)
+
+Les valeurs par défaut permettent aussi de lire le workshop sans `vars`. Utiliser `&vars=` après le paramètre `src` ; encoder les valeurs et ne jamais y mettre de secret. La [préparation du lien de session](docs/facilitator-notes.md#lien-de-session) décrit les six variables disponibles. Ce lien ne crée pas de workspace et ne donne pas de droits.
+
+Le dépôt et les CSV synthétiques sont publics. `published: false` empêche le référencement dans le catalogue, **pas l'accès par lien direct** : ce n'est pas une protection de confidentialité. GitHub et MOAW peuvent mettre en cache brièvement une version précédente après un push.
 
 ## Prévisualisation locale
 
@@ -49,7 +55,7 @@ Contrôle de construction, après génération des données :
 moaw build docs/workshop.md -d data/out/workshop.build.md
 ```
 
-Les images manquantes sont attendues dans ce brouillon ; leur inventaire est dans [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md). Ne pas les remplacer par des images générées ou des captures contenant un tenant réel.
+Les écrans attendus sont détaillés dans [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md). Après ajout de captures réelles anonymisées, exécuter `python tools/check_assets.py` pour réactiver leurs références. `--check --summary` contrôle l'état sans écrire. Aucun fichier image vide ou fausse capture ne doit être ajouté.
 
 ## Pour les animateurs
 
@@ -87,7 +93,8 @@ Les six CSV synthétiques de `data/csv/` sont versionnés et régénérables. Le
 
 ## Auteur
 
-**Amine Lemsih**, conception et rédaction de l'atelier. Contact : **@aminelemsih**. Auteur unique du frontmatter et du kit.
+**[Amine Lemsih](https://github.com/AmineLemsih)**  
+Cloud Solution Architect Data & AI, Microsoft.
 
 ## Contributeurs
 
