@@ -1265,6 +1265,12 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 
 ## Conclusion
 
+<div class="tip" data-title="Félicitations !">
+
+> Vous avez relié un fichier brut à une table fiable, une analyse, un agent conversationnel et une alerte, sans écrire de code dans le tronc commun. Vous savez maintenant accéder à des données partagées, les préparer et vérifier les réponses obtenues avant de décider. Vous pouvez réutiliser cette démarche sur vos propres données, avec des règles de qualité, des indicateurs et des autorisations adaptés.
+
+</div>
+
 **Objectif :** retenir les usages pertinents et choisir un prochain cas d'application.
 
 **Durée : 10 min dans les deux parcours.**
@@ -1309,6 +1315,8 @@ Commencez par un périmètre limité : quelques bâtiments, une période, deux s
 </div>
 
 ### Takeaways
+
+Pour aller plus loin :
 
 - [Découvrir Microsoft Fabric](https://learn.microsoft.com/fr-fr/fabric/get-started/microsoft-fabric-overview).
 - [Créer un lakehouse : exercice Microsoft Learn](https://microsoftlearning.github.io/mslearn-fabric/Instructions/Labs/01-lakehouse.html).
