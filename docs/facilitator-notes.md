@@ -201,7 +201,7 @@ Le CSV annuel, les sites et les facteurs ne changent pas. La table des facteurs 
 
 Montrer les observations, la condition et les étapes déjà réussies, puis la capture de répétition. Dire explicitement qu'elle a été reçue avant la session. Ne pas afficher « test réussi aujourd'hui » sans notification/action correspondante. Ne pas déclencher une série de changements de seuil ou de rafraîchissements incontrôlés.
 
-![Plan B : notification reçue lors d'une répétition identifiée, destinataire anonymisé](assets/05-alert-notification.png)
+<!-- ![Plan B : notification reçue lors d'une répétition identifiée, destinataire anonymisé](assets/lab05-13-rehearsal-notification.png) -->
 
 ## Pièges connus et reprise
 

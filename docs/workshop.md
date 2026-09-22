@@ -140,40 +140,74 @@ Un raccourci évite les copies qui divergent entre équipes.
 3. Sélectionnez « Espaces de travail ».
 4. Ouvrez votre workspace personnel `$$lab_ws:ws-lab-<votre identifiant>$$`.
 5. Vérifiez que vous n'êtes pas dans l'espace commun.
+
+<!-- ![Workspace personnel, nom et Nouvel élément](assets/lab01-01-workspace.png) -->
+
 6. Sélectionnez « Nouvel élément ».
 7. Recherchez « Lakehouse ».
 8. Sélectionnez « Lakehouse ».
+
+<!-- ![Sélecteur d'items, Lakehouse](assets/lab01-02-item-picker.png) -->
+
 9. Saisissez `lh_lab` comme nom.
 10. Laissez « Schémas de lakehouse » activé. <!-- TODO vérifier -->
+
+<!-- ![Dialogue lh_lab, case schémas](assets/lab01-03-lakehouse-dialog.png) -->
+
 11. Sélectionnez « Créer ».
 
-![Lakehouse lh_lab dans le workspace personnel, avec les zones Tables et Fichiers](assets/01-lakehouse.png)
+<!-- ![Explorer lh_lab, Tables et dbo](assets/lab01-04-lakehouse-explorer.png) -->
+
+
 
 ### Créer les raccourcis
 
 1. Développez « Tables » dans `lh_lab`.
 2. Ouvrez le menu du schéma `dbo`. <!-- TODO vérifier -->
 3. Sélectionnez « Nouveau raccourci ».
+
+<!-- ![Menu dbo, Nouveau raccourci](assets/lab01-05-shortcut-menu.png) -->
+
 4. Choisissez « Microsoft OneLake ».
+
+<!-- ![Source Microsoft OneLake](assets/lab01-06-shortcut-source.png) -->
+
 5. Sélectionnez le workspace commun `$$shared_ws:ws-shared$$`.
 6. Sélectionnez `lh_source`.
+
+<!-- ![Catalogue, source lh_source](assets/lab01-07-onelake-catalog.png) -->
+
 7. Sélectionnez « Suivant ».
 8. Développez les tables du schéma `dbo` de la source.
 9. Cochez `sites`.
 10. Cochez `emission_factors`.
+
+<!-- ![Tables sites et emission_factors cochées](assets/lab01-08-reference-tables.png) -->
+
 11. Sélectionnez « Suivant ».
 12. Vérifiez les deux noms de raccourcis.
+
+<!-- ![Résumé des deux raccourcis](assets/lab01-09-shortcut-review.png) -->
+
 13. Sélectionnez « Créer ».
 14. Ouvrez le raccourci `sites`.
 15. Repérez `site_id`, `region` et `opening_date` dans l'aperçu.
+
+<!-- ![Aperçu sites, colonnes et valeurs](assets/lab01-10-sites-preview.png) -->
+
 16. Ouvrez le raccourci `emission_factors`.
 17. Repérez l'année 2025 et les deux coefficients.
+
+<!-- ![Facteurs 2025 et deux coefficients fictifs](assets/lab01-11-factors-preview.png) -->
+
 18. Ouvrez les propriétés d'un raccourci. <!-- TODO vérifier -->
 19. Vérifiez que la cible reste `lh_source` dans l'espace commun.
 
+<!-- ![Propriétés, cible source sans UUID visible](assets/lab01-12-shortcut-properties.png) -->
+
+
 Si l'assistant ne permet qu'une sélection, créez `sites`, puis répétez les mêmes étapes pour `emission_factors`.
 
-![Deux raccourcis de tables vers lh_source et propriétés indiquant la cible commune](assets/01-onelake-shortcuts.png)
 
 <div class="task" data-title="Point de contrôle">
 
@@ -190,18 +224,30 @@ Cette variante est **hors minutage des deux parcours**. Suivez-la uniquement si 
 3. Développez « Fichiers ».
 4. Ouvrez le raccourci S3 de démonstration indiqué par $$contact:votre animateur$$.
 5. Parcourez les fichiers de démonstration.
+
+<!-- ![Variante S3, fichiers visibles dans lh_source](assets/lab01-13-s3-source.png) -->
+
 6. Revenez à votre workspace personnel.
 7. Ouvrez `lh_lab`.
 8. Ouvrez le menu de « Fichiers ».
 9. Sélectionnez « Nouveau raccourci ».
+
+<!-- ![Variante S3, nouveau raccourci dans Fichiers](assets/lab01-14-files-menu.png) -->
+
 10. Choisissez « Microsoft OneLake ».
 11. Sélectionnez l'espace commun `$$shared_ws:ws-shared$$`.
 12. Sélectionnez `lh_source`.
 13. Dans « Fichiers », sélectionnez le raccourci S3 déjà parcouru comme cible. <!-- TODO vérifier -->
+
+<!-- ![Variante S3, cible du raccourci, après validation réelle](assets/lab01-15-nested-target.png) -->
+
 14. Sélectionnez « Suivant ».
 15. Conservez le nom du raccourci proposé.
 16. Sélectionnez « Créer ».
 17. Ouvrez le nouveau raccourci dans `lh_lab`.
+
+<!-- ![Variante S3, mêmes fichiers dans lh_lab](assets/lab01-16-nested-preview.png) -->
+
 
 <div class="task" data-title="Point de contrôle de la variante">
 
@@ -245,8 +291,17 @@ Un nettoyage reproductible rend les analyses comparables d'un jour à l'autre.
 2. Sélectionnez « Nouvel élément ».
 3. Recherchez « Dataflow Gen2 ».
 4. Sélectionnez « Dataflow Gen2 ».
+
+<!-- ![Sélecteur Dataflow Gen2](assets/lab02-01-dataflow-picker.png) -->
+
 5. Nommez le flux `df_energy` dans le champ de nom proposé. <!-- TODO vérifier -->
+
+<!-- ![Nom df_energy et éditeur initial](assets/lab02-02-dataflow-name.png) -->
+
 6. Choisissez « Options → Paramètres régionaux du dataflow → Anglais (États-Unis) ». <!-- TODO vérifier -->
+
+<!-- ![Locale Anglais (États-Unis)](assets/lab02-03-regional-settings.png) -->
+
 7. Ouvrez « Obtenir des données ».
 
 Utilisez le fichier public du dépôt pour ce lab. La variante SharePoint est réservée à vos propres fichiers au même schéma.
@@ -255,13 +310,22 @@ Utilisez le fichier public du dépôt pour ce lab. La variante SharePoint est r�
 
 1. Recherchez le connecteur « Web » ou « Texte/CSV » permettant une URL. <!-- TODO vérifier -->
 2. Sélectionnez ce connecteur.
+
+<!-- ![Connecteur Web ou Texte/CSV avec URL](assets/lab02-04-web-connector.png) -->
+
 3. Collez cette URL : `https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv`.
 4. Choisissez l'authentification « Anonyme ».
+
+<!-- ![URL raw publique, authentification anonyme](assets/lab02-05-anonymous-connection.png) -->
+
 5. Sélectionnez « Suivant » ou « Se connecter ». <!-- TODO vérifier -->
 6. Choisissez le format « Texte/CSV » si demandé.
 7. Définissez la virgule comme séparateur.
 8. Définissez UTF-8 comme encodage.
 9. Sélectionnez « Transformer les données ». <!-- TODO vérifier -->
+
+<!-- ![Aperçu CSV, virgule et UTF-8](assets/lab02-06-csv-preview.png) -->
+
 
 Le fichier est également [disponible en téléchargement](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv). L'import par URL ne nécessite pas de téléchargement local.
 
@@ -274,17 +338,25 @@ Suivez cette variante uniquement pour un fichier SharePoint autorisé au même s
 3. Saisissez $$sp_site:l'URL de votre site SharePoint$$, pas le lien de partage du fichier.
 4. Choisissez « Compte d'organisation ».
 5. Sélectionnez « Se connecter » si nécessaire.
+
+<!-- ![Variante SharePoint, compte d'organisation, URL masquée](assets/lab02-07-sharepoint-connection.png) -->
+
 6. Sélectionnez « Suivant ».
 7. Ouvrez le filtre de la colonne `Name`.
 8. Conservez uniquement `consumption_2025.csv`.
 9. Ouvrez le filtre de `Folder Path`.
 10. Conservez uniquement le dossier contenant votre fichier.
+
+<!-- ![Variante SharePoint, Name et Folder Path](assets/lab02-08-sharepoint-filter.png) -->
+
 11. Ouvrez la valeur binaire de la colonne `Content` de l'unique fichier retenu. <!-- TODO vérifier -->
 12. Définissez la virgule comme séparateur.
 13. Définissez UTF-8 comme encodage.
 14. Ouvrez l'éditeur de transformation.
 
-![Filtrage d'un seul fichier annuel dans le dossier SharePoint autorisé](assets/02-sharepoint-source.png)
+<!-- ![Variante SharePoint, CSV dans Power Query](assets/lab02-09-sharepoint-content.png) -->
+
+
 
 ### Nettoyer et typer
 
@@ -295,10 +367,19 @@ Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, 
 3. Ouvrez « Supprimer les lignes ».
 4. Choisissez « Supprimer les lignes vides ».
 5. Vérifiez les types détectés : `site_id` Texte, `date` Date, `year` Nombre entier, `kwh_elec`, `kwh_gas` et `avg_temp` Nombre décimal.
+
+<!-- ![Types détectés des six colonnes](assets/lab02-10-detected-types.png) -->
+
 6. Corrigez uniquement un type incorrect avec l'icône de type de la colonne. <!-- TODO vérifier -->
+
+<!-- ![Correction conditionnelle kwh_elec et erreurs invalid](assets/lab02-11-type-errors.png) -->
+
 7. Sélectionnez les six colonnes.
 8. Ouvrez « Supprimer les lignes ».
 9. Choisissez « Supprimer les erreurs ».
+
+<!-- ![Étapes de suppression des vides et erreurs](assets/lab02-12-errors-removed.png) -->
+
 10. Sélectionnez `date`.
 11. Ouvrez « Ajouter une colonne ».
 12. Ouvrez « Date ».
@@ -307,9 +388,11 @@ Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, 
 15. Renommez la colonne ajoutée `month_start`.
 16. Vérifiez que son type est « Date ».
 
+<!-- ![month_start de type Date](assets/lab02-13-month-start.png) -->
+
+
 La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez alors cette colonne en Nombre décimal avant de supprimer les erreurs.
 
-![Étapes de nettoyage, types des colonnes et colonne month_start](assets/02-cleaning.png)
 
 <div class="important" data-title="Une erreur n'est pas une consommation nulle">
 
@@ -322,24 +405,35 @@ La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez
 1. Sélectionnez la requête `consumption`.
 2. Ouvrez « Ajouter une destination de données ».
 3. Choisissez « Lakehouse ».
+
+<!-- ![Destination Lakehouse](assets/lab02-14-destination-picker.png) -->
+
 4. Sélectionnez votre workspace personnel.
 5. Sélectionnez `lh_lab`.
 6. Sélectionnez le schéma `dbo`.
 7. Choisissez une nouvelle table.
 8. Saisissez `consumption`.
+
+<!-- ![lh_lab, dbo, consumption](assets/lab02-15-destination-table.png) -->
+
 9. Choisissez la méthode de mise à jour « Remplacer ». <!-- TODO vérifier -->
 10. Vérifiez la correspondance des sept colonnes.
 11. Validez la destination.
+
+<!-- ![Sept colonnes et Remplacer](assets/lab02-16-destination-mapping.png) -->
+
 12. Sélectionnez « Publier » ou « Enregistrer et exécuter » selon la version. <!-- TODO vérifier -->
 13. Exécutez le flux si la publication ne l'a pas déjà lancé.
 14. Ouvrez son historique d'actualisation.
 15. Attendez l'état de réussite.
 16. Contrôlez les lignes écrites dans les détails de l'exécution. <!-- TODO vérifier -->
+
+<!-- ![Exécution réussie et lignes écrites](assets/lab02-17-dataflow-run.png) -->
+
 17. Ouvrez `lh_lab`.
 18. Actualisez la liste de ses tables.
 19. Ouvrez `consumption`.
 
-![Destination dbo.consumption dans lh_lab en mode Remplacer](assets/02-destination.png)
 
 ### Orchestrer et exécuter
 
@@ -350,15 +444,23 @@ La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez
 5. Sélectionnez « Créer ».
 6. Ouvrez « Activités ».
 7. Ajoutez une activité « Dataflow ».
+
+<!-- ![pl_energy_daily, activité Dataflow](assets/lab02-18-pipeline-canvas.png) -->
+
 8. Sélectionnez cette activité.
 9. Ouvrez ses « Paramètres ».
 10. Sélectionnez votre workspace.
 11. Sélectionnez `df_energy`.
+
+<!-- ![Paramètres de l'activité, df_energy](assets/lab02-19-pipeline-settings.png) -->
+
 12. Enregistrez le pipeline.
 13. Sélectionnez « Exécuter ».
 14. Vérifiez la réussite de l'activité.
 
-![Pipeline avec activité Dataflow exécutée manuellement avec succès](assets/02-pipeline-schedule.png)
+<!-- ![Exécution manuelle réussie](assets/lab02-20-pipeline-run.png) -->
+
+
 
 <div class="task" data-title="Point de contrôle">
 
@@ -411,6 +513,9 @@ Le **point de terminaison SQL** expose les tables Delta du lakehouse pour leur l
 1. Ouvrez `lh_lab`.
 2. Ouvrez « Analyser les données avec ». <!-- TODO vérifier -->
 3. Choisissez « Point de terminaison d'analytique SQL ». <!-- TODO vérifier -->
+
+<!-- ![Point de terminaison SQL de lh_lab](assets/lab03-01-sql-endpoint.png) -->
+
 4. Actualisez l'explorateur.
 5. Vérifiez la présence de `consumption`, `sites` et `emission_factors`.
 6. Sélectionnez « Nouvelle requête visuelle ».
@@ -418,6 +523,9 @@ Le **point de terminaison SQL** expose les tables Delta du lakehouse pour leur l
 8. Faites glisser `consumption` sur le canevas.
 9. Faites glisser `sites` sur le canevas.
 10. Faites glisser `emission_factors` sur le canevas.
+
+<!-- ![Trois tables sur le canevas](assets/lab03-02-visual-canvas.png) -->
+
 
 ### Rapprocher les tables
 
@@ -427,27 +535,44 @@ Le **point de terminaison SQL** expose les tables Delta du lakehouse pour leur l
 4. Sélectionnez `site_id` dans la première table.
 5. Sélectionnez `site_id` dans la seconde table.
 6. Choisissez la jointure « Externe gauche ».
+
+<!-- ![Jointure externe gauche sur site_id](assets/lab03-03-sites-join.png) -->
+
 7. Validez.
 8. Ouvrez le bouton de développement de la colonne issue de `sites`.
 9. Conservez seulement `region`.
+
+<!-- ![Colonne region à développer](assets/lab03-04-sites-expansion.png) -->
+
 10. Décochez l'option de préfixe du nom de colonne. <!-- TODO vérifier -->
 11. Validez.
+
+<!-- ![Résultat après ajout de region](assets/lab03-05-sites-result.png) -->
+
 12. Ouvrez le menu du résultat fusionné.
 13. Sélectionnez « Fusionner les requêtes ».
 14. Choisissez `emission_factors` comme seconde table.
 15. Sélectionnez `year` dans la première table.
 16. Sélectionnez `year` dans la seconde table.
 17. Choisissez « Externe gauche ».
+
+<!-- ![Jointure externe gauche sur year](assets/lab03-06-factors-join.png) -->
+
 18. Validez.
 19. Développez la colonne issue de `emission_factors`.
 20. Conservez `elec_kgco2e_per_kwh`.
 21. Conservez aussi `gas_kgco2e_per_kwh`.
+
+<!-- ![Deux colonnes de facteurs](assets/lab03-07-factors-expansion.png) -->
+
 22. Décochez l'option de préfixe.
 23. Validez.
 
+<!-- ![Résultat des deux jointures](assets/lab03-08-joined-result.png) -->
+
+
 La table des facteurs possède **une seule ligne par année**, avec deux colonnes de coefficients. Chaque observation doit donc rester une seule observation après la jointure. Ne joignez jamais les deux énergies comme deux lignes sans adapter le schéma.
 
-![Jointures visuelles sur site_id puis year sans duplication des observations](assets/03-visual-joins.png)
 
 ### Regrouper les consommations
 
@@ -458,7 +583,13 @@ La table des facteurs possède **une seule ligne par année**, avec deux colonne
 5. Ajoutez `total_kwh_elec`, opération « Somme », sur `kwh_elec`.
 6. Ajoutez `total_kwh_gas`, opération « Somme », sur `kwh_gas`.
 7. Ajoutez `observation_count`, opération « Nombre de lignes ».
+
+<!-- ![region/month_start, sommes et comptage](assets/lab03-09-group-dialog.png) -->
+
 8. Validez.
+
+<!-- ![Résultat regroupé](assets/lab03-10-grouped-result.png) -->
+
 
 ### Enregistrer la vue
 
@@ -467,13 +598,18 @@ La table des facteurs possède **une seule ligne par année**, avec deux colonne
 3. Sélectionnez « Enregistrer comme vue ».
 4. Choisissez le schéma `dbo`.
 5. Saisissez `v_energy_monthly`.
+
+<!-- ![Dialogue dbo.v_energy_monthly](assets/lab03-11-save-view.png) -->
+
 6. Confirmez l'enregistrement.
 7. Actualisez l'explorateur.
 8. Ouvrez la vue créée.
 
+<!-- ![Vue et 72 couples région/mois](assets/lab03-12-view-preview.png) -->
+
+
 Une vue SQL ne garantit pas l'ordre de ses lignes. <!-- TODO vérifier -->
 
-![Vue v_energy_monthly avec région, mois, sommes électriques et de gaz et nombre d'observations](assets/03-monthly-view.png)
 
 <div class="task" data-title="Point de contrôle">
 
@@ -553,24 +689,44 @@ Les définitions et les contrôles évitent qu'une réponse plausible devienne u
 2. Sélectionnez « Nouvel élément ».
 3. Recherchez « Agent de données Fabric ». <!-- TODO vérifier -->
 4. Sélectionnez cet élément.
+
+<!-- ![Agent de données Fabric dans les éléments](assets/lab04-01-agent-picker.png) -->
+
 5. Saisissez `energy_agent`.
 6. Sélectionnez « Créer ».
+
+<!-- ![Création energy_agent](assets/lab04-02-agent-name.png) -->
+
 7. Choisissez `lh_lab` dans le catalogue des sources.
 8. Sélectionnez « Ajouter ».
+
+<!-- ![Source lh_lab dans le catalogue](assets/lab04-03-source-catalog.png) -->
+
 9. Cochez `consumption` dans l'explorateur de l'agent.
 10. Cochez `sites`.
 11. Cochez `emission_factors`.
 12. Décochez les autres tables ou vues si elles sont proposées.
 
-![Agent energy_agent avec les trois tables autorisées de lh_lab](assets/04-agent-sources.png)
+<!-- ![Trois tables autorisées](assets/lab04-04-selected-tables.png) -->
+
+
 
 ### Poser les six questions avant configuration
 
 1. Posez Q1 dans la zone de conversation.
+
+<!-- ![Réponse Q1 avant instructions](assets/lab04-05-first-answer.png) -->
+
 2. Développez les étapes de la réponse. <!-- TODO vérifier -->
 3. Repérez la source choisie et la requête générée, sans la modifier.
+
+<!-- ![Requête générée et source](assets/lab04-06-generated-query.png) -->
+
 4. Notez le résultat et l'unité dans vos notes personnelles.
 5. Répétez ces quatre actions pour Q2 à Q6, dans l'ordre.
+
+<!-- ![Réponse Q6 et absence de 2024](assets/lab04-07-missing-period.png) -->
+
 
 | Question | Texte à poser |
 | --- | --- |
@@ -588,6 +744,9 @@ Pour Q2, cherchez dans les étapes l'usage des deux facteurs. Pour Q4, vérifiez
 1. Ouvrez « Instructions de l'agent de données ». <!-- TODO vérifier -->
 2. Collez les instructions en français ci-dessous.
 3. Enregistrez les instructions.
+
+<!-- ![Instructions enregistrées](assets/lab04-08-instructions.png) -->
+
 
 > Répondez en français. Utilisez uniquement les tables sélectionnées de lh_lab. Indiquez la période, l'unité, les tables et les limites des résultats.
 >
@@ -607,13 +766,22 @@ Un **exemple de requête** associe une question à une requête de référence. 
 
 1. Ouvrez le fichier d'exemple Q1 depuis le lien ci-dessus.
 2. Copiez la requête complète.
+
+<!-- ![Exemple Q1 public ouvert et copiable](assets/lab04-09-example-download.png) -->
+
 3. Ouvrez « Exemples de requêtes ». <!-- TODO vérifier -->
 4. Sélectionnez la source `lh_lab`.
 5. Sélectionnez « Ajouter un exemple ».
 6. Saisissez Q1 comme question.
 7. Collez la requête téléchargée dans le champ de requête.
+
+<!-- ![Paire question/requête, source lh_lab](assets/lab04-10-example-editor.png) -->
+
 8. Lancez la validation de l'exemple. <!-- TODO vérifier -->
 9. Enregistrez seulement si la validation réussit.
+
+<!-- ![Validation réussie de l'exemple](assets/lab04-11-example-validation.png) -->
+
 
 Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple SQL.
 
@@ -626,6 +794,9 @@ Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple S
 5. Complétez la comparaison privée.
 6. Comparez avec le corrigé communiqué par l'animateur.
 
+<!-- ![Résultat après instructions et contrôle](assets/lab04-12-comparison.png) -->
+
+
 | Question | Résultat avant | Résultat après | Période et unité justes ? | Conforme au corrigé ? |
 | --- | --- | --- | --- | --- |
 | Q1 | À noter | À noter | À noter | À noter |
@@ -635,7 +806,6 @@ Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple S
 | Q5 | À noter | À noter | À noter | À noter |
 | Q6 | À noter | À noter | À noter | À noter |
 
-![Comparaison avant/après avec instructions, exemple validé et requête consultable](assets/04-agent-comparison.png)
 
 <div class="task" data-title="Point de contrôle">
 
@@ -676,52 +846,85 @@ Une notification invite la bonne personne à examiner la situation au moment du 
 1. Ouvrez $$report_link:le rapport energy_report dans l'espace commun$$.
 2. Vérifiez que le rapport est `energy_report` dans l'espace commun.
 3. Repérez le visuel **« consommation du dernier jour disponible par région »**.
+
+<!-- ![energy_report en lecture](assets/lab05-01-shared-report.png) -->
+
 4. Vérifiez que le dernier jour disponible affiché est le 31 décembre 2025.
 5. Vérifiez que toutes les régions sont sous **10 000 kWh** dans l'état de départ.
 
+<!-- ![Six régions sous 10 000 kWh](assets/lab05-02-before-state.png) -->
+
+
 Ne copiez pas le rapport. Vous restez lecteur dans l'espace commun. L'alerte, elle, sera enregistrée dans votre workspace personnel.
 
-![Rapport partagé avec consommation du dernier jour disponible par région et courbe mensuelle](assets/05-energy-report.png)
 
 ### Définir votre règle
 
 1. Ouvrez le menu « … » du visuel en barres.
+
+<!-- ![Menu du visuel, Définir une alerte](assets/lab05-03-alert-menu.png) -->
+
 2. Sélectionnez « Définir une alerte » ou « Ajouter une alerte ». <!-- TODO vérifier -->
 3. Vérifiez la mesure `latest_day_kwh` dans le volet.
 4. Vérifiez que la condition est évaluée pour chaque `region`.
+
+<!-- ![latest_day_kwh suivi par region](assets/lab05-04-alert-measure.png) -->
+
 5. Choisissez « Devient » dans la condition. <!-- TODO vérifier -->
 6. Choisissez « Supérieur à ».
 7. Saisissez `10000`.
+
+<!-- ![Devient supérieur à 10000](assets/lab05-05-alert-threshold.png) -->
+
 8. Choisissez « Teams » comme canal de notification.
 9. Choisissez votre propre compte comme destinataire.
+
+<!-- ![Teams et destinataire anonymisé](assets/lab05-06-alert-recipient.png) -->
+
 10. Ouvrez « Sélectionner l'emplacement d'enregistrement ». <!-- TODO vérifier -->
 11. Sélectionnez `$$lab_ws:ws-lab-<votre identifiant>$$`.
+
+<!-- ![Workspace personnel comme destination](assets/lab05-07-alert-workspace.png) -->
+
 12. Choisissez un nouvel élément Activator.
 13. Nommez-le `act_energy`.
+
+<!-- ![Nouvel élément act_energy](assets/lab05-08-activator-dialog.png) -->
+
 14. Confirmez l'emplacement.
 15. Sélectionnez « Appliquer » ou « Créer » selon le volet. <!-- TODO vérifier -->
 16. Vérifiez que l'alerte est active.
 
+<!-- ![Règle enregistrée et active](assets/lab05-09-rule-active.png) -->
+
+
 Le canal Teams de l'atelier sert à l'entraide. Il n'est **pas** le destinataire de cette alerte : vous vous envoyez un message personnel.
 
-![Condition régionale de 10 000 kWh, notification Teams à soi et destination personnelle](assets/05-alert-settings.png)
 
 ### Voir le déclenchement et ouvrir Activator
 
 1. Signalez à l'animateur que votre règle est active.
 2. Attendez sa confirmation que l'état sous le seuil a été observé.
 3. Observez le changement des barres dans le rapport actualisé.
+
+<!-- ![Bretagne au-dessus du seuil](assets/lab05-10-after-state.png) -->
+
 4. Ouvrez vos notifications Teams.
 5. Repérez le message de dépassement pour la région concernée.
+
+<!-- ![Notification reçue, compte masqué](assets/lab05-11-teams-message.png) -->
+
 6. Revenez au volet d'alerte du rapport.
 7. Ouvrez le menu de l'élément Activator.
 8. Sélectionnez « Ouvrir dans Activator ». <!-- TODO vérifier -->
 9. Ouvrez la règle dans `act_energy`.
 10. Repérez la valeur observée, la condition, le destinataire et l'historique des actions. <!-- TODO vérifier -->
 
+<!-- ![Condition et historique réel des actions](assets/lab05-12-rule-history.png) -->
+
+
 Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'actualise pas le modèle sémantique.
 
-![Règle Activator personnelle, condition et historique d'action après franchissement](assets/05-activator-rule.png)
 
 <div class="info" data-title="Sous le capot">
 
@@ -879,7 +1082,7 @@ JOIN dbo.emission_factors AS factors ON factors.[year] = consumption.[year]
 GROUP BY sites.region, consumption.month_start;
 ```
 
-![Résultats SQL contrôlés et vue mensuelle dans le warehouse](assets/06-sql-results.png)
+<!-- ![Résultats SQL contrôlés et vue mensuelle dans le warehouse](assets/lab06-01-sql-results.png) -->
 
 ### Lakehouse ou warehouse ?
 
@@ -913,7 +1116,7 @@ Les activités `copy_consumption`, `copy_sites` et `copy_emission_factors` peuve
 Ce mécanisme convient à des copies récurrentes dont vous suivez les exécutions.
 Dans cet exercice, les trois instructions T-SQL suffisent : aucun pipeline supplémentaire n'est à créer.
 
-![Alternative de copie par pipeline entre lh_lab et wh_energy](assets/06-warehouse-pipeline.png)
+<!-- ![Alternative de copie par pipeline entre lh_lab et wh_energy](assets/lab06-02-pipeline-option.png) -->
 
 </details>
 
@@ -996,7 +1199,7 @@ SUMX(
 
 Le format d'affichage arrondit le résultat final. Ne remplacez pas cette expression par un arrondi des émissions de chaque observation.
 
-![Modèle Direct Lake, relations à sens unique et mesure total_kgco2e](assets/07-direct-lake-model.png)
+<!-- ![Modèle Direct Lake, relations à sens unique et mesure total_kgco2e](assets/lab07-01-direct-lake-model.png) -->
 
 ### Ajouter le modèle à l'agent
 
@@ -1013,7 +1216,7 @@ Le format d'affichage arrondit le résultat final. Ne remplacez pas cette expres
 
 Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source modèle sémantique comme pour un lakehouse. Cela n'empêche pas l'agent de l'interroger. Ses mesures et métadonnées portent la définition métier.
 
-![Le modèle sm_energy_lab comme source de l'agent et réponse carbone vérifiée](assets/07-agent-semantic-model.png)
+<!-- ![Le modèle sm_energy_lab comme source de l'agent et réponse carbone vérifiée](assets/lab07-02-agent-semantic-model.png) -->
 
 <div class="task" data-title="Point de contrôle">
 
@@ -1098,7 +1301,7 @@ Si les champs de l'aperçu diffèrent, signalez les noms affichés avant de pour
 19. Ouvrez `sample_events` dans la base KQL.
 20. Vérifiez que de nouvelles lignes arrivent.
 
-![Eventstream avec source Bicycles et destination Eventhouse, sans source énergétique fictive](assets/08-eventstream-sample.png)
+<!-- ![Eventstream avec source Bicycles et destination Eventhouse, sans source énergétique fictive](assets/lab08-01-eventstream.png) -->
 
 ### Exécuter trois requêtes KQL
 
@@ -1147,7 +1350,7 @@ sample_events
 
 La troisième requête peut légitimement être vide. Une valeur de stock comme `bike_count` ne s'additionne pas sur toutes les observations pour déduire un total de vélos.
 
-![Aperçu des événements, courbe du nombre d'événements et derniers états par station](assets/08-eventhouse-kql.png)
+<!-- ![Aperçu des événements, courbe du nombre d'événements et derniers états par station](assets/lab08-02-kql-results.png) -->
 
 ### Ajouter une règle sur le flux
 
@@ -1178,7 +1381,7 @@ La destination Eventhouse a renommé ses colonnes par mappage. La destination Ac
 
 Vérifiez dans l'aperçu si un événement satisfait la condition. Un bouton de test de notification vérifie le canal, pas le franchissement du seuil. <!-- TODO vérifier -->
 
-![Règle Activator branchée sur le flux Bicycles avec identité de station et propriété numérique](assets/08-stream-activator.png)
+<!-- ![Règle Activator branchée sur le flux Bicycles avec identité de station et propriété numérique](assets/lab08-03-activator.png) -->
 
 ### Relier les deux alertes
 
@@ -1233,7 +1436,7 @@ La responsabilité de vérifier les unités, les filtres et les résultats reste
 
 Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destination. Le bonus ne doit pas modifier la table utilisée par les autres exercices.
 
-![Suggestion Copilot de total_kwh dans un flux distinct, sans écriture dans la table source](assets/09-copilot-transformation.png)
+<!-- ![Suggestion Copilot de total_kwh dans un flux distinct, sans écriture dans la table source](assets/bonus-01-copilot-dataflow.png) -->
 
 ### Générer une requête en langage naturel
 
@@ -1247,7 +1450,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 8. Exécutez-la.
 9. Comparez-la à la requête 2 de le Lab 8 sur la même fenêtre.
 
-![Question en français, KQL proposé et résultat comparé à une requête de référence](assets/09-copilot-query.png)
+<!-- ![Question en français, KQL proposé et résultat comparé à une requête de référence](assets/bonus-02-copilot-query.png) -->
 
 <div class="task" data-title="Point de contrôle">
 
