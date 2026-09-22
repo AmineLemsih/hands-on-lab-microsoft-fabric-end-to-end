@@ -3,13 +3,13 @@ published: false
 type: workshop
 title: Product Hands-on Lab - Microsoft Fabric de bout en bout
 short_title: Fabric de bout en bout
-description: Un atelier guidé pour relier les données énergétiques des bâtiments fictifs de Contoso à une analyse, un agent conversationnel et une alerte avec Microsoft Fabric. Un parcours métiers sans programmation et des extensions pour les analystes.
+description: En trois heures, construisez une chaîne de données dans Microsoft Fabric, du fichier brut à l'alerte Teams, sans code à écrire. Des labs optionnels permettent d'aller plus loin.
 level: beginner
 navigation_numbering: true
 navigation_levels: 3
 authors: [Amine Lemsih]
 contacts: ['@aminelemsih']
-duration_minutes: 300
+duration_minutes: 180
 tags: fabric, onelake, lakehouse, dataflow gen2, pipeline, data agent, activator, real-time intelligence, csu, métiers
 audience: profils métiers, analystes, équipes data
 sections_title:
@@ -30,40 +30,37 @@ sections_title:
 
 ## Introduction
 
-Bienvenue dans cet atelier pratique Microsoft Fabric : vous allez construire une chaîne complète de la donnée brute à l'action.  
-Ce lab s'adresse aux analystes métier, chefs de projet, équipes de contrôle de gestion et de responsabilité sociétale ; le tronc commun ne demande pas de programmation.  
-Choisissez le parcours métiers de **3 h** ou le parcours complet de **5 h**, pauses et accompagnement compris.
+Bienvenue ! Dans cet atelier, vous allez construire de bout en bout une chaîne de données dans Microsoft Fabric : partir d'un fichier brut, en faire une table fiable, l'interroger en langage naturel et recevoir une alerte quand un seuil est franchi. Le tout sans écrire une ligne de code dans le parcours principal.
 
-Une ligne numérotée correspond à une action. Arrêtez-vous à chaque point de contrôle avant de poursuivre.
-
-**Durée de l'introduction : 10 minutes.**
+Que vous travailliez dans l'analyse métier, la gestion de projet, le contrôle de gestion ou la RSE, cet atelier vous invite à découvrir ce que Fabric change concrètement dans votre travail quotidien avec la donnée. Vous avancerez pas à pas, avec les mêmes données et un résultat à vérifier à chaque lab.
 
 ### Ce que vous allez apprendre
 
-- Accéder à des données sans les copier avec les raccourcis OneLake.
-- Transformer un fichier imparfait en table fiable sans code.
-- Croiser et agréger des données en SQL visuel.
-- Interroger vos données en langage naturel et vérifier les réponses.
-- Être notifié quand un seuil est franchi.
+À la fin de l'atelier, vous saurez :
 
-Les extensions approfondissent l'entrepôt T-SQL, le modèle sémantique Direct Lake et le temps réel. Copilot est proposé en bonus.
+- **accéder** à des données sans les copier, grâce aux raccourcis OneLake ;
+- **transformer** un fichier imparfait en table fiable, avec un outil visuel ;
+- **croiser et agréger** des données en quelques clics, sans SQL à écrire ;
+- **interroger** vos données en langage naturel avec un data agent, et vérifier ses réponses ;
+- **agir** en recevant une notification Teams lorsqu'un seuil est dépassé.
+
+Les labs optionnels vont plus loin : entrepôt T-SQL, modèle sémantique Direct Lake, temps réel. Copilot est proposé en bonus.
 
 ### Ce que vous allez construire
 
-Contoso est une entreprise fictive multi-sites : bureaux, entrepôts, usines et agences.  
-Ses équipes veulent comparer la consommation énergétique et l'empreinte carbone de leurs bâtiments.  
-Vous partirez de relevés synthétiques pour préparer une table fiable, une analyse et un agent conversationnel.  
-Vous relierez ensuite un rapport à une alerte personnelle, pour examiner une dérive au moment où elle apparaît.
+Vous travaillez pour Contoso, une entreprise fictive qui possède des bureaux, des entrepôts, des usines et des agences. Ses équipes veulent comparer la consommation énergétique et l'empreinte carbone de leurs bâtiments, et surtout être prévenues quand la consommation dérive.
 
-L'objectif est de comprendre **une chaîne complète de la donnée brute à l'action**, rejouable sur vos propres données avec les contrôles et autorisations adaptés.
+Vous partirez des relevés de l'année 2025, un fichier avec ses trous et ses erreurs, comme dans la vraie vie. Vous en ferez une table propre, vous la croiserez avec le référentiel des sites et les facteurs d'émission, puis vous poserez vos questions à un agent conversationnel. Enfin, vous définirez une alerte sur le rapport de consommation du dernier jour disponible. Quand la Bretagne franchira le seuil, c'est vous qui recevrez le message.
 
-**Fichier annuel → nettoyage visuel → table commune aux analyses → question métier → réponse vérifiée → décision.**
+Ce que vous aurez compris en sortant : la chaîne complète, de la donnée brute à l'action. Vous pourrez la rejouer sur vos propres données, avec vos contrôles et vos autorisations.
 
-**Dernier jour disponible → rapport fourni → seuil dépassé → notification Teams personnelle.**
-
-Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont fictifs : les résultats ne constituent pas un reporting réel.
+Les données sont synthétiques et les facteurs carbone fictifs : les résultats ne constituent pas un reporting réel.
 
 ![Fil rouge : du fichier énergétique à une réponse vérifiée et à une notification](assets/00-learning-path.png)
+
+### Durée et rythme
+
+L'atelier dure **3 heures** : cinq labs de 15 à 35 minutes, une pause de 15 minutes après le Lab 2, et du temps pour les questions. Les Labs 6 à 8 sont optionnels : ils approfondissent l'entrepôt T-SQL, le modèle sémantique Direct Lake et le temps réel, pour ceux qui veulent aller plus loin ou pour une journée d'upskilling. Copilot est proposé en bonus.
 
 ### Architecture
 
@@ -76,23 +73,17 @@ Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont ficti
 | Votre espace `$$lab_ws:ws-lab-<votre identifiant>$$` | `lh_lab`, `df_energy`, `pl_energy_daily`, `energy_agent`, `act_energy` | Construction de vos propres éléments. |
 | Extensions, dans votre espace | `wh_energy`, `sm_energy_lab`, `es_sample`, `eh_sample`, `act_sample` | Entrepôt SQL, modèle d'analyse et flux d'exemple. |
 
-Les références de `lh_source` deviennent des raccourcis dans `lh_lab`. Le CSV public alimente `df_energy`, puis la table `consumption` (consommation), l'exploration visuelle et `energy_agent`. En parallèle, le modèle commun alimente `energy_report`, puis votre règle Activator et Teams.
-
-### Les deux parcours
-
-| Parcours | Public et format | Sections | Temps réservé |
-| --- | --- | --- | ---: |
-| **Parcours métiers 3 h** | Analystes métier, chefs de projet, contrôle de gestion, RSE ; distanciel, 15 à 20 personnes | Introduction, Labs 1 à 5, Conclusion ; sauter « Comprendre » | 180 min, dont 15 min de pause et 20 min d'aide |
-| **Parcours complet 5 h** | Analystes et journée d'upskilling en présentiel | Introduction, Labs 1 à 8, Conclusion ; lire les cinq blocs « Comprendre » | 300 min, dont 25 min de pauses et 25 min d'aide |
-| **Bonus Copilot** | Selon le temps disponible et les paramètres du tenant | Bonus | Environ 15 min supplémentaires, hors des deux minutages |
+Les tables de référence de `lh_source` sont vues depuis votre lakehouse `lh_lab` par des raccourcis, sans copie. Le fichier public alimente votre flux `df_energy`, qui produit la table `consumption`, que vous explorez et que votre agent `energy_agent` interroge. De son côté, le rapport commun `energy_report` porte votre alerte `act_energy`, qui vous notifie dans Teams.
 
 ### Prérequis
 
 - Un compte professionnel de votre organisation.
-- Le rôle **Membre** sur `$$lab_ws:ws-lab-<votre identifiant>$$`, rattaché à une capacité Fabric payante **F2 ou supérieure**, avec les fonctionnalités du lab activées.
-- L'accès en lecture au workspace commun `$$shared_ws:ws-shared$$` et à ses sources préparées.
-- Un navigateur récent, avec Fabric en français.
-- L'accès à $$teams_channel:le canal Teams de l'atelier$$ pour l'entraide et à vos notifications personnelles.
+- Le rôle **Membre** sur votre workspace `$$lab_ws:ws-lab-<votre identifiant>$$`, rattaché à une capacité Fabric payante **F2 ou supérieure**, avec les fonctionnalités du lab activées.
+- L'accès en lecture au workspace commun `$$shared_ws:ws-shared$$`, où le rapport et les sources vous attendent.
+- Un navigateur récent, Fabric affiché en français.
+- Teams, pour l'entraide dans le canal $$teams_channel:de l'atelier$$ et pour recevoir votre alerte.
+
+Deux conventions pour la route : une ligne numérotée correspond à une action ; à chaque point de contrôle, vérifiez que vous voyez la même chose que nous avant de continuer.
 
 ### Auteur
 
@@ -126,12 +117,11 @@ Le fichier annuel couvre l'année civile 2025. Le « dernier jour disponible » 
 
 **Pourquoi c'est important pour Contoso**
 
-Tous les sites doivent utiliser le même référentiel de bâtiments et les mêmes facteurs d'émission.  
-Un raccourci évite les copies qui divergent entre équipes.
+Vous allez travailler avec les mêmes bâtiments et les mêmes facteurs d'émission que les autres équipes de Contoso. Grâce aux raccourcis, vous pourrez lire ces références dans votre espace sans entretenir une copie de plus.
 
 **Objectif :** créer votre lakehouse et accéder aux deux tables de référence sans les copier.
 
-**Durée : 20 min de pratique ; 5 min « Comprendre » en parcours complet.**
+**Durée : 20 min.**
 
 ### Ouvrir votre espace
 
@@ -211,13 +201,13 @@ Si l'assistant ne permet qu'une sélection, créez `sites`, puis répétez les m
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir `sites` et `emission_factors` sous `lh_lab`, avec l'indication de raccourci. Le référentiel contient 30 sites. Les facteurs contiennent une ligne pour 2025 et deux coefficients : 0,055 et 0,205. Vous n'avez lancé aucune activité de copie de ces tables.
+> Vous pouvez maintenant consulter les références de Contoso depuis votre propre espace. Vérifiez que `sites` et `emission_factors` apparaissent sous `lh_lab` avec l'indication de raccourci : 30 sites, une ligne de facteurs pour 2025 et deux coefficients, 0,055 et 0,205. Vous avez accès aux données sans avoir lancé d'activité de copie de ces tables.
 
 </div>
 
 ### Variante : parcourir une source S3 (10 min, si disponible)
 
-Cette variante est **hors minutage des deux parcours**. Suivez-la uniquement si $$contact:votre animateur$$ confirme la disponibilité du raccourci. Un **bucket S3** est un conteneur de fichiers dans un stockage objet. Son raccourci de démonstration est déjà disponible dans `lh_source`.
+Cette variante est **hors minutage du parcours principal**. Suivez-la uniquement si $$contact:votre animateur$$ confirme la disponibilité du raccourci. Un **bucket S3** est un conteneur de fichiers dans un stockage objet. Son raccourci de démonstration est déjà disponible dans `lh_source`.
 
 1. Ouvrez l'espace commun `$$shared_ws:ws-shared$$`.
 2. Ouvrez `lh_source`.
@@ -251,7 +241,7 @@ Cette variante est **hors minutage des deux parcours**. Suivez-la uniquement si 
 
 <div class="task" data-title="Point de contrôle de la variante">
 
-> Vous devez voir les mêmes fichiers de démonstration depuis `lh_source` et `lh_lab`, à travers les raccourcis, sans avoir lancé de copie.
+> Vous venez d'accéder à une autre source sans déplacer ses fichiers. Retrouvez les mêmes fichiers de démonstration depuis `lh_source` et `lh_lab`, à travers les raccourcis, et vérifiez qu'aucune copie n'a été lancée.
 
 </div>
 
@@ -262,7 +252,7 @@ Cette variante est **hors minutage des deux parcours**. Suivez-la uniquement si 
 - **Nom refusé ou schéma introuvable :** utilisez `lh_lab` ; cherchez `dbo` sous « Tables », pas sous « Fichiers ».
 
 <details>
-<summary>Comprendre : partager une référence, pas une copie (5 min)</summary>
+<summary>Comprendre : partager une référence, pas une copie (optionnel, 5 min)</summary>
 
 Le raccourci stocke une référence vers la table source. Les moteurs consultent les données autorisées à cette cible. Les fichiers peuvent être mis en cache par les moteurs, mais il n'existe pas une seconde table métier indépendante à tenir à jour.
 
@@ -276,12 +266,11 @@ Utilisez ce mécanisme pour des référentiels ou des données gouvernées commu
 
 **Pourquoi c'est important pour Contoso**
 
-Les relevés énergétiques arrivent sous forme de fichiers imparfaits.  
-Un nettoyage reproductible rend les analyses comparables d'un jour à l'autre.
+Vous allez rendre les relevés de Contoso exploitables malgré leurs trous et leurs erreurs. En enregistrant votre nettoyage dans un flux visuel, vous pourrez le rejouer sur le fichier sans refaire les corrections à la main.
 
 **Objectif :** alimenter `consumption` avec un flux visuel et l'exécuter depuis un pipeline.
 
-**Durée : 35 min de pratique ; 5 min « Comprendre » en parcours complet ; pause de 15 min ensuite.**
+**Durée : 35 min.** Une pause de 15 min suit ce lab.
 
 **Power Query** est l'éditeur de transformations visuelles utilisé par Dataflow Gen2. Une **destination** est la table dans laquelle le flux écrit son résultat.
 
@@ -464,7 +453,7 @@ La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir la table `consumption` avec sept colonnes et **10 840 lignes** après nettoyage, ainsi que le flux et le pipeline réussis. Après l'exécution manuelle du pipeline, il reste 10 840 lignes : le mode « Remplacer » ne cumule pas les chargements.
+> Votre fichier imparfait est devenu une table que vous pouvez analyser. Vérifiez les sept colonnes et les **10 840 lignes** de `consumption`, puis la réussite du flux et du pipeline. Après la relance manuelle du pipeline, vous devez toujours retrouver 10 840 lignes : vous avez remplacé les données, pas empilé deux chargements.
 
 </div>
 
@@ -475,7 +464,7 @@ La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez
 - **Échec de destination ou doublons :** vérifiez votre workspace, `lh_lab` et la méthode « Remplacer ».
 
 <details>
-<summary>Comprendre : préparer les données et organiser le travail (5 min)</summary>
+<summary>Comprendre : préparer les données et organiser le travail (optionnel, 5 min)</summary>
 
 Dataflow Gen2 mémorise des transformations Power Query. À l'exécution, il relit la source et écrit le résultat. Le pipeline orchestre cette exécution ; il ne corrige pas lui-même le fichier.
 
@@ -499,12 +488,11 @@ Enregistrez la planification ; ne l'activez que si vous souhaitez réellement ce
 
 **Pourquoi c'est important pour Contoso**
 
-Les relevés de chaque site doivent pouvoir être comparés par région et par mois.  
-Une analyse partagée rapproche les référentiels sans multiplier les observations.
+Vous allez passer des relevés de chaque bâtiment à une comparaison des régions mois par mois. En rapprochant les consommations des références de Contoso, vous pourrez voir où se concentre l'énergie consommée, sans compter deux fois la même observation.
 
 **Objectif :** produire une vue des consommations électriques et de gaz par région et par mois, sans écrire de requête.
 
-**Durée : 25 min de pratique ; 5 min « Comprendre » en parcours complet.**
+**Durée : 25 min.**
 
 Le **point de terminaison SQL** expose les tables Delta du lakehouse pour leur lecture avec SQL, un langage de requête. Une **jointure** rapproche des tables par une clé commune. Une **vue** conserve une définition de requête, pas une nouvelle copie des résultats.
 
@@ -613,7 +601,7 @@ Une vue SQL ne garantit pas l'ordre de ses lignes. <!-- TODO vérifier -->
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir `v_energy_monthly`, avec **72 couples région/mois**, `total_kwh_elec`, `total_kwh_gas` et `observation_count`. La somme des `observation_count` vaut **10 840**. Les jointures ne doivent pas doubler les observations.
+> Vous avez maintenant une lecture mensuelle de la consommation de Contoso. Retrouvez dans `v_energy_monthly` les **72 couples région/mois**, avec `total_kwh_elec`, `total_kwh_gas` et `observation_count`. Vérifiez que la somme des `observation_count` vaut **10 840** : c'est votre contrôle pour ne pas compter deux fois les observations après les jointures.
 
 </div>
 
@@ -624,7 +612,7 @@ Une vue SQL ne garantit pas l'ordre de ses lignes. <!-- TODO vérifier -->
 - **Vue impossible à enregistrer :** sélectionnez le résultat regroupé et transmettez le message avec le nom de l'étape concernée.
 
 <details>
-<summary>Variante T-SQL (optionnelle, hors parcours métiers sans code)</summary>
+<summary>Variante T-SQL (optionnelle, hors parcours principal sans code)</summary>
 
 Sur le **point de terminaison SQL** de `lh_lab`, ouvrez une nouvelle requête SQL. La variante utilise les mêmes tables et la même définition métier. Le schéma est `dbo`.
 
@@ -660,7 +648,7 @@ ORDER BY kgco2e DESC, region, month_start;
 </details>
 
 <details>
-<summary>Comprendre : une même donnée, plusieurs lectures (5 min)</summary>
+<summary>Comprendre : une même donnée, plusieurs lectures (optionnel, 5 min)</summary>
 
 Le point de terminaison SQL lit les tables Delta. Il peut conserver une définition de vue, mais ne permet pas d'écrire les relevés comme un warehouse. Le lakehouse et la vue ne sont donc pas deux bases contenant deux copies des consommations.
 
@@ -676,12 +664,11 @@ Utilisez la vue pour une logique de lecture partagée. Le calcul carbone dépend
 
 **Pourquoi c'est important pour Contoso**
 
-Les équipes métiers veulent interroger les données avec leurs propres mots.  
-Les définitions et les contrôles évitent qu'une réponse plausible devienne une décision erronée.
+Vous allez poser vos questions avec vos propres mots, comme le feraient les équipes de Contoso. Vous apprendrez aussi à vérifier ce que l'agent a compris : une réponse convaincante ne suffit pas pour prendre une décision.
 
 **Objectif :** améliorer et vérifier les réponses de `energy_agent` à six questions métier.
 
-**Durée : 30 min de pratique ; 5 min « Comprendre » en parcours complet.**
+**Durée : 30 min.**
 
 ### Créer l'agent
 
@@ -809,7 +796,7 @@ Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple S
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir les trois tables de l'agent, des instructions enregistrées et un exemple validé. Q4 doit retrouver six couples site/jour. Q5 doit compter 27 sites actifs au 1er janvier. Q6 doit signaler que le pourcentage est impossible à calculer sans 2024. Une erreur persistante est un résultat de test à documenter, pas à masquer.
+> Vous avez donné à votre agent des repères métier ; vérifiez maintenant qu'ils l'aident vraiment. Retrouvez ses trois tables, vos instructions enregistrées et l'exemple validé. Avec Q4, vous devez obtenir six couples site/jour ; avec Q5, 27 sites actifs au 1er janvier. Avec Q6, l'agent doit expliquer qu'il ne peut pas calculer le pourcentage sans 2024. Si une erreur persiste, notez-la : vous venez de trouver une limite à traiter, pas un résultat à masquer.
 
 </div>
 
@@ -820,7 +807,7 @@ Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple S
 - **Réponse ou exemple incorrect :** comparez les noms de tables et de colonnes de la requête avec votre source, puis signalez l'écart. <!-- TODO vérifier -->
 
 <details>
-<summary>Comprendre : guider une réponse, pas garantir la vérité (5 min)</summary>
+<summary>Comprendre : guider une réponse, pas garantir la vérité (optionnel, 5 min)</summary>
 
 Le data agent s'appuie sur les schémas, les instructions et les exemples pour produire une requête. Le moteur de données exécute cette requête avec les autorisations applicables. Fabric gère le service d'IA intégré ; vous ne fournissez pas une clé Azure OpenAI dans ce lab.
 
@@ -834,12 +821,11 @@ Utilisez-le pour retrouver des faits et explorer des questions bien définies. I
 
 **Pourquoi c'est important pour Contoso**
 
-Une dérive peut rester invisible entre deux consultations du rapport.  
-Une notification invite la bonne personne à examiner la situation au moment du dépassement.
+Vous n'avez pas à garder le rapport ouvert pour repérer une dérive. Vous allez demander à Fabric de surveiller la consommation régionale de Contoso et de vous prévenir dans Teams quand le seuil est franchi, pour savoir quand examiner la situation.
 
 **Objectif :** enregistrer une alerte personnelle sur le rapport partagé et observer son déclenchement.
 
-**Durée : 15 min de pratique ; 5 min « Comprendre » en parcours complet.**
+**Durée : 15 min.**
 
 ### Ouvrir le rapport commun
 
@@ -934,7 +920,7 @@ Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir `act_energy` dans **votre** workspace, une règle par région sur `latest_day_kwh`, le seuil de 10 000 kWh et votre compte comme destinataire. Après l'actualisation, une région franchit le seuil et une notification Teams vous est envoyée.
+> C'est maintenant votre règle qui surveille la consommation. Retrouvez `act_energy` dans **votre** workspace et vérifiez la règle par région sur `latest_day_kwh`, le seuil de 10 000 kWh et votre compte comme destinataire. Après la bascule et l'actualisation, vérifiez que la Bretagne franchit le seuil, puis que vous recevez la notification Teams. La règle créée ne suffit pas : c'est la réception du message qui confirme ce dernier résultat.
 
 </div>
 
@@ -945,7 +931,7 @@ Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'
 - **Pas de notification :** vérifiez la règle active, la région, votre destinataire et les deux états observés dans l'historique.
 
 <details>
-<summary>Comprendre : surveiller un état et déclencher une action (5 min)</summary>
+<summary>Comprendre : surveiller un état et déclencher une action (optionnel, 5 min)</summary>
 
 Une règle combine des observations, une condition et une action. « Devient supérieur à » recherche un franchissement, pas simplement une valeur qui reste élevée. Le jeu avant/après crée ce changement de manière contrôlée.
 
@@ -953,7 +939,7 @@ Utilisez une alerte pour inviter à une vérification ou automatiser une répons
 
 </details>
 
-**Parcours métiers :** passez maintenant à la page « Conclusion ». **Parcours complet :** poursuivez avec le Lab 6.
+Vous avez terminé le parcours principal : rendez-vous à la Conclusion, ou continuez avec les labs optionnels.
 
 ---
 
@@ -966,7 +952,7 @@ Un entrepôt leur fournit une surface d'écriture et de lecture adaptée à cett
 
 **Objectif :** copier les données propres dans un warehouse et vérifier trois requêtes T-SQL.
 
-**Durée : 20 min, parcours complet uniquement.**
+**Durée : 30 min, lab optionnel.**
 
 Un **warehouse**, ou entrepôt, est un stockage analytique organisé en tables et piloté par SQL. **T-SQL** est le dialecte SQL utilisé par le warehouse Fabric. À partir de cette extension, des requêtes commentées sont fournies à copier-coller.
 
@@ -1138,7 +1124,7 @@ Un modèle partagé rend explicites les relations, les unités et les calculs.
 
 **Objectif :** créer un modèle Direct Lake sur `lh_lab` et l'interroger depuis le data agent.
 
-**Durée : 25 min, parcours complet uniquement.**
+**Durée : 25 min, lab optionnel.**
 
 Un **modèle sémantique** décrit les relations et les mesures utilisées pour analyser les données. **Direct Lake** permet au moteur Power BI de lire les tables Delta de OneLake sans construire une copie Import complète. Une **mesure DAX** est un calcul évalué selon les filtres de l'analyse.
 
@@ -1230,12 +1216,6 @@ Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source mod�
 - **Accès Direct Lake refusé :** ouvrez la table source du raccourci et transmettez le message d'accès refusé à $$contact:votre animateur$$.
 - **Mesure ou source absente :** vérifiez l'enregistrement de `sm_energy_lab` et sa sélection dans l'agent.
 
-<div class="info" data-title="Deuxième pause : 10 minutes">
-
-> Cette pause appartient au parcours complet de 5 h. Reprenez ensuite au Lab 8. Le bonus Copilot reste hors minutage.
-
-</div>
-
 ---
 
 ## Lab 8 · Extension : temps réel
@@ -1247,7 +1227,7 @@ Le chemin événement, analyse, alerte prépare l'arrivée future de mesures plu
 
 **Objectif :** observer un flux d'exemple, le requêter dans un Eventhouse et créer une règle Activator sur ce flux.
 
-**Durée : 35 min, parcours complet uniquement.**
+**Durée : 35 min, lab optionnel.**
 
 Un **Eventstream** reçoit et distribue des événements. Un **Eventhouse** héberge des bases optimisées pour les événements. **KQL**, ou Kusto Query Language, est le langage de requête utilisé ici.
 
@@ -1417,7 +1397,7 @@ La responsabilité de vérifier les unités, les filtres et les résultats reste
 
 **Objectif :** comparer une transformation et une requête proposées par Copilot à une intention métier explicite.
 
-**Durée indicative : 15 min supplémentaires. Bonus, si le temps et les paramètres du tenant le permettent. Hors minutage des parcours 3 h et 5 h.**
+**Durée indicative : 15 min supplémentaires. Bonus, si le temps et les paramètres du tenant le permettent. Hors minutage du parcours principal.**
 
 **Copilot** est l'assistance générative intégrée à certaines expériences Fabric. Ce n'est ni le planificateur du pipeline ni une garantie de qualité des données.
 
@@ -1476,7 +1456,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 
 **Objectif :** retenir les usages pertinents et choisir un prochain cas d'application.
 
-**Durée : 10 min dans les deux parcours.**
+**Durée : 10 min.**
 
 ### Le chemin parcouru
 
@@ -1487,7 +1467,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 | Analyser | Les clés, unités et facteurs contrôlent la qualité des résultats. |
 | Questionner | Les instructions aident l'agent ; les résultats doivent être vérifiés. |
 | Agir | Une règle observe une condition ; son action et sa latence doivent être testées. |
-| Approfondir, parcours complet | Warehouse, Direct Lake et Eventhouse répondent à des besoins différents. |
+| Approfondir, labs optionnels | Warehouse, Direct Lake et Eventhouse répondent à des besoins différents. |
 
 ![Récapitulatif des éléments créés et de leurs rôles dans le fil rouge](assets/10-recap.png)
 

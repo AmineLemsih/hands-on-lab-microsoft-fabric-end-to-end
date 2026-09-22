@@ -6,18 +6,25 @@ Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de sol
 
 **État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les captures absentes sont masquées ; les trois schémas attendus séparément restent référencés. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
 
-## Les deux parcours
+## Un parcours de 3 heures
 
-| Parcours | Contenu | Public | Durée |
-| --- | --- | --- | ---: |
-| **Parcours métiers 3 h** | Introduction, Labs 1 à 5, Conclusion ; pas de code à écrire ; blocs « Comprendre » sautés | Analystes métier, projets, contrôle de gestion, RSE ; distanciel, 15 à 20 participants | 145 min d'activités + 15 min de pause + 20 min d'aide |
-| **Parcours complet 5 h** | Tronc commun, cinq blocs « Comprendre », extensions 6 à 8, conclusion | Analystes, journée d'upskilling en présentiel | 225 min d'activités + 25 min d'explications + 25 min de pauses + 25 min d'aide |
+Vous allez partir d'un fichier brut, préparer une table fiable, explorer ses données, poser vos questions à un agent et recevoir une alerte Teams. Le parcours principal réunit l'accueil, les Labs 1 à 5 et la conclusion, sans code à écrire : **145 min d'activités + 15 min de pause après le Lab 2 + 20 min d'aide = 180 min**.
 
-Le **bonus Copilot** demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Il n'entre dans aucun des deux totaux. La seconde pause de 10 minutes intervient après le Lab 7.
+Il s'adresse aux profils métiers, analystes, chefs de projet, contrôle de gestion et RSE. Pour une session à distance, prévoir 15 à 20 participants. Les cinq blocs « Comprendre » restent repliés et optionnels, avec 5 min supplémentaires chacun.
+
+Pour aller plus loin, ou composer une journée d'upskilling, choisir les labs optionnels à la carte :
+
+| Lab optionnel | Sujet | Temps supplémentaire |
+| --- | --- | ---: |
+| Lab 6 | Entrepôt T-SQL | 30 min |
+| Lab 7 | Modèle sémantique Direct Lake | 25 min |
+| Lab 8 | Temps réel | 35 min |
+
+Le **bonus Copilot** demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Ces options ne sont pas incluses dans les 3 heures.
 
 La **variante S3** du Lab 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
 
-Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification n'est qu'une option du bloc « Comprendre ». Le Lab 6 dure 20 minutes : les dix minutes gagnées portent la réserve du parcours complet à 25 minutes. L'introduction garde dix minutes d'accueil, dont environ cinq de lecture.
+Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification reste une option du bloc « Comprendre ». La préparation de l'environnement et du rapport se fait avant la session.
 
 ## Ouvrir l'atelier
 
