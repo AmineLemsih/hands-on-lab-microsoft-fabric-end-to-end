@@ -532,48 +532,31 @@ Vous allez poser vos questions avec vos propres mots, comme le feraient les équ
 
 ### Créer l'agent
 
-1. Revenez à votre workspace personnel.
-2. Sélectionnez « Nouvel élément ».
-3. Recherchez « Agent de données Fabric ». <!-- TODO vérifier -->
-4. Sélectionnez cet élément.
+Vous allez donner à `energy_agent` accès aux trois tables de votre lakehouse, pas à toutes les données du workspace. Ce périmètre lui permettra de répondre aux questions de Contoso et de retrouver le détail d'un site ou d'un jour.
 
-<!-- ![Agent de données Fabric dans les éléments](assets/lab04-01-agent-picker.png) -->
+1. Dans votre workspace, choisissez **Nouvel élément**, recherchez **Agent de données Fabric** et sélectionnez-le. <!-- TODO vérifier -->
 
-5. Saisissez `energy_agent`.
-6. Sélectionnez « Créer ».
+  *[capture : sélecteur d'éléments avec Agent de données Fabric]*
 
-<!-- ![Création energy_agent](assets/lab04-02-agent-name.png) -->
+2. Dans le dialogue de création, nommez l'agent `energy_agent`, puis sélectionnez **Créer**.
 
-7. Choisissez `lh_lab` dans le catalogue des sources.
-8. Sélectionnez « Ajouter ».
+  *[capture : création de energy_agent]*
 
-<!-- ![Source lh_lab dans le catalogue](assets/lab04-03-source-catalog.png) -->
+3. Dans le catalogue des sources, choisissez `lh_lab`, puis **Ajouter**.
 
-9. Cochez `consumption` dans l'explorateur de l'agent.
-10. Cochez `sites`.
-11. Cochez `emission_factors`.
-12. Décochez les autres tables ou vues si elles sont proposées.
+  *[capture : catalogue des sources, lh_lab sélectionné]*
 
-<!-- ![Trois tables autorisées](assets/lab04-04-selected-tables.png) -->
+4. Dans l'explorateur de l'agent, cochez seulement `consumption`, `sites` et `emission_factors` ; décochez les autres tables ou vues proposées.
 
-
+  *[capture : les trois tables sélectionnées pour l'agent]*
 
 ### Poser les six questions avant configuration
 
-1. Posez Q1 dans la zone de conversation.
+Vous allez d'abord voir ce que l'agent comprend sans vos définitions métier. Gardez cette première série de réponses : elle servira de point de comparaison, y compris si certaines réponses sont incorrectes.
 
-<!-- ![Réponse Q1 avant instructions](assets/lab04-05-first-answer.png) -->
+1. Dans la conversation, posez Q1, puis Q2 à Q6 dans l'ordre, en appliquant le contrôle ci-dessous après chaque réponse.
 
-2. Développez les étapes de la réponse. <!-- TODO vérifier -->
-3. Repérez la source choisie et la requête générée, sans la modifier.
-
-<!-- ![Requête générée et source](assets/lab04-06-generated-query.png) -->
-
-4. Notez le résultat et l'unité dans vos notes personnelles.
-5. Répétez ces quatre actions pour Q2 à Q6, dans l'ordre.
-
-<!-- ![Réponse Q6 et absence de 2024](assets/lab04-07-missing-period.png) -->
-
+  *[capture : conversation et première réponse à Q1 avant configuration]*
 
 | Question | Texte à poser |
 | --- | --- |
@@ -584,16 +567,23 @@ Vous allez poser vos questions avec vos propres mots, comme le feraient les équ
 | Q5 | Combien de sites étaient actifs au 1er janvier 2025 ? |
 | Q6 | De quel pourcentage nos émissions ont-elles baissé entre 2024 et 2025 ? |
 
-Pour Q2, cherchez dans les étapes l'usage des deux facteurs. Pour Q4, vérifiez que le seuil s'applique à un **site et un jour**, pas à une somme régionale. Pour Q6, vérifiez que l'agent reconnaît l'absence de 2024.
+<div class="task" data-title="Point de contrôle avant configuration">
+
+> Dans les **étapes de chaque réponse**, développez la source choisie et la requête générée, sans la modifier. <!-- TODO vérifier --> Notez le résultat, la période et l'unité dans vos notes personnelles. Pour Q2, cherchez l'usage des deux facteurs ; pour Q4, le seuil de **20 000 kWh par site et jour**, pas par région ; pour Q6, la reconnaissance de l'absence de **2024**. Une règle ignorée ou une réponse inventée se note comme un écart à comparer après configuration.
+
+</div>
+
+*[capture : détails d'une réponse, source et requête générée]*
+
+*[capture : réponse à Q6 avant configuration, absence de données 2024]*
 
 ### Ajouter les définitions métier
 
-1. Ouvrez « Instructions de l'agent de données ». <!-- TODO vérifier -->
-2. Collez les instructions en français ci-dessous.
-3. Enregistrez les instructions.
+Vous allez préciser ce que signifient une consommation, un site actif et un calcul carbone pour Contoso. Ces instructions donnent des repères à l'agent ; elles ne dispensent pas de vérifier ses réponses.
 
-<!-- ![Instructions enregistrées](assets/lab04-08-instructions.png) -->
+1. Ouvrez **Instructions de l'agent de données**, collez le texte ci-dessous, puis enregistrez. <!-- TODO vérifier -->
 
+  *[capture : instructions françaises enregistrées dans l'agent]*
 
 > Répondez en français. Utilisez uniquement les tables sélectionnées de lh_lab. Indiquez la période, l'unité, les tables et les limites des résultats.
 >
@@ -609,40 +599,31 @@ Pour Q2, cherchez dans les étapes l'usage des deux facteurs. Pour Q4, vérifiez
 
 ### Ajouter un exemple sans écrire de code
 
-Un **exemple de requête** associe une question à une requête de référence. [Téléchargez l'exemple Q1](assets/q1-example.sql) ; vous n'avez pas à l'écrire.
+Vous allez montrer à l'agent comment répondre à Q1 en lui associant une requête de référence. Le fichier est fourni : vous le copiez, sans écrire de code.
 
-1. Ouvrez le fichier d'exemple Q1 depuis le lien ci-dessus.
-2. Copiez la requête complète.
+1. Ouvrez le [fichier d'exemple Q1](assets/q1-example.sql) et copiez la requête complète.
 
-<!-- ![Exemple Q1 public ouvert et copiable](assets/lab04-09-example-download.png) -->
+  *[capture : fichier SQL de référence ouvert et copiable]*
 
-3. Ouvrez « Exemples de requêtes ». <!-- TODO vérifier -->
-4. Sélectionnez la source `lh_lab`.
-5. Sélectionnez « Ajouter un exemple ».
-6. Saisissez Q1 comme question.
-7. Collez la requête téléchargée dans le champ de requête.
+2. Dans **Exemples de requêtes**, sélectionnez la source `lh_lab`, puis **Ajouter un exemple**. <!-- TODO vérifier -->
 
-<!-- ![Paire question/requête, source lh_lab](assets/lab04-10-example-editor.png) -->
+  *[capture : catalogue des exemples, source lh_lab]*
 
-8. Lancez la validation de l'exemple. <!-- TODO vérifier -->
-9. Enregistrez seulement si la validation réussit.
+3. Dans l'éditeur, saisissez le texte de Q1 comme question, collez la requête dans le champ prévu et lancez la **validation**. Enregistrez seulement si elle réussit ; une requête en erreur ou une réponse textuelle ne doit pas devenir un exemple SQL. <!-- TODO vérifier -->
 
-<!-- ![Validation réussie de l'exemple](assets/lab04-11-example-validation.png) -->
-
-
-Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple SQL.
+  *[capture : paire question/requête Q1 et validation réussie]*
 
 ### Comparer après configuration
 
-1. Notez vos réponses initiales avant d'effacer la conversation.
-2. Sélectionnez « Effacer la conversation ». <!-- TODO vérifier -->
-3. Reposez Q1 à Q6.
-4. Examinez les sources, requêtes et unités de chaque nouvelle réponse.
-5. Complétez la comparaison privée.
-6. Comparez avec le corrigé communiqué par l'animateur.
+Vous allez reposer les mêmes questions dans une conversation vide pour comparer les résultats sans conserver l'échange précédent. Avant d'effacer, gardez vos six réponses initiales dans vos notes ; le tableau ci-dessous vous aide à comparer les faits, pas seulement la formulation.
 
-<!-- ![Résultat après instructions et contrôle](assets/lab04-12-comparison.png) -->
+1. Dans la conversation de l'agent, sélectionnez **Effacer la conversation**. <!-- TODO vérifier -->
 
+  *[capture : nouvelle conversation après effacement de l'historique]*
+
+2. Reposez Q1 à Q6 dans le même ordre.
+
+  *[capture : réponses après configuration de l'agent]*
 
 | Question | Résultat avant | Résultat après | Période et unité justes ? | Conforme au corrigé ? |
 | --- | --- | --- | --- | --- |
@@ -656,18 +637,22 @@ Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple S
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous avez donné à votre agent des repères métier ; vérifiez maintenant qu'ils l'aident vraiment. Retrouvez ses trois tables, vos instructions enregistrées et l'exemple validé. Avec Q4, vous devez obtenir six couples site/jour ; avec Q5, 27 sites actifs au 1er janvier. Avec Q6, l'agent doit expliquer qu'il ne peut pas calculer le pourcentage sans 2024. Si une erreur persiste, notez-la : vous venez de trouver une limite à traiter, pas un résultat à masquer.
+> Dans l'explorateur de `energy_agent`, retrouvez les **trois tables** sélectionnées ; dans sa configuration, les instructions enregistrées et l'exemple Q1 validé. Développez les **étapes des nouvelles réponses** pour comparer sources, requêtes, périodes et unités dans vos notes, puis confrontez les résultats au corrigé partagé dans le canal Teams $$teams_channel:de l'atelier$$. Q4 doit retrouver **six couples site/jour** ; Q5, **27 sites actifs au 1er janvier 2025** ; Q6 doit expliquer que le pourcentage ne peut pas être calculé sans **2024**. Si une erreur persiste, conservez-la dans la comparaison : c'est une limite à traiter, pas à masquer.
 
 </div>
 
+*[capture : détails des réponses après configuration et résultats contrôlés]*
+
 ### Si ça bloque
 
-- **Élément agent absent :** vérifiez votre workspace, puis signalez l'absence à $$contact:votre animateur$$.
+Situez le problème avant de modifier les instructions : disponibilité de l'agent, accès aux données ou interprétation de la question.
+
+- **Élément agent absent :** vérifiez votre workspace, puis signalez l'absence dans le canal Teams $$teams_channel:de l'atelier$$.
 - **Source vide ou refusée :** vérifiez les trois tables cochées et leur visibilité dans le point de terminaison SQL.
 - **Réponse ou exemple incorrect :** comparez les noms de tables et de colonnes de la requête avec votre source, puis signalez l'écart. <!-- TODO vérifier -->
 
 <details>
-<summary>Comprendre : guider une réponse, pas garantir la vérité (optionnel, 5 min)</summary>
+<summary>Contexte (optionnel) : guider une réponse, pas garantir la vérité (5 min)</summary>
 
 Le data agent s'appuie sur les schémas, les instructions et les exemples pour produire une requête. Le moteur de données exécute cette requête avec les autorisations applicables. Fabric gère le service d'IA intégré ; vous ne fournissez pas une clé Azure OpenAI dans ce lab.
 
