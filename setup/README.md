@@ -81,7 +81,7 @@ Après examen du plan, l'animateur peut lancer la création réelle :
 | `--dry-run` | Implicite | Simulation hors ligne |
 | `--apply` | Désactivé | Autorise les écritures distantes |
 
-Pour plusieurs sessions simultanées, choisir des noms communs, préfixes, marqueurs et journaux distincts. Reporter uniquement les noms utiles dans chaque fiche participant privée.
+Pour plusieurs sessions simultanées, choisir des noms communs, préfixes, marqueurs et journaux distincts. Reporter les noms utiles dans les variables du lien de session MOAW.
 
 ## Idempotence et protections
 

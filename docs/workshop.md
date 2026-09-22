@@ -57,17 +57,17 @@ Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont ficti
 ### Prérequis participant
 
 - Un navigateur récent, avec Fabric en français.
-- Le compte professionnel indiqué sur votre fiche participant.
+- Un compte professionnel de votre organisation.
 - Le rôle **Membre** sur votre workspace personnel.
-- Le rôle **Lecteur** sur l'espace commun de votre fiche.
-- L'accès Teams de votre fiche pour l'entraide et vos notifications personnelles.
+- Le rôle **Lecteur** sur l'espace commun `$$shared_ws:ws-shared$$`.
+- L'accès à $$teams_channel:le canal Teams de l'atelier$$ pour l'entraide et à vos notifications personnelles.
 
 ### Conventions et aide
 
-- Conservez les **identifiants en anglais**, même si le texte est français ; utilisez les liens et noms de workspace de votre fiche.
+- Conservez les **identifiants en anglais**, même si le texte est français ; votre workspace est `$$lab_ws:ws-lab-<votre identifiant>$$`.
 - Une ligne numérotée correspond à une action ; les libellés d'interface sont entre « guillemets ».
 - Arrêtez-vous à chaque **point de contrôle** avant de poursuivre.
-- Pour demander de l'aide, indiquez section, étape et message d'erreur au contact ou dans le canal de votre fiche ; en présentiel, signalez votre blocage.
+- Pour demander de l'aide, indiquez section, étape et message d'erreur à $$contact:votre animateur$$ dans $$teams_channel:le canal Teams de l'atelier$$.
 
 <details>
 <summary>Contexte (optionnel) : les briques utilisées</summary>
@@ -76,8 +76,8 @@ Un **workspace**, ou espace de travail, regroupe les éléments Fabric et leurs 
 
 | Emplacement | Éléments | Votre usage |
 | --- | --- | --- |
-| Espace commun, nom générique `ws-shared` | `lh_source`, fichiers et tables de référence ; `energy_report` et son modèle `sm_energy_report` | Lecture. |
-| Votre espace, nom générique `ws-lab-<email_local_part>` | `lh_lab`, `df_energy`, `pl_energy_daily`, `energy_agent`, `act_energy` | Création et modification de vos propres éléments. |
+| Espace commun `$$shared_ws:ws-shared$$` | `lh_source`, fichiers et tables de référence ; `energy_report` et son modèle `sm_energy_report` | Lecture. |
+| Votre espace `$$lab_ws:ws-lab-<votre identifiant>$$` | `lh_lab`, `df_energy`, `pl_energy_daily`, `energy_agent`, `act_energy` | Création et modification de vos propres éléments. |
 | Extensions, dans votre espace | `wh_energy`, `sm_energy_lab`, `es_sample`, `eh_sample`, `act_sample` | Entrepôt SQL, modèle d'analyse et flux d'exemple. |
 
 **OneLake** est le stockage logique commun de Fabric. Un **lakehouse** organise des fichiers et des tables dans OneLake. Une **table Delta** est un ensemble de fichiers de données avec un journal assurant la cohérence des écritures.
@@ -119,10 +119,10 @@ Un raccourci évite les copies qui divergent entre équipes.
 
 ### Ouvrir votre espace
 
-1. Ouvrez le lien Fabric de votre fiche participant.
-2. Connectez-vous avec le compte indiqué.
+1. Ouvrez [Microsoft Fabric](https://app.fabric.microsoft.com/).
+2. Connectez-vous avec votre compte professionnel.
 3. Sélectionnez « Espaces de travail ».
-4. Ouvrez votre workspace personnel indiqué sur la fiche.
+4. Ouvrez votre workspace personnel `$$lab_ws:ws-lab-<votre identifiant>$$`.
 5. Vérifiez que vous n'êtes pas dans l'espace commun.
 6. Sélectionnez « Nouvel élément ».
 7. Recherchez « Lakehouse ».
@@ -139,7 +139,7 @@ Un raccourci évite les copies qui divergent entre équipes.
 2. Ouvrez le menu du schéma `dbo`. <!-- TODO vérifier -->
 3. Sélectionnez « Nouveau raccourci ».
 4. Choisissez « Microsoft OneLake ».
-5. Sélectionnez le workspace commun indiqué sur votre fiche.
+5. Sélectionnez le workspace commun `$$shared_ws:ws-shared$$`.
 6. Sélectionnez `lh_source`.
 7. Sélectionnez « Suivant ».
 8. Développez les tables du schéma `dbo` de la source.
@@ -165,21 +165,21 @@ Si l'assistant ne permet qu'une sélection, créez `sites`, puis répétez les m
 
 </div>
 
-### Variante : parcourir une source S3 (10 min, si votre fiche l'indique)
+### Variante : parcourir une source S3 (10 min, si disponible)
 
-Cette variante est **hors minutage des deux parcours**. Suivez-la uniquement si votre fiche indique « Raccourci S3 disponible : oui ». Un **bucket S3** est un conteneur de fichiers dans un stockage objet. Son raccourci de démonstration est déjà disponible dans `lh_source`.
+Cette variante est **hors minutage des deux parcours**. Suivez-la uniquement si $$contact:votre animateur$$ confirme la disponibilité du raccourci. Un **bucket S3** est un conteneur de fichiers dans un stockage objet. Son raccourci de démonstration est déjà disponible dans `lh_source`.
 
-1. Ouvrez l'espace commun indiqué sur votre fiche.
+1. Ouvrez l'espace commun `$$shared_ws:ws-shared$$`.
 2. Ouvrez `lh_source`.
 3. Développez « Fichiers ».
-4. Ouvrez le raccourci S3 à l'emplacement indiqué sur votre fiche.
+4. Ouvrez le raccourci S3 de démonstration indiqué par $$contact:votre animateur$$.
 5. Parcourez les fichiers de démonstration.
 6. Revenez à votre workspace personnel.
 7. Ouvrez `lh_lab`.
 8. Ouvrez le menu de « Fichiers ».
 9. Sélectionnez « Nouveau raccourci ».
 10. Choisissez « Microsoft OneLake ».
-11. Sélectionnez l'espace commun de votre fiche.
+11. Sélectionnez l'espace commun `$$shared_ws:ws-shared$$`.
 12. Sélectionnez `lh_source`.
 13. Dans « Fichiers », sélectionnez le raccourci S3 déjà parcouru comme cible. <!-- TODO vérifier -->
 14. Sélectionnez « Suivant ».
@@ -195,8 +195,8 @@ Cette variante est **hors minutage des deux parcours**. Suivez-la uniquement si 
 
 ### Si ça bloque
 
-- **Source invisible :** vérifiez le tenant et le workspace indiqués sur votre fiche.
-- **Données refusées :** transmettez le message d'accès refusé au contact de votre fiche.
+- **Source invisible :** vérifiez votre organisation et le workspace `$$shared_ws:ws-shared$$`.
+- **Données refusées :** transmettez le message d'accès refusé à $$contact:votre animateur$$.
 - **Nom refusé ou schéma introuvable :** utilisez `lh_lab` ; cherchez `dbo` sous « Tables », pas sous « Fichiers ».
 
 <details>
@@ -233,7 +233,7 @@ Un nettoyage reproductible rend les analyses comparables d'un jour à l'autre.
 6. Choisissez « Options → Paramètres régionaux du dataflow → Anglais (États-Unis) ». <!-- TODO vérifier -->
 7. Ouvrez « Obtenir des données ».
 
-Choisissez **une seule variante**, celle indiquée sur votre fiche. Elles utilisent le même fichier `consumption_2025.csv`.
+Choisissez **une seule variante**, selon la source retenue pour votre session. Elles utilisent le même fichier `consumption_2025.csv`.
 
 ### Variante A : fichier dans lh_source
 
@@ -242,7 +242,7 @@ Choisissez **une seule variante**, celle indiquée sur votre fiche. Elles utilis
 3. Choisissez l'authentification « Compte d'organisation ».
 4. Sélectionnez « Se connecter » si nécessaire.
 5. Sélectionnez « Suivant ».
-6. Développez le workspace commun de votre fiche dans le navigateur de données.
+6. Développez `$$shared_ws:ws-shared$$` dans le navigateur de données.
 7. Développez `lh_source`.
 8. Développez « Fichiers ». <!-- TODO vérifier -->
 9. Sélectionnez `consumption_2025.csv`.
@@ -258,14 +258,14 @@ Choisissez **une seule variante**, celle indiquée sur votre fiche. Elles utilis
 
 1. Recherchez « Dossier SharePoint ».
 2. Sélectionnez ce connecteur.
-3. Saisissez l'URL du **site SharePoint** indiquée sur votre fiche, pas le lien de partage du fichier.
+3. Saisissez $$sp_site:l'URL de votre site SharePoint$$, pas le lien de partage du fichier.
 4. Choisissez « Compte d'organisation ».
 5. Sélectionnez « Se connecter » si nécessaire.
 6. Sélectionnez « Suivant ».
 7. Ouvrez le filtre de la colonne `Name`.
 8. Conservez uniquement `consumption_2025.csv`.
 9. Ouvrez le filtre de `Folder Path`.
-10. Conservez uniquement le dossier indiqué sur votre fiche.
+10. Conservez uniquement le dossier contenant votre fichier.
 11. Ouvrez la valeur binaire de la colonne `Content` de l'unique fichier retenu. <!-- TODO vérifier -->
 12. Définissez la virgule comme séparateur.
 13. Définissez UTF-8 comme encodage.
@@ -355,7 +355,7 @@ La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez
 
 ### Si ça bloque
 
-- **Fichier refusé ou import multiple :** vérifiez l'emplacement de votre fiche et les filtres `Name` et `Folder Path` ; signalez un accès refusé.
+- **Fichier refusé ou import multiple :** vérifiez l'emplacement et les filtres `Name` et `Folder Path` ; signalez un accès refusé.
 - **Décimaux ou dates en erreur :** vérifiez la locale de conversion et l'ordre des étapes.
 - **Échec de destination ou doublons :** vérifiez votre workspace, `lh_lab` et la méthode « Remplacer ».
 
@@ -556,7 +556,7 @@ Les définitions et les contrôles évitent qu'une réponse plausible devienne u
 1. Posez Q1 dans la zone de conversation.
 2. Développez les étapes de la réponse. <!-- TODO vérifier -->
 3. Repérez la source choisie et la requête générée, sans la modifier.
-4. Notez le résultat et l'unité dans votre fiche de comparaison privée.
+4. Notez le résultat et l'unité dans vos notes personnelles.
 5. Répétez ces quatre actions pour Q2 à Q6, dans l'ordre.
 
 | Question | Texte à poser |
@@ -590,15 +590,15 @@ Pour Q2, cherchez dans les étapes l'usage des deux facteurs. Pour Q4, vérifiez
 
 ### Ajouter un exemple sans écrire de code
 
-Un **exemple de requête** associe une question à une requête déjà vérifiée. La requête Q1 validée est fournie dans votre fiche participant ; vous n'avez pas à l'écrire.
+Un **exemple de requête** associe une question à une requête de référence. [Téléchargez l'exemple Q1](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/docs/assets/q1-example.sql) ; vous n'avez pas à l'écrire.
 
-1. Ouvrez la rubrique « Requête Q1 validée pour l'exemple » de votre fiche.
-2. Copiez la requête fournie.
+1. Ouvrez le fichier d'exemple Q1 depuis le lien ci-dessus.
+2. Copiez la requête complète.
 3. Ouvrez « Exemples de requêtes ». <!-- TODO vérifier -->
 4. Sélectionnez la source `lh_lab`.
 5. Sélectionnez « Ajouter un exemple ».
 6. Saisissez Q1 comme question.
-7. Collez la requête de votre fiche dans le champ de requête.
+7. Collez la requête téléchargée dans le champ de requête.
 8. Lancez la validation de l'exemple. <!-- TODO vérifier -->
 9. Enregistrez seulement si la validation réussit.
 
@@ -632,7 +632,7 @@ Ne prenez pas une requête qui échoue ou une réponse textuelle comme exemple S
 
 ### Si ça bloque
 
-- **Élément agent absent :** vérifiez votre workspace, puis signalez l'absence au contact de votre fiche.
+- **Élément agent absent :** vérifiez votre workspace, puis signalez l'absence à $$contact:votre animateur$$.
 - **Source vide ou refusée :** vérifiez les trois tables cochées et leur visibilité dans le point de terminaison SQL.
 - **Réponse ou exemple incorrect :** comparez les noms de tables et de colonnes de la requête avec votre source, puis signalez l'écart. <!-- TODO vérifier -->
 
@@ -660,7 +660,7 @@ Une notification invite la bonne personne à examiner la situation au moment du 
 
 ### Ouvrir le rapport commun
 
-1. Ouvrez le lien du rapport indiqué sur votre fiche participant.
+1. Ouvrez $$report_link:le rapport energy_report dans l'espace commun$$.
 2. Vérifiez que le rapport est `energy_report` dans l'espace commun.
 3. Repérez le visuel **« consommation du dernier jour disponible par région »**.
 4. Vérifiez que le dernier jour disponible affiché est le 31 décembre 2025.
@@ -682,7 +682,7 @@ Ne copiez pas le rapport. Vous restez lecteur dans l'espace commun. L'alerte, el
 8. Choisissez « Teams » comme canal de notification.
 9. Choisissez votre propre compte comme destinataire.
 10. Ouvrez « Sélectionner l'emplacement d'enregistrement ». <!-- TODO vérifier -->
-11. Sélectionnez votre workspace personnel de la fiche.
+11. Sélectionnez `$$lab_ws:ws-lab-<votre identifiant>$$`.
 12. Choisissez un nouvel élément Activator.
 13. Nommez-le `act_energy`.
 14. Confirmez l'emplacement.
@@ -724,7 +724,7 @@ Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'
 
 ### Si ça bloque
 
-- **Bouton absent ou destination refusée :** vérifiez le workspace personnel choisi, puis transmettez le message au contact de votre fiche.
+- **Bouton absent ou destination refusée :** vérifiez le workspace personnel choisi, puis transmettez le message à $$contact:votre animateur$$.
 - **Rapport inchangé :** signalez que les barres n'ont pas changé et conservez votre règle active.
 - **Pas de notification :** vérifiez la règle active, la région, votre destinataire et les deux états observés dans l'historique.
 
@@ -1011,7 +1011,7 @@ Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source mod�
 ### Si ça bloque
 
 - **Relation impossible :** vérifiez les types des clés et l'absence de doublons du côté « un ».
-- **Accès Direct Lake refusé :** ouvrez la table source du raccourci et transmettez le message d'accès refusé au contact de votre fiche.
+- **Accès Direct Lake refusé :** ouvrez la table source du raccourci et transmettez le message d'accès refusé à $$contact:votre animateur$$.
 - **Mesure ou source absente :** vérifiez l'enregistrement de `sm_energy_lab` et sa sélection dans l'agent.
 
 <div class="info" data-title="Deuxième pause : 10 minutes">
@@ -1275,14 +1275,14 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 2. Identifiez une source de données disponible et son responsable.
 3. Notez un contrôle de qualité indispensable.
 4. Notez une permission à faire valider.
-5. Partagez votre prochaine étape dans le canal indiqué sur votre fiche.
+5. Partagez votre prochaine étape dans $$teams_channel:le canal Teams de l'atelier$$.
 
 Commencez par un périmètre limité : quelques bâtiments, une période, deux sources connues et un responsable de la décision. Définissez l'unité, les règles de nettoyage et le calcul attendu avant de demander une réponse à un agent. Remplacez les facteurs fictifs par des facteurs adaptés et documentés. Choisissez ensuite une alerte qui invite à une vérification utile, avec un destinataire et un délai acceptables.
 
 ### Fermer l'atelier
 
 1. Enregistrez votre travail en cours.
-2. Notez vos questions restantes dans votre fiche privée.
+2. Notez vos questions restantes dans vos notes personnelles.
 3. Signalez à l'animateur les pipelines, alertes et flux créés.
 4. Attendez sa confirmation de prise en charge du nettoyage.
 5. Fermez les onglets quand la collecte des travaux est terminée.

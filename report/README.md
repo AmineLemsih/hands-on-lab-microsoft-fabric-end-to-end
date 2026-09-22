@@ -4,7 +4,7 @@ Le rapport `energy_report` est préparé par l'animateur, pas par les participan
 
 ## Résultat attendu
 
-Une page et deux visuels, source `lh_source` dans le workspace commun de la fiche participant :
+Une page et deux visuels, source `lh_source` dans le workspace commun indiqué par le lien de session :
 
 | Visuel | Champs | Présentation |
 | --- | --- | --- |
@@ -108,7 +108,7 @@ Ne pas appliquer un filtre relatif aujourd'hui ni ajouter un axe temporel aux ba
 
 1. Enregistrer le projet réel sous le nom `energy_report` dans `report/energy_report/`.
 2. Sélectionner « Publier ».
-3. Choisir le workspace commun de la fiche.
+3. Choisir le workspace commun de la session.
 4. Ouvrir le workspace dans le service.
 5. Renommer le modèle sémantique publié `sm_energy_report` si Desktop lui a donné le nom du rapport.
 6. Ouvrir ses « Paramètres ».

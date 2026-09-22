@@ -15,7 +15,7 @@ Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de sol
 
 La section 9, **Bonus Copilot**, demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Elle n'entre dans aucun des deux totaux. La seconde pause de 10 minutes intervient après la section 7.
 
-La **variante S3** de la section 1 demande 10 minutes supplémentaires, hors minutage, uniquement si la fiche participant indique qu'elle est disponible.
+La **variante S3** de la section 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
 
 La section 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification n'est qu'une option du bloc « Comprendre ». La section 6 dure 20 minutes : les dix minutes gagnées portent la réserve du parcours complet à 25 minutes. L'introduction garde dix minutes d'accueil, dont environ cinq de lecture.
 
@@ -53,7 +53,7 @@ Les images manquantes sont attendues dans ce brouillon ; leur inventaire est dan
 
 ## Pour les animateurs
 
-Commencer par [docs/facilitator-notes.md](docs/facilitator-notes.md), puis remplir une copie privée de [docs/participant-sheet.template.md](docs/participant-sheet.template.md).
+Commencer par [docs/facilitator-notes.md](docs/facilitator-notes.md), puis préparer le lien de session avec les variables MOAW. Le participant reçoit un lien et se connecte, rien d'autre.
 
 | Ressource | Utilisation |
 | --- | --- |

@@ -90,7 +90,7 @@ Une anomalie n'est pas une preuve de panne. Les données ne permettent pas d'en 
 
 ## Déposer les fichiers dans lh_source
 
-À réaliser par l'animateur avant la session, avec un accès en écriture au workspace commun indiqué sur la fiche participant. Les noms `ws-shared` et `lh_source` sont des noms génériques.
+À réaliser par l'animateur avant la session, avec un accès en écriture au workspace commun indiqué dans le lien de session. Les noms `ws-shared` et `lh_source` sont des noms génériques.
 
 1. Ouvrir le workspace commun.
 2. Ouvrir `lh_source`.
@@ -122,7 +122,7 @@ Pour un lakehouse sans schémas créé antérieurement, ne pas ajouter un faux n
 
 Le parcours de navigation d'un fichier binaire CSV dans le connecteur Lakehouse doit être répété en français avant diffusion. Si cette navigation n'est pas disponible dans le tenant, retenir **la variante SharePoint du lab 2**. Ne pas remplacer l'exercice par une URL publique ou un connecteur inventé. <!-- TODO vérifier -->
 
-Pour SharePoint, déposer uniquement `consumption_2025.csv` dans une bibliothèque accessible aux participants. Mettre l'URL du **site** et le chemin du fichier dans la fiche participant privée. Le connecteur « Dossier SharePoint » attend l'URL du site, pas un lien de partage du CSV.
+Pour SharePoint, déposer uniquement `consumption_2025.csv` dans une bibliothèque accessible aux participants. Transmettre l'URL du **site** par la variable `sp_site` du lien de session. Le connecteur « Dossier SharePoint » attend l'URL du site, pas un lien de partage du CSV.
 
 ## Préparer les tables du rapport
 

@@ -3,15 +3,36 @@
 **Product Hands-on Lab - Microsoft Fabric de bout en bout**  
 Auteur unique : **Amine Lemsih**, conception et rédaction. Kit réutilisable par un CSA ou un animateur autorisé, sans contenu client dans le dépôt.
 
-Le [workshop](workshop.md) contient les manipulations. Ce guide couvre la préparation et les vérifications que les participants ne doivent pas avoir à découvrir pendant la session. La [fiche participant](participant-sheet.template.md) est remplie et distribuée en privé.
+Le [workshop](workshop.md) contient les manipulations. Ce guide couvre la préparation et les vérifications que les participants ne doivent pas avoir à découvrir pendant la session. Le participant reçoit un lien de session et se connecte, rien d'autre.
 
 ## Contrat de livraison
 
-Le texte est français, tous les identifiants techniques sont anglais. Noms génériques : `ws-shared`, `ws-lab-<email_local_part>`, `lh_source`, `lh_lab`, `energy_agent`, `energy_report`. Les noms exacts et liens de la session restent sur les fiches privées. Le fichier `workshop.md` ne doit pas devenir une fiche client.
+Le texte est français, tous les identifiants techniques sont anglais. Noms génériques : `ws-shared`, `ws-lab-<email_local_part>`, `lh_source`, `lh_lab`, `energy_agent`, `energy_report`. Les valeurs de session sont transmises par les variables MOAW, pas inscrites dans le document public.
 
 La table `consumption` (consommation) contient les observations annuelles nettoyées. `emission_factors` (facteurs d'émission) contient une ligne par année et deux colonnes de coefficients. `consumption_latest_day` (consommation du dernier jour disponible) contient uniquement le dernier jour simulé. Cette granularité doit rester identique dans le rapport, SQL, DAX et les instructions de l'agent.
 
 **Statut initial : `published: false`.** Génération locale, tests sur API simulées et rendu MOAW ne prouvent pas le fonctionnement dans Fabric. Le passage à `true` attend la répétition tenant, la résolution des points bloquants et les captures.
+
+## Lien de session
+
+**Le participant reçoit un lien et se connecte, rien d'autre.** Les comptes et les droits sont préparés avant la séance. Le lien personnalise le texte ; il ne crée pas de workspace et n'accorde aucune permission.
+
+| Variable | Défaut | Valeur à prévoir pour la session |
+| --- | --- | --- |
+| `shared_ws` | `ws-shared` | Workspace contenant `lh_source` et le rapport |
+| `lab_ws` | `ws-lab-<votre identifiant>` | Nom du workspace personnel, ou convention de nommage clairement communiquée |
+| `teams_channel` | le canal Teams de l'atelier | Nom du canal ou lien autorisé |
+| `contact` | votre animateur | Nom ou moyen de contact de l'animateur |
+| `report_link` | le rapport energy_report dans l'espace commun | Lien du rapport publié |
+| `sp_site` | l'URL de votre site SharePoint | URL du site, uniquement pour la variante de données propres |
+
+Sur une URL de lecture sans paramètres, la syntaxe est `?vars=shared_ws:ws-shared,teams_channel:Atelier%20Contoso`. Sur le lien court qui contient déjà `?src=...`, ajouter **`&vars=`**, jamais un second `?` :
+
+<https://aka.ms/ws?src=gh:AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/docs/&vars=shared_ws:ws-shared,lab_ws:ws-lab-demo,teams_channel:Atelier%20Contoso,contact:Amine%20Lemsih>
+
+Les valeurs de cet exemple sont fictives. Encoder les valeurs d'URL avec `encodeURIComponent`, notamment les espaces, `&`, `#` et les URL de rapport. Le format MOAW sépare les paires par des virgules : éviter les virgules dans les valeurs et vérifier le rendu avant diffusion. Aucun mot de passe, jeton ou secret dans `vars` : ces paramètres restent visibles dans l'historique du navigateur. Distribuer les liens réels en privé, jamais les commiter. Un lien individuel peut renseigner `lab_ws` sans document séparé.
+
+L'exemple Q1 est disponible dans [assets/q1-example.sql](assets/q1-example.sql). Le valider sur le tenant de répétition avant diffusion. Pour S3, annoncer la disponibilité et désigner le raccourci dans le canal de session ; aucune clé d'accès n'est transmise au participant.
 
 ## Checklist J-7
 
@@ -24,12 +45,12 @@ La table `consumption` (consommation) contient les observations annuelles nettoy
 - [ ] Vérifier Membre sur chaque workspace personnel et Viewer sur le workspace commun.
 - [ ] Partager **explicitement `lh_source` avec le groupe**, option `ReadAll`, « Lire toutes les données Apache Spark » / « Lire toutes les données OneLake » selon l'interface. <!-- TODO vérifier --> Ce partage ajoute Read mais n'accorde pas Write. Tester le raccourci avec un compte participant, pas l'administrateur.
 - [ ] Vérifier les politiques de sécurité OneLake et, si elles sont actives, le rôle de lecture de la source. Tester Direct Lake en SSO depuis le modèle personnel et ses raccourcis.
-- [ ] Si la variante S3 est retenue, créer dans « Fichiers » de `lh_source` un raccourci vers un bucket de démonstration autorisé, avec une clé d'accès limitée à la lecture des fichiers et à leur parcours. Stocker la clé dans une connexion Fabric, jamais dans la fiche ni le dépôt ; prévoir sa rotation/révocation après l'atelier.
-- [ ] Tester à J-7 la **double indirection** : raccourci OneLake de `lh_lab` vers le raccourci S3 de `lh_source`, avec le compte participant et ses droits de connexion/cible. <!-- TODO vérifier --> Ne renseigner « oui » dans la fiche qu'après lecture réussie des fichiers via ce chemin. S'il n'est pas pris en charge, laisser « non » et sauter la variante, sans exposer la clé aux participants.
+- [ ] Si la variante S3 est retenue, créer dans « Fichiers » de `lh_source` un raccourci vers un bucket de démonstration autorisé, avec une clé d'accès limitée à la lecture des fichiers et à leur parcours. Stocker la clé dans une connexion Fabric, jamais dans le lien ni le dépôt ; prévoir sa rotation/révocation après l'atelier.
+- [ ] Tester à J-7 la **double indirection** : raccourci OneLake de `lh_lab` vers le raccourci S3 de `lh_source`, avec le compte participant et ses droits de connexion/cible. <!-- TODO vérifier --> Annoncer la variante uniquement après lecture réussie des fichiers via ce chemin ; sinon la sauter, sans exposer la clé aux participants.
 - [ ] Contrôler les paramètres tenant Copilot / Azure OpenAI intégré et data agents, leurs groupes autorisés et leur disponibilité régionale. Les libellés et règles de traitement/stockage interrégional doivent être vérifiés dans la documentation courante et avec l'organisation. <!-- TODO vérifier --> Ne pas activer une option cross-geo sans approbation.
 - [ ] Créer un data agent de test sur les tables du lab. Vérifier les six questions, les instructions françaises, l'exemple validé et l'affichage des requêtes. Aucun secret Azure OpenAI n'est nécessaire pour le chat intégré.
-- [ ] Générer la requête de Q1 sur le tenant, l'exécuter sur le schéma du lab et valider son résultat : **2 896 164,51 kWh électriques observés en 2025**. Copier cette requête validée dans la rubrique « Requête Q1 validée pour l'exemple » de chaque fiche ; vérifier qu'elle ne référence pas le workspace de test au lieu de la source `lh_lab` sélectionnée par le participant.
-- [ ] Répéter les deux variantes CSV. Choisir une variante par session et l'indiquer sur la fiche. Vérifier locale décimale, suppression des erreurs et nombre final de lignes.
+- [ ] Exécuter l'exemple téléchargeable Q1 sur le tenant et valider **2 896 164,51 kWh électriques observés en 2025**. Vérifier sa compatibilité avec la source `lh_lab` sélectionnée par le participant.
+- [ ] Répéter les variantes CSV et annoncer la source retenue dans le canal de session. Vérifier locale décimale, suppression des erreurs et nombre final de lignes.
 - [ ] Répéter les opérations visuelles de la section 3 jusqu'à l'enregistrement de la vue. La simple lecture du SQL de référence ne valide pas le parcours sans code.
 - [ ] Construire `energy_report` et `sm_energy_report`, puis associer la source à `conn_energy_report`, connexion à identité fixe, SSO désactivé. Tester l'actualisation et la lecture du rapport avec le compte Viewer.
 - [ ] Effectuer le **test bloquant « Définir une alerte » depuis `energy_report` sur la capacité cible**, avec compte Viewer dans `ws-shared` et Membre dans son espace personnel. Enregistrer `act_energy` dans l'espace personnel, sans copier le rapport. <!-- TODO vérifier -->
@@ -52,7 +73,7 @@ La documentation des anciennes alertes sur tuiles de dashboard ne valide pas ce 
 
 ## Checklist J-1
 
-- [ ] Remplir une fiche privée par participant : tenant, compte, deux workspaces, rapport, fichier, Teams et contact. Le pipeline est exécuté manuellement ; la planification est facultative dans « Comprendre ».
+- [ ] Préparer le lien de session : noms des workspaces, rapport, Teams et contact. Le pipeline est exécuté manuellement ; la planification est facultative dans « Comprendre ».
 - [ ] Générer les données et conserver le corrigé calculé. Vérifier 30 sites, une ligne de facteurs, 10 950 lignes brutes et 10 840 propres.
 - [ ] Déposer les fichiers selon [data/README.md](../data/README.md). Vérifier les types des tables Delta, pas seulement la présence des CSV.
 - [ ] Préparer `consumption` nettoyée dans `lh_source` pour le rapport ; préparer `df_source_latest` séparément pour les changements en direct.
@@ -68,7 +89,7 @@ La documentation des anciennes alertes sur tuiles de dashboard ne valide pas ce 
 ## Checklist jour J
 
 - [ ] Allumer ou reprendre **la capacité de formation autorisée** avant l'arrivée des participants. Vérifier son état, la capacité choisie pour le rapport et la disponibilité des items.
-- [ ] Ouvrir Fabric avec le compte de test et confirmer les deux vérifications de la fiche : connexion/accès et licence.
+- [ ] Ouvrir Fabric avec le compte de test et confirmer connexion, accès et licence.
 - [ ] Afficher le parcours retenu et les horaires de pause. Rappeler que Copilot est un bonus hors minutage.
 - [ ] Présenter le nommage anglais et les données fictives ; rappeler que les erreurs sont volontairement présentes.
 - [ ] Noter les difficultés dans un support privé, sans jeton ni données client dans le canal public.
@@ -117,7 +138,7 @@ La lecture de la section 0 vise cinq minutes ; le créneau d'accueil de dix minu
 | 02:50 - 03:00 | 10. Conclusion | 10 |
 | **Total** | 145 activités + 15 pause + 20 réserve | **180** |
 
-Les cinq blocs « Comprendre », les extensions et Copilot ne sont pas lus dans ce parcours. Le copier-coller de la requête Q1 validée fournie dans la fiche ne demande pas d'écrire du SQL.
+Les cinq blocs « Comprendre », les extensions et Copilot ne sont pas lus dans ce parcours. Copier l'exemple Q1 téléchargeable ne demande pas d'écrire du SQL.
 
 ### Parcours complet 5 h
 
@@ -140,7 +161,7 @@ Les cinq blocs « Comprendre », les extensions et Copilot ne sont pas lus dans 
 
 La section 9 demande environ 15 minutes **supplémentaires**. Ne pas l'ajouter tacitement à 5 h, ni retirer la seconde pause pour la caser. Si le groupe finit réellement en avance, l'animateur peut l'utiliser sans dépasser l'horaire annoncé.
 
-La variante S3 de la section 1 demande **10 minutes supplémentaires**, hors des deux minutages. Elle ne remplace pas les raccourcis des tables de référence ; renseigner sa disponibilité et son emplacement dans les fiches privées.
+La variante S3 de la section 1 demande **10 minutes supplémentaires**, hors des deux minutages. Elle ne remplace pas les raccourcis des tables de référence ; annoncer sa disponibilité et son emplacement dans le canal de session.
 
 ## Déclenchement contrôlé en section 5
 
@@ -199,16 +220,16 @@ Les passages ci-dessous ont été retirés du texte participant lors de la relec
 | Section source | Phrases déplacées et consigne conservée ici |
 | --- | --- |
 | 0, modalités | « Les temps d'aide sont répartis par l'animateur. » |
-| 0, architecture et fiche | « L'animateur prépare et actualise les données. » ; « Votre animateur vous transmet une fiche participant privée. » |
+| 0, architecture et accès | L'animateur prépare les données et fournit le lien de session. |
 | 0, Préparation obligatoire de l'alerte | « L'animateur teste à J-7 le bouton Définir une alerte depuis le rapport commun avec un compte Viewer, sur la capacité cible, en choisissant un workspace personnel comme destination. » Les prérequis de capacité et d'édition diffèrent selon l'expérience disponible ; le test autorise le déroulement individuel, sans copie nominale du rapport. |
 | 0, auteur | « Les animateurs réutilisent le kit sans ajouter de contexte client au document public. » |
-| 0, prérequis et conventions | Vérifier la capacité payante active, les licences de lecture/création et le partage Read + ReadAll de `lh_source`, ainsi que la lecture de `energy_report` et de son modèle à identité fixe. L'accès à la source des raccourcis reste nécessaire au modèle personnel en SSO. Rappeler de ne publier aucun jeton, mot de passe, URL privée ou message d'erreur sensible dans le dépôt. Les cinq puces participant ne remplacent pas la checklist d'accès J-7. |
+| 0, prérequis et conventions | Vérifier la capacité payante active, les licences de lecture/création et le partage Read + ReadAll de `lh_source`, ainsi que la lecture de `energy_report` et de son modèle à identité fixe. L'accès à la source des raccourcis reste nécessaire au modèle personnel en SSO. Rappeler de ne publier aucun jeton, mot de passe, URL privée ou message d'erreur sensible dans le dépôt. Les prérequis participant ne remplacent pas la checklist d'accès J-7. |
 | 1, dépannage | « L'animateur contrôle le rôle Viewer. » ; « L'animateur adapte le chemin si le lakehouse source est sans schémas. » Vérifier aussi ReadAll et sa propagation si l'item est visible mais sa donnée refusée. |
 | 2, contrôle et pause | Accompagner le contrôle des lignes écrites si les détails d'exécution sont difficiles à lire ; « L'animateur annonce l'heure de reprise. » |
 | 2, planification | Les anciennes étapes 15 à 21 d'« Orchestrer et planifier » deviennent trois lignes facultatives dans « Comprendre » : fréquence quotidienne, heure/fuseau/date de fin, enregistrement. Aucun planning n'est exigé au point de contrôle. Tester la locale du dataflow avant import ; la détection peut laisser `kwh_elec` en Texte à cause de `invalid`, d'où la correction conditionnelle conservée. |
 | 3, vue et contrôle | « Toutes les transformations doivent pouvoir être traduites en SQL par l'éditeur ; l'animateur vérifie ce parcours visuel avant la session. » ; « L'animateur dispose du corrigé calculé pour comparer les résultats. » Ne pas substituer du SQL au parcours visuel sans l'annoncer. |
 | 4, exemple et dépannage | « Si Q1 n'est pas correcte, l'animateur la vérifie avec vous avant l'ajout. » ; « L'animateur vérifie la capacité payante, la région et les paramètres tenant des data agents et de l'IA. » ; « Testez les instructions en français avant diffusion. » La capacité d'essai ne suffit pas au parcours prévu. |
-| 4, préparation de Q1 après relecture | La validation individuelle en séance est remplacée par une génération et une validation à J-7, puis par la fourniture de la requête dans les fiches. Le participant conserve uniquement le collage et la validation de l'exemple dans l'interface. |
+| 4, préparation de Q1 après relecture | L'exemple Q1 téléchargeable est validé à J-7. Le participant conserve uniquement le collage et la validation de l'exemple dans l'interface. |
 | 5, bouton indisponible | « Ce chemin doit avoir été validé à J-7 avec les mêmes droits et la même capacité. » ; « La documentation décrit également une expérience demandant Edit sur le rapport. » ; « L'animateur applique le plan B annoncé. » Ne pas accorder l'écriture sur l'espace commun ni imposer une copie sans annonce. |
 | 5, changement des données | « L'animateur remplace uniquement le fichier actif du dernier jour, recharge sa table puis actualise le modèle. » Vérifier `df_source_latest` et `sm_energy_report` avec son identité fixe si le rapport ne change pas. |
 | 5, contrôle et dépannage | « La notification peut arriver après la fin du module : sa latence est mesurée à J-7. » ; « Si le plan B capture est utilisé, distinguez clairement la règle créée aujourd'hui de la notification reçue en répétition. » Contrôler les droits et le paramètre tenant ; F64 ne donne pas Edit. Les filtres sont capturés à la création de la règle. |
@@ -248,7 +269,7 @@ Prévoir les résultats de référence pour poursuivre une explication si un par
 - [ ] Exécuter la simulation de suppression sur le journal, puis autoriser la suppression explicite des workspaces personnels. Ajouter l'espace commun uniquement s'il a été créé pour cette session et n'est plus utilisé.
 - [ ] Examiner manuellement un espace commun préexistant : le script ne le supprime pas et ne retire pas automatiquement les partages ajoutés.
 - [ ] Remettre la capacité PAYG de formation au niveau prévu ou la mettre en pause avec l'autorisation de son propriétaire. Faire le nettoyage avant la pause pour garder les API disponibles ; une reprise temporaire peut être nécessaire sinon.
-- [ ] Publier l'enregistrement dans l'emplacement autorisé et le partager via la fiche/canal privé, avec consentement et contrôle des captures. Aucun lien client dans le workshop public.
+- [ ] Publier l'enregistrement dans l'emplacement autorisé et le partager dans le canal privé, avec consentement et contrôle des captures. Aucun lien client dans le workshop public.
 - [ ] Archiver le journal privé selon les règles de rétention, puis retirer les jetons de l'environnement local. Ne jamais les consigner dans le compte rendu.
 - [ ] Reporter les corrections génériques dans le dépôt sans données ni identifiants de client.
 
@@ -256,13 +277,13 @@ Prévoir les résultats de référence pour poursuivre une explication si un par
 
 | Budget | Action |
 | --- | --- |
-| 0 - 10 min | Remplir les fiches privées : URL tenant, comptes, workspaces, rapport, fichier, Teams, contact. Vérifier les deux contrôles avant session. |
+| 0 - 10 min | Préparer le lien de session : workspaces, rapport, Teams, contact. Vérifier connexion, accès et licence. |
 | 10 - 20 min | Garder les données synthétiques par défaut. Facultativement préparer un extrait client non sensible **au même schéma**, autorisé et stocké uniquement dans l'environnement privé. |
 | 20 - 30 min | Adapter oralement ou dans les supports privés « Et chez vous ? », le vocabulaire métier, la décision et le prochain responsable. |
 
 Changer les données exige de **recalculer** les résultats attendus, les dates, le seuil et les deux états. Le corrigé du générateur ne valide que les données synthétiques qu'il a produites. Si cette nouvelle recette n'est pas faisable en 30 minutes, garder le jeu Contoso ; ne pas promettre que tout extrait client est immédiatement compatible.
 
-Ne pas changer les noms techniques pour une traduction. Les seuls éléments contextualisés appartiennent aux fiches et supports privés. Aucun facteur réel ne doit être proposé sans provenance et périmètre approuvés.
+Ne pas changer les noms techniques pour une traduction. Les éléments contextualisés appartiennent au lien de session et aux supports privés. Aucun facteur réel ne doit être proposé sans provenance et périmètre approuvés.
 
 ## Livrer en journée d'upskilling
 
@@ -276,7 +297,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 
 | Section ou support | Vérifications regroupées |
 | --- | --- |
-| Préparation de la section 0, hors texte participant | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la fiche |
+| Préparation de la section 0, hors texte participant | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la session |
 | 1 | Case schémas, menu `dbo`, propriétés du raccourci et accès cible ; variante S3 facultative : double indirection OneLake vers raccourci S3 et permissions de lecture/connexion |
 | 2 | Nommage/publication du flux ; locale unique avant import et vérification des types détectés ; navigation CSV Lakehouse/Content SharePoint ; Début du mois ; destination Remplacer ; lignes écrites ; planification facultative dans Comprendre |
 | 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX. |
@@ -357,7 +378,7 @@ Prévoir un temps de préparation distinct du parcours chronométré. Utiliser d
 3. Vérifier Membre sur l'espace personnel, Viewer sur l'espace commun, puis partager `lh_source` avec ReadAll au groupe participant. Vérifier que le compte n'hérite pas d'un rôle plus élevé par un autre groupe.
 4. Exécuter `python data/generate_data.py`, puis suivre [data/README.md](../data/README.md) pour déposer les fichiers et préparer les tables communes, y compris `consumption` nettoyée et `consumption_latest_day` dans l'état `before`.
 5. Construire et publier le vrai `energy_report` selon [report/README.md](../report/README.md), avec son modèle à identité fixe ; aucun rapport Power BI prêt à importer n'est livré dans le kit.
-6. Remplir une copie privée de [participant-sheet.template.md](participant-sheet.template.md). Choisir une seule variante d'ingestion ; laisser S3 sur « non » et omettre Copilot pour la première passe.
+6. Préparer le lien de session. Choisir une seule variante d'ingestion et omettre S3 et Copilot pour la première passe.
 
 ### Vérifier d'abord les trois points bloquants
 
@@ -373,7 +394,7 @@ Pour le test de section 5, le compte animateur effectue la procédure « Déclen
 
 Suivre ensuite le workshop dans l'ordre avec le compte participant. Si la vérification initiale a déjà créé un élément, le réutiliser pour la recette fonctionnelle ; pour mesurer le temps d'un vrai débutant, prévoir ensuite un espace personnel vierge préparé par l'animateur. Réinitialiser le fichier actif à `before`, recharger la table et actualiser le modèle avant de refaire la section 5.
 
-Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/out/questions_expected_answers.md`. Générer et valider Q1 sur le tenant avant de la placer dans la fiche du futur participant. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
+Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/out/questions_expected_answers.md`. Valider l'exemple Q1 téléchargeable sur le tenant avant la session. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
 
 La section 2 représente **70 étapes avec une seule source**, et non les 84 lignes numérotées du document : mesurer si elle tient en 35 minutes avec les contrôles. La section 8 représente **72 étapes pour 35 minutes** : mesurer avec un profil analyste et consigner le dépassement éventuel. Elle reste hors parcours métiers 3 h ; ne pas la raccourcir ni changer son temps sans retour de répétition.
 
