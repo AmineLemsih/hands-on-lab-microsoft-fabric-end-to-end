@@ -298,10 +298,11 @@ Hypothèses retenues au-delà des décisions validées :
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
 | Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; auteur unique ; 415 étapes conservées ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
 | Rendu navigateur v3 | Ordinateur 1440 px et mobile 390 px ; six variables avec valeurs par défaut puis personnalisées, conservation entre pages et URL de rapport avec paramètres vérifiées ; lien Q1 corrigé et chargé en HTTP 200 ; trois CTAS du Lab 6 et Takeaways présents |
+| Relecture accueil et schémas | Construction MOAW réussie ; accueil sans double titre, menu Introduction conservé, variable de canal avec et sans valeur ; trois images chargées ; affichage ordinateur/mobile sans débordement ; textes des SVG contenus dans leurs zones ; 415 étapes et tous les blocs de code inchangés |
 | Fichiers publics | Six CSV accessibles anonymement, identiques octet par octet après régénération ; SQL et sources des six cellules du notebook publics et conformes aux fichiers locaux |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
-| Captures, schémas, bannière et projet Power BI réel | Contrôle des assets : 85 références, zéro fichier image présent, zéro modification nécessaire ; 72 écrans des Labs 1 à 5 et 10 compléments commentés ; trois schémas séparés restent actifs ; bannière non référencée ; aucun projet Power BI factice |
+| Captures, schémas, bannière et projet Power BI réel | Contrôle : 85 références, trois images présentes, 82 captures absentes commentées, aucune modification nécessaire ; fil rouge et récap en SVG, architecture en PNG et SVG avec source draw.io ; bannière non référencée ; aucun projet Power BI factice |
 | Notebook de préparation | JSON, métadonnées et syntaxe Python contrôlés localement ; exécution Spark/Delta dans Fabric non réalisée |
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.

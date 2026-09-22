@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-RESERVED = {"00-learning-path.png", "00-architecture.png", "10-recap.png"}
+RESERVED = {"00-learning-path.svg", "00-architecture.png", "10-recap.svg"}
 IMAGE = re.compile(r"^(?P<indent>\s*)(?P<open><!--\s*)?(?P<image>!\[[^\]]*\]\((?P<path>(?:\./)?assets/[^)\s]+)\))(?P<close>\s*-->)?\s*$")
 
 
@@ -69,7 +69,7 @@ def main():
             print(f"{record['image']} : {state}, référence {reference} (ligne {record['line']})")
     present = sum(record["present"] for record in records)
     print(f"{len(records)} références ; {present} présentes ; {len(records) - present} manquantes ; {changes} modification(s).")
-    print("Les trois schémas fournis séparément restent actifs, même absents. Aucun fichier image n'est généré.")
+    print("Les trois schémas pédagogiques restent actifs, même absents. Aucun fichier image n'est généré.")
     return 1 if args.check and changes else 0
 
 

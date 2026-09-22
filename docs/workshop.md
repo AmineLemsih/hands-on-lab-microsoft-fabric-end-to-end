@@ -54,7 +54,7 @@ Ce que vous aurez compris en sortant : la chaîne complète, de la donnée brute
 
 Les données sont synthétiques et les facteurs carbone fictifs : les résultats ne constituent pas un reporting réel.
 
-![Fil rouge : du fichier énergétique à une réponse vérifiée et à une notification](assets/00-learning-path.png)
+![Fil rouge : accéder, transformer, croiser, interroger et agir](assets/00-learning-path.svg)
 
 ## Durée et rythme
 
@@ -64,12 +64,7 @@ L'atelier dure **3 heures** : cinq labs de 15 à 35 minutes, une pause de 15 min
 
 ![Architecture : source commune en lecture, espace personnel en écriture et alerte personnelle](assets/00-architecture.png)
 
-| Emplacement | Éléments | Votre usage |
-| --- | --- | --- |
-| Dépôt public | `consumption_2025.csv` | Source du flux, accessible anonymement par URL. |
-| Espace commun `$$shared_ws:ws-shared$$` | `lh_source`, tables de référence ; `energy_report` et `sm_energy_report` | Lecture des sources et du rapport préparés. |
-| Votre espace `$$lab_ws:ws-lab-<votre identifiant>$$` | `lh_lab`, `df_energy`, `pl_energy_daily`, `energy_agent`, `act_energy` | Construction de vos propres éléments. |
-| Extensions, dans votre espace | `wh_energy`, `sm_energy_lab`, `es_sample`, `eh_sample`, `act_sample` | Entrepôt SQL, modèle d'analyse et flux d'exemple. |
+[Agrandir le schéma d'architecture](assets/00-architecture.svg).
 
 Les tables de référence de `lh_source` sont vues depuis votre lakehouse `lh_lab` par des raccourcis, sans copie. Le fichier public alimente votre flux `df_energy`, qui produit la table `consumption`, que vous explorez et que votre agent `energy_agent` interroge. De son côté, le rapport commun `energy_report` porte votre alerte `act_energy`, qui vous notifie dans Teams.
 
@@ -1467,7 +1462,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 | Agir | Une règle observe une condition ; son action et sa latence doivent être testées. |
 | Approfondir, labs optionnels | Warehouse, Direct Lake et Eventhouse répondent à des besoins différents. |
 
-![Récapitulatif des éléments créés et de leurs rôles dans le fil rouge](assets/10-recap.png)
+![Ce que vous avez appris : partager, nettoyer, comparer, vérifier et surveiller](assets/10-recap.svg)
 
 ### Et chez vous ?
 

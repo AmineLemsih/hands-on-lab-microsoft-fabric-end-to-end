@@ -6,16 +6,17 @@ Format : PNG, **largeur 1600 px**, hauteur adaptée sans réduire le texte, inte
 
 Seul « Contoso » peut apparaître comme organisation. Masquer les adresses de compte, avatars, autres noms de tenant, UUID, URLs privées, IDs de capacité, connexions privées et canaux identifiants. Les noms génériques d'items restent visibles. Aucune clé ni aucun jeton ne doit être capturé.
 
-## Schémas fournis séparément
+## Schémas pédagogiques livrés
 
 | Fichier | Usage | État |
 | --- | --- | --- |
-| `00-learning-path.png` | Introduction, fil rouge | Référence active, fichier attendu |
-| `00-architecture.png` | Introduction, architecture | Référence active, fichier attendu |
-| `10-recap.png` | Conclusion, synthèse | Référence active, fichier attendu |
+| `00-learning-path.svg` | Introduction, cinq étapes en chevrons | Livré, autonome, largeur 1600 px |
+| `00-architecture.png` | Introduction, architecture | Livré, 1600 x 860 px, export du draw.io |
+| `00-architecture.svg` | README et vue agrandie | Livré, icônes intégrées sans ressource externe |
+| `10-recap.svg` | Conclusion, cinq acquis | Livré, autonome, largeur 1600 px |
 | `banner.jpg` | Bannière optionnelle | 1280 x 640 px ; ne pas ajouter banner_url avant livraison |
 
-Ces trois schémas ne sont pas des captures de Fabric. Ils sont attendus séparément et ne sont pas générés dans cette passe. Leur absence reste visible ; les captures d'interface absentes sont commentées.
+Ces trois schémas ne sont pas des captures de Fabric. L'architecture a deux formats d'export et une source éditable dans [../architecture.drawio](../architecture.drawio). Les captures d'interface absentes restent commentées ; les règles d'anonymisation et de validation ci-dessous les concernent toujours.
 
 ## Lab 1 : 16 écrans
 

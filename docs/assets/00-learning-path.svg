@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="330" viewBox="0 0 1600 330" role="img" aria-labelledby="title description">
+  <title id="title">Votre parcours : de la donn&#233;e brute &#224; l'action</title>
+  <desc id="description">Cinq labs : acc&#233;der aux r&#233;f&#233;rences par raccourcis, transformer le fichier avec df_energy, croiser les donn&#233;es dans v_energy_monthly, interroger energy_agent et agir avec act_energy.</desc>
+  <rect width="1600" height="330" fill="#FFFFFF"/>
+  <g font-family="Segoe UI, sans-serif" fill="#001919">
+    <text x="40" y="52" font-size="30" font-weight="700">De la donn&#233;e brute &#224; l'action</text>
+    <g transform="translate(40 94)">
+      <path d="M0 0H264L292 48L264 96H0Z" fill="#117865"/>
+      <text x="135" y="60" fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">Acc&#233;der</text>
+      <text x="135" y="137" font-size="19" text-anchor="middle">LAB 1</text>
+      <text x="135" y="173" font-size="23" text-anchor="middle">raccourcis</text>
+    </g>
+    <g transform="translate(344 94)">
+      <path d="M0 0H264L292 48L264 96H0L28 48Z" fill="#225B61"/>
+      <text x="147" y="60" fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">Transformer</text>
+      <text x="147" y="137" font-size="19" text-anchor="middle">LAB 2</text>
+      <text x="147" y="173" font-size="22" text-anchor="middle">df_energy &#8594; consumption</text>
+    </g>
+    <g transform="translate(648 94)">
+      <path d="M0 0H264L292 48L264 96H0L28 48Z" fill="#D6E6E1"/>
+      <text x="147" y="60" font-size="28" font-weight="700" text-anchor="middle">Croiser</text>
+      <text x="147" y="137" font-size="19" text-anchor="middle">LAB 3</text>
+      <text x="147" y="173" font-size="23" text-anchor="middle">v_energy_monthly</text>
+    </g>
+    <g transform="translate(952 94)">
+      <path d="M0 0H264L292 48L264 96H0L28 48Z" fill="#225B61"/>
+      <text x="147" y="60" fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">Interroger</text>
+      <text x="147" y="137" font-size="19" text-anchor="middle">LAB 4</text>
+      <text x="147" y="173" font-size="23" text-anchor="middle">energy_agent</text>
+    </g>
+    <g transform="translate(1256 94)">
+      <path d="M0 0H264L292 48L264 96H0L28 48Z" fill="#117865"/>
+      <text x="147" y="60" fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">Agir</text>
+      <text x="147" y="137" font-size="19" text-anchor="middle">LAB 5</text>
+      <text x="147" y="173" font-size="23" text-anchor="middle">act_energy</text>
+    </g>
+  </g>
+</svg>

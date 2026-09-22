@@ -1,0 +1,193 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="Architecture" id="arch">
+    <mxGraphModel dx="1600" dy="900" grid="1" gridSize="10" guides="1" page="1" pageWidth="1600" pageHeight="860" background="#FFFFFF">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="c_lab" value="Votre workspace · ws-lab-&lt;votre identifiant&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E8F3F0;strokeColor=#117865;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontColor=#117865;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="320" y="110" width="880" height="460" as="geometry" />
+        </mxCell>
+        <mxCell id="11" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/fabric_48_color.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="116" width="28" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c_shared" value="Espace commun · ws-shared (lecture)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#EEF5EA;strokeColor=#5B8C3A;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontColor=#5B8C3A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="320" y="620" width="880" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="12" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/one_lake_48_color.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="1160" y="626" width="28" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="c_opt" value="Labs optionnels" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F4F4F4;strokeColor=#8A8A8A;dashed=1;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontColor=#8A8A8A;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="1270" y="620" width="290" height="190" as="geometry" />
+        </mxCell>
+        <mxCell id="c_lh" value="lh_lab · Lakehouse" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#117865;dashed=0;verticalAlign=top;align=left;spacingLeft=8;fontStyle=1;fontColor=#117865;fontSize=13;" vertex="1" parent="1">
+          <mxGeometry x="590" y="190" width="220" height="300" as="geometry" />
+        </mxCell>
+        <mxCell id="13" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/lakehouse_64_item.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="770" y="196" width="28" height="28" as="geometry" />
+        </mxCell>
+        <mxCell id="github" value="&lt;b&gt;Dépôt GitHub (public)&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;consumption_2025.csv&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#F5F5F5;strokeColor=#4D4D4D;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="40" y="300" width="230" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="14" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Azure_Public_Service_Icons/Icons/general/10808-icon-service-Globe-Success.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="46" y="306" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="df" value="&lt;b&gt;df_energy&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;Dataflow Gen2 · nettoyage&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CDE6DF;strokeColor=#117865;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="360" y="300" width="180" height="90" as="geometry" />
+        </mxCell>
+        <mxCell id="15" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/data_factory_48_color.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="366" y="306" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="t_cons" value="&lt;b&gt;consumption&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;table Delta&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D6E6E1;strokeColor=#117865;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="610" y="240" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t_sites" value="&lt;b&gt;sites&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;raccourci OneLake&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#5B8C3A;dashed=1;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="610" y="320" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="t_fact" value="&lt;b&gt;emission_factors&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;raccourci OneLake&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#5B8C3A;dashed=1;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="610" y="400" width="180" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="sqlq" value="&lt;b&gt;Requête visuelle&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;point de terminaison SQL · vue mensuelle&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#CDE6DF;strokeColor=#117865;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="860" y="200" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="agent" value="&lt;b&gt;energy_agent&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;Data agent · questions en français&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#B9DCD2;strokeColor=#117865;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="860" y="305" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="16" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/copilot_48_color.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="866" y="311" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="act" value="&lt;b&gt;act_energy&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;Activator · 10 000 kWh par région&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#A6D3C6;strokeColor=#117865;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="860" y="440" width="240" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="you" value="&lt;b&gt;Vous&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;réponses vérifiées&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFF2CC;strokeColor=#B9962E;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1270" y="305" width="230" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="17" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_365_Content_Icons/Microsoft%20Blue/48x48%20Dark%20Blue%20Icon/Person.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="1276" y="311" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="teams" value="&lt;b&gt;Microsoft Teams&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;notification personnelle&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#E1D5E7;strokeColor=#9673A6;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1270" y="440" width="230" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="18" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_365_Content_Icons/Teams%20Purple/48x48%20Dark%20Purple%20Icon/Chat.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="1276" y="446" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="lh_src" value="&lt;b&gt;lh_source · Lakehouse&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;sites, emission_factors, consumption&lt;br/&gt;consumption_latest_day&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#5B8C3A;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="350" y="680" width="270" height="100" as="geometry" />
+        </mxCell>
+        <mxCell id="19" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/lakehouse_64_item.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="356" y="686" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="sm" value="&lt;b&gt;sm_energy_report&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;modèle sémantique · identité fixe&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#5B8C3A;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="680" y="690" width="200" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="rep" value="&lt;b&gt;energy_report&lt;/b&gt;&lt;br/&gt;&lt;font style=&quot;font-size:10px&quot; color=&quot;#3F4F4C&quot;&gt;rapport Power BI fourni&lt;/font&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#D5E8D4;strokeColor=#5B8C3A;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="940" y="690" width="220" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="20" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/power_bi_32_color.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="946" y="696" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="opt1" value="wh_energy · entrepôt T-SQL" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8A8A8A;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="665" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="21" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/data_warehouse_64_item.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="1296" y="671" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="opt2" value="sm_energy_lab · Direct Lake" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8A8A8A;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="711" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="22" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/power_bi_32_color.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="1296" y="717" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="opt3" value="es_sample → eh_sample → act_sample" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#FFFFFF;strokeColor=#8A8A8A;dashed=0;fontColor=#001919;fontSize=12;" vertex="1" parent="1">
+          <mxGeometry x="1290" y="757" width="250" height="38" as="geometry" />
+        </mxCell>
+        <mxCell id="23" value="" style="shape=image;image=https://tomkiljo.github.io/ms-icons/icons/Microsoft_Fabric_icons/general/event_house_64_item.svg;imageAspect=1;" vertex="1" parent="1">
+          <mxGeometry x="1296" y="763" width="24" height="24" as="geometry" />
+        </mxCell>
+        <mxCell id="24" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1F3D38;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="270" y="345" as="sourcePoint" />
+            <mxPoint x="360" y="345" as="targetPoint" />
+            <Array as="points">
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="25" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1F3D38;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="540" y="345" as="sourcePoint" />
+            <mxPoint x="610" y="270" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="565" y="345" />
+              <mxPoint x="565" y="270" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="26" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1F3D38;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="810" y="250" as="sourcePoint" />
+            <mxPoint x="860" y="250" as="targetPoint" />
+            <Array as="points">
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="27" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1F3D38;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="810" y="345" as="sourcePoint" />
+            <mxPoint x="860" y="345" as="targetPoint" />
+            <Array as="points">
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="28" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1F3D38;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1100" y="345" as="sourcePoint" />
+            <mxPoint x="1270" y="345" as="targetPoint" />
+            <Array as="points">
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="29" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1F3D38;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1100" y="480" as="sourcePoint" />
+            <mxPoint x="1270" y="480" as="targetPoint" />
+            <Array as="points">
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="30" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1F3D38;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="620" y="730" as="sourcePoint" />
+            <mxPoint x="680" y="730" as="targetPoint" />
+            <Array as="points">
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="31" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#1F3D38;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="880" y="730" as="sourcePoint" />
+            <mxPoint x="940" y="730" as="targetPoint" />
+            <Array as="points">
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="32" value="raccourcis · sans copie" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#5B8C3A;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="475" y="680" as="sourcePoint" />
+            <mxPoint x="700" y="490" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="475" y="595" />
+              <mxPoint x="700" y="595" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="33" value="alerte définie sur le rapport" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;endArrow=block;endFill=1;strokeWidth=2;strokeColor=#5B8C3A;dashed=1;" edge="1" parent="1">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="1050" y="690" as="sourcePoint" />
+            <mxPoint x="1050" y="520" as="targetPoint" />
+            <Array as="points">
+            </Array>
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

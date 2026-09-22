@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="370" viewBox="0 0 1600 370" role="img" aria-labelledby="title description">
+  <title id="title">Ce que vous avez appris</title>
+  <desc id="description">Acc&#233;der : partager sans dupliquer. Transformer : nettoyer puis rejouer. Croiser : comparer sans doubler. Interroger : v&#233;rifier avant de d&#233;cider. Agir : surveiller et &#234;tre pr&#233;venu.</desc>
+  <rect width="1600" height="370" fill="#FFFFFF"/>
+  <g font-family="Segoe UI, sans-serif" fill="#001919">
+    <text x="40" y="52" font-size="30" font-weight="700">Ce que vous avez appris</text>
+    <g transform="translate(40 94)">
+      <path d="M0 0H264L292 48L264 96H0Z" fill="#117865"/>
+      <text x="135" y="60" fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">Acc&#233;der</text>
+      <text x="135" y="140" font-size="23" text-anchor="middle">raccourcis</text>
+      <text x="135" y="185" font-size="21" text-anchor="middle">Partager sans dupliquer.</text>
+    </g>
+    <g transform="translate(344 94)">
+      <path d="M0 0H264L292 48L264 96H0L28 48Z" fill="#225B61"/>
+      <text x="147" y="60" fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">Transformer</text>
+      <text x="147" y="140" font-size="22" text-anchor="middle">df_energy &#8594; consumption</text>
+      <text x="147" y="185" font-size="21" text-anchor="middle">Nettoyer puis rejouer.</text>
+    </g>
+    <g transform="translate(648 94)">
+      <path d="M0 0H264L292 48L264 96H0L28 48Z" fill="#D6E6E1"/>
+      <text x="147" y="60" font-size="28" font-weight="700" text-anchor="middle">Croiser</text>
+      <text x="147" y="140" font-size="23" text-anchor="middle">v_energy_monthly</text>
+      <text x="147" y="185" font-size="21" text-anchor="middle">Comparer sans doubler.</text>
+    </g>
+    <g transform="translate(952 94)">
+      <path d="M0 0H264L292 48L264 96H0L28 48Z" fill="#225B61"/>
+      <text x="147" y="60" fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">Interroger</text>
+      <text x="147" y="140" font-size="23" text-anchor="middle">energy_agent</text>
+      <text x="147" y="185" font-size="21" text-anchor="middle">V&#233;rifier avant de d&#233;cider.</text>
+    </g>
+    <g transform="translate(1256 94)">
+      <path d="M0 0H264L292 48L264 96H0L28 48Z" fill="#117865"/>
+      <text x="147" y="60" fill="#FFFFFF" font-size="28" font-weight="700" text-anchor="middle">Agir</text>
+      <text x="147" y="140" font-size="23" text-anchor="middle">act_energy</text>
+      <text x="147" y="185" font-size="21" text-anchor="middle">Surveiller et &#234;tre pr&#233;venu.</text>
+    </g>
+  </g>
+</svg>

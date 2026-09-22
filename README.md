@@ -4,7 +4,7 @@ Un atelier hands-on réutilisable pour relier données, analyse et action dans M
 
 Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de solutions cloud, dans un environnement autorisé. Aucun nom de client, URL de tenant, secret ou lien privé n'est intégré au contenu public.
 
-**État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les captures absentes sont masquées ; les trois schémas attendus séparément restent référencés. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
+**État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les trois schémas pédagogiques sont fournis ; les captures Fabric absentes restent masquées. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
 
 ## Un parcours de 3 heures
 
@@ -25,6 +25,14 @@ Le **bonus Copilot** demande environ 15 minutes supplémentaires, si le temps et
 La **variante S3** du Lab 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
 
 Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification reste une option du bloc « Comprendre ». La préparation de l'environnement et du rapport se fait avant la session.
+
+## Architecture
+
+![Architecture de l'atelier Microsoft Fabric](docs/assets/00-architecture.svg)
+
+Le schéma d'architecture se modifie dans [docs/architecture.drawio](docs/architecture.drawio) avec draw.io, puis s'exporte en PNG dans [docs/assets/00-architecture.png](docs/assets/00-architecture.png). Régénérer aussi [docs/assets/00-architecture.svg](docs/assets/00-architecture.svg) pour le README, en intégrant les images à l'export pour qu'il reste autonome. Les icônes de la source proviennent de la [collection Microsoft](https://aka.ms/MsiconsCollections).
+
+Le fil rouge et le récapitulatif sont des SVG pédagogiques éditables dans [docs/assets/00-learning-path.svg](docs/assets/00-learning-path.svg) et [docs/assets/10-recap.svg](docs/assets/10-recap.svg). Ce sont des schémas, pas des captures d'exécution de Fabric.
 
 ## Ouvrir l'atelier
 
