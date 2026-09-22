@@ -4,7 +4,7 @@ Un atelier hands-on réutilisable pour relier données, analyse et action dans M
 
 Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de solutions cloud, dans un environnement autorisé. Aucun nom de client, URL de tenant, secret ou lien privé n'est intégré au contenu public.
 
-**État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les trois schémas pédagogiques sont fournis ; les Labs 1 à 5 indiquent où ajouter les captures pendant le déroulé. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
+**État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les trois schémas pédagogiques sont fournis ; tous les labs et le bonus indiquent où ajouter les captures pendant le déroulé. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
 
 ## Un parcours de 3 heures
 
@@ -70,7 +70,7 @@ Contrôle de construction, après génération des données :
 moaw build docs/workshop.md -d data/out/workshop.build.md
 ```
 
-Ajoutez les captures réelles anonymisées en remplaçant les lignes *[capture : …]* pendant le déroulé ; [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md) décrit les 32 emplacements des Labs 1 à 5, limités aux écrans à risque et aux résultats à reconnaître. Exécutez ensuite `python tools/check_assets.py` pour synchroniser les références Markdown insérées. `--check --summary` contrôle l'état sans écrire ; les indications textuelles ne sont pas transformées automatiquement. Aucun fichier image vide ou fausse capture ne doit être ajouté.
+Ajoutez les captures réelles anonymisées en remplaçant les lignes *[capture : …]* pendant le déroulé ; [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md) décrit les 56 emplacements, dont 32 pour les Labs 1 à 5 et 24 pour les options, limités aux écrans à risque et aux résultats à reconnaître. Exécutez ensuite `python tools/check_assets.py` pour synchroniser les références Markdown insérées. `--check --summary` contrôle l'état sans écrire ; les indications textuelles ne sont pas transformées automatiquement. Aucun fichier image vide ou fausse capture ne doit être ajouté.
 
 ## Pour les animateurs
 
@@ -121,7 +121,7 @@ Utiliser les issues et demandes de tirage du dépôt. Indiquer le module, l'éta
 
 Conserver les balises `data-expected` autour des chiffres métier : elles relient chaque valeur à son calcul, sans changer son affichage. La [convention de vérification des chiffres](data/README.md#vérifier-les-chiffres-du-workshop) décrit comment ajouter une valeur et régénérer la référence.
 
-Dans les Labs 1 à 5, regrouper les clics d'un écran en une étape, mettre les libellés d'interface en gras et les identifiants en code. Les indications *[capture : …]* précisent les écrans à ajouter. Les contrôles indiquent où regarder et les valeurs attendues dans un encadré `task`. Le menu utilise `navigation_numbering: false` et des titres explicites pour commencer à zéro. Pour éviter le tracking ajouté par MOAW aux liens Microsoft, utiliser une ancre HTML dont le protocole est écrit `https&#58;//` ; l'URL rendue reste une URL HTTPS normale, à vérifier dans le navigateur.
+Dans tous les labs et le bonus, regrouper les clics d'un écran en une étape, mettre les libellés d'interface en gras et les identifiants en code. Chaque sous-section commence par son objectif concret ; les contrôles indiquent où regarder et les valeurs attendues dans un encadré `task`. Les indications *[capture : …]* restent limitées aux écrans utiles et les explications supplémentaires se replient sous « Contexte (optionnel) ». Le menu utilise `navigation_numbering: false` et des titres explicites pour commencer à zéro. Pour éviter le tracking ajouté par MOAW aux liens Microsoft, utiliser une ancre HTML dont le protocole est écrit `https&#58;//` ; l'URL rendue reste une URL HTTPS normale, à vérifier dans le navigateur.
 
 Conventions suivies, sans reprise du texte des exercices : le template et la [syntaxe MOAW](https://aka.ms/ws?src=create-workshop/), le lab Microsoft Agent Framework avec Microsoft Foundry, le workshop FabConRTI et les [exercices Microsoft Learn Fabric](https://microsoftlearning.github.io/mslearn-fabric/). Les modèles ne sont pas crédités comme co-auteurs de cet atelier.
 

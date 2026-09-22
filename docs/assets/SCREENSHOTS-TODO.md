@@ -18,9 +18,9 @@ Seul « Contoso » peut apparaître comme organisation. Masquer les adresses de 
 | `10-recap.svg` | Conclusion, cinq acquis | Livré, autonome, largeur 1600 px |
 | `banner.jpg` | Bannière optionnelle | 1280 x 640 px ; ne pas ajouter banner_url avant livraison |
 
-Ces trois schémas ne sont pas des captures de Fabric. L'architecture a deux formats d'export et une source éditable dans [../architecture.drawio](../architecture.drawio). Les Labs 1 à 5 utilisent des indications de capture visibles ; les extensions et le complément de répétition conservent leurs références commentées tant que les fichiers sont absents.
+Ces trois schémas ne sont pas des captures de Fabric. L'architecture a deux formats d'export et une source éditable dans [../architecture.drawio](../architecture.drawio). Tous les labs et le bonus utilisent des indications de capture visibles ; seule la capture de répétition des notes animateur conserve une référence commentée tant que son fichier est absent.
 
-## Capturer en déroulant les Labs 1 à 5
+## Capturer en déroulant les labs
 
 Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du contrôle concerné. Ils remplacent l'ancien catalogue fondé sur les numéros de clics : utilisez le libellé de l'indication, pas un ancien numéro d'étape.
 
@@ -31,7 +31,11 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 | Lab 3 | 6 | Jointures, colonnes développées, regroupement et vue |
 | Lab 4 | 6 | Tables sélectionnées, réponses, instructions et validation de l'exemple |
 | Lab 5 | 6 | État initial, condition, destination, franchissement, Teams et historique |
-| **Total** | **32** | Variantes et écrans de contrôle compris |
+| Lab 6 | 6 | Exécution SQL, types des tables, résultats des trois requêtes et vue |
+| Lab 7 | 6 | Tables du modèle, Direct Lake/SSO, relations, mesure et source de l'agent |
+| Lab 8 | 8 | Source, destination, mappage, résultats KQL et règle Activator |
+| Bonus Copilot | 4 | Source distincte, proposition de transformation, KQL et comparaison |
+| **Total** | **56** | 32 dans le parcours principal et 24 dans les options ; variantes et contrôles compris |
 
 Après avoir réalisé et anonymisé un écran, ajoutez son PNG ici, puis remplacez la ligne *[capture : …]* correspondante par une référence Markdown :
 
@@ -41,20 +45,11 @@ Après avoir réalisé et anonymisé un écran, ajoutez son PNG ici, puis rempla
 
 Gardez l'indentation de la ligne quand elle appartient à une étape numérotée. Le nom reste stable si une étape est déplacée : par exemple `lab01-shortcut-properties.png` ou `lab02-destination-mapping.png`. Une capture doit montrer le résultat réellement obtenu ; signalez un écart plutôt que fabriquer l'état attendu.
 
-## Compléments et extensions
+## Complément de répétition
 
 | Fichier | Usage | Écran |
 | --- | --- | --- |
 | `lab05-rehearsal-notification.png` | Notes animateur uniquement | Notification de répétition datée, identifiée comme telle |
-| `lab06-sql-results.png` | Lab 6 | Requêtes, volumes et vue |
-| `lab06-pipeline-option.png` | Lab 6, contexte optionnel | Alternative par pipeline |
-| `lab07-direct-lake-model.png` | Lab 7 | Relations et mesure total_kgco2e |
-| `lab07-agent-semantic-model.png` | Lab 7 | Source sm_energy_lab et résultat DAX |
-| `lab08-eventstream.png` | Lab 8 | Bicycles et destination Eventhouse |
-| `lab08-kql-results.png` | Lab 8 | Champs mappés et requêtes KQL |
-| `lab08-activator.png` | Lab 8 | Objet station et règle active |
-| `bonus-copilot-dataflow.png` | Bonus | Transformation dans un flux distinct |
-| `bonus-copilot-query.png` | Bonus | Question française et KQL proposé |
 
 ## Activer les captures livrées
 

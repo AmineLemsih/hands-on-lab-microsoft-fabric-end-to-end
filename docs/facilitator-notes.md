@@ -297,13 +297,13 @@ Hypothèses retenues au-delà des décisions validées :
 | --- | --- |
 | Génération et contrôles intégrés | Neuf tests locaux : reproductibilité, volumes, résultats, états d'alerte, référence expected_values.md et comparaison des chiffres du workshop ; dérives documentaires et valeurs non balisées testées par cas négatifs |
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
-| Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 233 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
+| Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 104 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
 | Rendu et liens | Variables avec valeurs par défaut et personnalisées ; `s3_shortcut` testé ; lien Fabric sans tracking dans le rendu, lien Q1 chargé en HTTP 200 ; encadrés task et contextes repliés contrôlés |
-| Relecture par écran | Labs 1 à 5 : introductions de sous-sections, 59 étapes-écrans variantes comprises, vérifications dans les encadrés et 32 indications de capture utiles (6/8/6/6/6) ; questions, instructions métier de l'agent et blocs SQL inchangés ; extensions non réécrites |
+| Relecture par écran | Tous les labs et le bonus : introductions de sous-sections, étapes par écran, contrôles localisés et contextes repliés ; 59 étapes dans les Labs 1 à 5, 35 dans les options ; SQL, DAX, KQL, demandes à Copilot et valeurs attendues conservés |
 | Fichiers publics | Six CSV accessibles anonymement, identiques octet par octet après régénération ; SQL et sources des six cellules du notebook publics et conformes aux fichiers locaux |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
-| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; 32 indications textuelles à remplacer par les captures des Labs 1 à 5 ; dix références de captures complémentaires encore commentées ; bannière non référencée ; aucun projet Power BI factice |
+| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; 56 indications textuelles à remplacer par des captures réelles, dont 32 pour les Labs 1 à 5 et 24 pour les options ; seule la capture de répétition garde une référence commentée ; bannière non référencée ; aucun projet Power BI factice |
 | Notebook de préparation | JSON, métadonnées et syntaxe Python contrôlés localement ; exécution Spark/Delta dans Fabric non réalisée |
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.
@@ -312,7 +312,7 @@ La réécriture conserve 52 commentaires `TODO vérifier` : Labs 1 à 8, respect
 
 ### Bilan de la réécriture par écran
 
-Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'état avant cette réécriture (`ea17ac0`). Les deux variantes d'ingestion sont comptées dans le total du fichier, même si une seule est suivie. Les contrôles et les répétitions des questions ne sont pas artificiellement comptés comme autant de clics.
+Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'état avant les réécritures par écran (`ea17ac0`). Les deux variantes d'ingestion sont comptées dans le total du fichier, même si une seule est suivie. Les contrôles et les répétitions des questions ne sont pas artificiellement comptés comme autant de clics.
 
 | Page | Avant | Par écran |
 | --- | ---: | ---: |
@@ -322,14 +322,16 @@ Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'ét
 | Lab 3 | 49 | 9 |
 | Lab 4 | 35 | 11 |
 | Lab 5 | 31 | 7 |
-| Lab 6 | 33 | 33, inchangé |
-| Lab 7 | 40 | 40 |
-| Lab 8 | 72 | 72 |
-| Bonus | 19 | 19 |
+| Lab 6 | 33 | 6 |
+| Lab 7 | 40 | 8 |
+| Lab 8 | 72 | 15 |
+| Bonus | 19 | 6 |
 | Conclusion | 10 | 10 |
-| **Total écrit** | **415** | **233** |
+| **Total écrit** | **415** | **104** |
 
 Les Labs 1 à 5 passent de 241 lignes numérotées à 59 étapes-écrans ; le chemin sans S3 et avec une seule source d'ingestion en compte 53. Ce regroupement ne réduit ni le travail à réaliser ni le budget des contrôles. La planification facultative n'est pas un critère de réussite ; S3 et Copilot restent hors des 180 minutes.
+
+Les Labs 6 à 8 et le bonus passent de 164 lignes numérotées à 35 étapes-écrans. Les requêtes et la formule DAX restent inchangées ; les vérifications sont réparties dans les encadrés au moment où elles sont nécessaires. Le contrôle du modèle sémantique précise la demande du total annuel à l'agent en plus de Q2. La partie KQL du bonus suppose que le Lab 8 a été réalisé ; elle n'est pas comptée comme terminée si ses données sont absentes.
 
 Hypothèses retenues : l'accueil garde dix minutes dans le planning animateur, sans minutage affiché sur la page d'accueil. Les Labs 1 à 5 durent de 15 à 35 min ; le Lab 6 optionnel dispose de 30 min. Les six CSV sont publics et régénérables, sans modification des valeurs, et Q4 reste à 20 000 kWh. Le notebook prépare aussi l'historique propre nécessaire au rapport, en plus des trois tables de référence/instantané demandées. L'exemple Q1 est téléchargeable pour éviter tout support séparé. Les paramètres de session ne sont ni des secrets ni un mécanisme d'autorisation.
 
@@ -392,7 +394,7 @@ Suivre ensuite le workshop dans l'ordre avec le compte participant. Si la vérif
 
 Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/csv/questions_expected_answers.md`. Valider l'exemple Q1 téléchargeable sur le tenant avant la session. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
 
-Le Lab 2 représente **18 étapes-écrans avec une seule source**, Web ou SharePoint, et non les 21 étapes des deux variantes réunies : mesurer s'il tient en 35 minutes avec les contrôles. Le Lab 8 conserve ses **72 étapes pour 35 minutes** : mesurer avec un profil analyste et consigner le dépassement éventuel. Il reste optionnel, hors des 3 h ; ne pas le raccourcir sans retour de répétition.
+Le Lab 2 représente **18 étapes-écrans avec une seule source**, Web ou SharePoint, et non les 21 étapes des deux variantes réunies : mesurer s'il tient en 35 minutes avec les contrôles. Le Lab 8 compte désormais **15 étapes-écrans pour 35 minutes**, sans réduire les manipulations ni les contrôles : mesurer avec un profil analyste et consigner le dépassement éventuel. Il reste optionnel, hors des 3 h ; ne pas le raccourcir sans retour de répétition.
 
 Après le Lab 5, ouvrir la page Conclusion, ou poursuivre avec les labs optionnels retenus avant de conclure. Garder S3 et Copilot pour des passes séparées. Le simulateur de compteurs vers Eventstream reste une piste du backlog, non implémentée.
 

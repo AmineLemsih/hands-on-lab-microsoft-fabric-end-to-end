@@ -76,7 +76,7 @@ Les tables de référence de `lh_source` sont vues depuis votre lakehouse `lh_la
 - Un navigateur récent, Fabric affiché en français.
 - Teams, pour l'entraide dans le canal $$teams_channel:de l'atelier$$ et pour recevoir votre alerte.
 
-Deux conventions pour la route : dans les Labs 1 à 5, une étape regroupe les actions d'un même écran ; à chaque point de contrôle, vérifiez que vous voyez la même chose que nous avant de continuer.
+Deux conventions pour la route : dans les labs et le bonus, une étape regroupe les actions d'un même écran ; à chaque point de contrôle, vérifiez que vous voyez la même chose que nous avant de continuer.
 
 ## Auteur
 
@@ -1155,57 +1155,74 @@ La fréquence d'arrivée des événements, leur horodatage et les règles de not
 
 **Pourquoi c'est important pour Contoso**
 
-Une suggestion peut accélérer la préparation ou l'exploration d'une donnée.  
-La responsabilité de vérifier les unités, les filtres et les résultats reste humaine.
+Vous allez essayer de gagner du temps avec une suggestion de transformation, puis une requête proposée en langage naturel. Pour Contoso, l'intérêt n'est pas d'accepter plus vite : c'est de formuler clairement le résultat recherché et de savoir vérifier ce que Copilot propose.
 
 **Objectif :** comparer une transformation et une requête proposées par Copilot à une intention métier explicite.
 
 **Durée indicative : 15 min supplémentaires. Bonus, si le temps et les paramètres du tenant le permettent. Hors minutage du parcours principal.**
 
-**Copilot** est l'assistance générative intégrée à certaines expériences Fabric. Ce n'est ni le planificateur du pipeline ni une garantie de qualité des données.
-
 ### Générer une transformation
 
-1. Créez un nouveau Dataflow Gen2 nommé `df_energy_copilot` dans votre workspace.
-2. Ajoutez une source « Lakehouse ».
-3. Sélectionnez `lh_lab`.
-4. Sélectionnez la table `consumption`, déjà nettoyée.
-5. Ouvrez le volet « Copilot ». <!-- TODO vérifier -->
-6. Demandez : « Ajoutez une colonne total_kwh qui additionne kwh_elec et kwh_gas. Conservez toutes les lignes et les colonnes existantes. »
-7. Examinez les étapes proposées.
-8. Vérifiez trois lignes de l'aperçu, dont une ligne à zéro.
-9. Acceptez la proposition uniquement si elle correspond à la demande.
-10. Enregistrez le brouillon sans destination de données.
+Vous allez demander une colonne de consommation totale dans un flux de travail séparé. Vous pourrez ainsi examiner la proposition de Copilot sans modifier `df_energy` ni la table `consumption` utilisée par les autres labs.
 
-Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destination. Le bonus ne doit pas modifier la table utilisée par les autres exercices.
+1. Dans votre workspace, créez un **Dataflow Gen2** nommé `df_energy_copilot`.
 
-<!-- ![Suggestion Copilot de total_kwh dans un flux distinct, sans écriture dans la table source](assets/bonus-copilot-dataflow.png) -->
+2. Dans l'éditeur, ajoutez une source **Lakehouse**, choisissez `lh_lab`, puis la table `consumption`, déjà nettoyée.
 
-### Générer une requête en langage naturel
+  *[capture : source du flux distinct, lh_lab et consumption sélectionnés]*
 
-1. Ouvrez `qs_sample` créé au Lab 8.
-2. Ouvrez un nouvel onglet.
-3. Ouvrez « Copilot » dans le jeu de requêtes. <!-- TODO vérifier -->
-4. Demandez : « Dans sample_events, comptez les événements par minute sur les trente dernières minutes selon event_time, puis affichez une courbe. »
-5. Examinez la proposition avant insertion.
-6. Vérifiez qu'elle compte des événements et ne somme pas `bike_count`.
-7. Insérez la proposition si elle est en lecture seule et conforme.
-8. Exécutez-la.
-9. Comparez-la à la requête 2 du Lab 8 sur la même fenêtre.
+3. Ouvrez le volet **Copilot** et demandez : « Ajoutez une colonne total_kwh qui additionne kwh_elec et kwh_gas. Conservez toutes les lignes et les colonnes existantes. » <!-- TODO vérifier -->
 
-<!-- ![Question en français, KQL proposé et résultat comparé à une requête de référence](assets/bonus-copilot-query.png) -->
+<div class="task" data-title="Point de contrôle avant acceptation">
 
-<div class="task" data-title="Point de contrôle">
-
-> Vous devez voir une transformation conforme à la somme demandée et une requête limitée à la bonne table et à la bonne période. Vous devez pouvoir nommer au moins un contrôle effectué avant acceptation.
+> Dans les **étapes proposées** et l'**aperçu Power Query**, vérifiez que `total_kwh` additionne seulement `kwh_elec` et `kwh_gas`, sans retirer de ligne ni de colonne existante. Comparez trois lignes de l'aperçu, dont une ligne à zéro. Si la proposition change la granularité ou masque une erreur, reformulez la demande avant de l'accepter.
 
 </div>
 
+*[capture : proposition Copilot et aperçu de total_kwh, avec une ligne à zéro]*
+
+4. Acceptez la proposition uniquement après ce contrôle, puis enregistrez le **brouillon sans destination de données**. Ne choisissez pas `consumption` comme destination et ne remplacez pas `df_energy`.
+
+### Générer une requête en langage naturel
+
+Vous allez reformuler en français l'analyse du rythme d'arrivée des événements, puis comparer la requête générée à celle du Lab 8. Cette partie suppose que `qs_sample` et les événements de `sample_events` sont disponibles ; sinon, conservez le résultat de la première partie et passez à la conclusion.
+
+1. Dans `qs_sample`, ouvrez un nouvel onglet et le volet **Copilot**. Demandez : « Dans sample_events, comptez les événements par minute sur les trente dernières minutes selon event_time, puis affichez une courbe. » <!-- TODO vérifier -->
+
+<div class="task" data-title="Point de contrôle de la proposition KQL">
+
+> Dans la **requête proposée**, retrouvez la table `sample_events`, la fenêtre sur `event_time` et un comptage d'événements par minute. La proposition doit être en **lecture seule** et ne doit pas sommer `bike_count`. Comparez sa logique à la requête 2 du Lab 8 avant de l'insérer ; une courbe plausible ne suffit pas à valider le calcul.
+
+</div>
+
+*[capture : proposition KQL, table, filtre temporel et comptage par minute]*
+
+2. Insérez la proposition seulement si elle est conforme à ce contrôle, puis exécutez-la.
+
+<div class="task" data-title="Point de contrôle">
+
+> Dans l'**aperçu de `df_energy_copilot`**, retrouvez la somme demandée et les colonnes d'origine, sans destination d'écriture. Dans les **résultats de `qs_sample`**, comparez la courbe à celle de la requête 2 du Lab 8 sur la même fenêtre de temps. Vous devez pouvoir expliquer au moins un contrôle effectué avant d'accepter chaque proposition ; si vous avez sauté la partie KQL, ne la comptez pas comme vérifiée.
+
+</div>
+
+*[capture : courbe issue du KQL proposé, comparée à la requête de référence]*
+
 ### Si ça bloque
 
-- **Bouton absent :** signalez son absence et passez à la conclusion.
+Une fonction indisponible ne justifie pas de modifier les paramètres du tenant pendant le lab. Distinguez l'accès à Copilot, la qualité de la proposition et la disponibilité des données.
+
+- **Bouton absent :** signalez son absence dans le canal Teams $$teams_channel:de l'atelier$$ et passez à la conclusion.
 - **Suggestion incorrecte :** reformulez avec les noms exacts et le résultat attendu avant de l'accepter.
 - **Pas de données récentes :** vérifiez les dates de l'échantillon et la fenêtre de comparaison.
+
+<details>
+<summary>Contexte (optionnel) : une suggestion ne remplace pas un contrôle</summary>
+
+Copilot est une assistance générative intégrée à certaines expériences Fabric. Il peut proposer des transformations ou des requêtes, mais il ne décide pas à votre place si une unité, un filtre ou une agrégation répond au besoin métier.
+
+Gardez une référence indépendante pour comparer le résultat : quelques lignes calculées à la main pour une transformation simple, ou une requête déjà vérifiée pour une analyse. Ce n'est ni le planificateur du pipeline ni une garantie de qualité des données.
+
+</details>
 
 ---
 
