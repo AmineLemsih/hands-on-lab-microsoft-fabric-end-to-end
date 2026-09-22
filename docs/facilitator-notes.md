@@ -172,7 +172,7 @@ Le CSV annuel, les sites et les facteurs ne changent pas. La table des facteurs 
 
 Montrer les observations, la condition et les étapes déjà réussies, puis la capture de répétition. Dire explicitement qu'elle a été reçue avant la session. Ne pas afficher « test réussi aujourd'hui » sans notification/action correspondante. Ne pas déclencher une série de changements de seuil ou de rafraîchissements incontrôlés.
 
-<!-- ![Plan B : notification reçue lors d'une répétition identifiée, destinataire anonymisé](assets/lab05-13-rehearsal-notification.png) -->
+<!-- ![Plan B : notification reçue lors d'une répétition identifiée, destinataire anonymisé](assets/lab05-rehearsal-notification.png) -->
 
 ## Pièges connus et reprise
 
@@ -299,11 +299,11 @@ Hypothèses retenues au-delà des décisions validées :
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
 | Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 233 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
 | Rendu et liens | Variables avec valeurs par défaut et personnalisées ; `s3_shortcut` testé ; lien Fabric sans tracking dans le rendu, lien Q1 chargé en HTTP 200 ; encadrés task et contextes repliés contrôlés |
-| Relecture par écran | Labs 1 à 5 : introductions de sous-sections, 59 étapes-écrans variantes comprises, vérifications dans les encadrés et 76 indications de capture ; questions, instructions métier de l'agent et blocs SQL inchangés ; extensions non réécrites |
+| Relecture par écran | Labs 1 à 5 : introductions de sous-sections, 59 étapes-écrans variantes comprises, vérifications dans les encadrés et 32 indications de capture utiles (6/8/6/6/6) ; questions, instructions métier de l'agent et blocs SQL inchangés ; extensions non réécrites |
 | Fichiers publics | Six CSV accessibles anonymement, identiques octet par octet après régénération ; SQL et sources des six cellules du notebook publics et conformes aux fichiers locaux |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
-| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; 76 indications textuelles à remplacer par les captures des Labs 1 à 5 ; dix références de captures complémentaires encore commentées ; bannière non référencée ; aucun projet Power BI factice |
+| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; 32 indications textuelles à remplacer par les captures des Labs 1 à 5 ; dix références de captures complémentaires encore commentées ; bannière non référencée ; aucun projet Power BI factice |
 | Notebook de préparation | JSON, métadonnées et syntaxe Python contrôlés localement ; exécution Spark/Delta dans Fabric non réalisée |
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.

@@ -1,8 +1,10 @@
 # Captures à réaliser
 
-Une capture par **écran utile** : nouvelle page, boîte de dialogue ou résultat significativement modifié. Pas une capture par clic. Les indications *[capture : …]* placées dans [le workshop](../workshop.md) font foi : elles suivent les étapes et les points de contrôle des Labs 1 à 5. S3 et SharePoint sont des variantes, pas des obligations du parcours par défaut.
+Une capture seulement pour un **écran où l'on peut se tromper** ou un **résultat à reconnaître**. Jamais pour un menu, un bouton évident ou une page d'accueil. Viser **6 à 8 captures par lab**, variantes comprises ; ne pas en ajouter pour atteindre un quota dans un lab court. Les indications *[capture : …]* placées dans [le workshop](../workshop.md) font foi. S3 et SharePoint restent facultatifs.
 
-Format : PNG, **largeur 1600 px**, hauteur adaptée sans réduire le texte, interface française. Encadrer en **rouge** le contrôle ou le résultat à repérer ; garder assez de contexte pour reconnaître l'écran. Nom : `<lab>-<écran>-<sujet>.png`, sujet anglais. Ne pas présenter une image recomposée comme une capture d'un comportement testé.
+Format : PNG, **largeur 1600 px**, hauteur adaptée sans réduire le texte, interface française. Encadrer en **rouge** le contrôle ou le résultat à repérer ; garder assez de contexte pour reconnaître l'écran. Nom : `<lab>-<sujet>.png`, sujet anglais décrivant l'écran, sans numéro d'étape. Ne pas présenter une image recomposée comme une capture d'un comportement testé.
+
+Le texte nomme ce que l'on cherche et les libellés de l'interface, pas la position d'un bouton : éviter « en haut à droite » ou « le troisième bouton ». Lors d'une répétition, refaire uniquement les captures dont l'écran ou le résultat a changé.
 
 Seul « Contoso » peut apparaître comme organisation. Masquer les adresses de compte, avatars, autres noms de tenant, UUID, URLs privées, IDs de capacité, connexions privées et canaux identifiants. Les noms génériques d'items restent visibles. Aucune clé ni aucun jeton ne doit être capturé.
 
@@ -24,35 +26,35 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 
 | Lab | Indications de capture | Contenu |
 | --- | ---: | --- |
-| Lab 1 | 15 | Création, raccourcis, références et variante S3 |
-| Lab 2 | 24 | Connexion, nettoyage, destination, pipeline et variante SharePoint |
-| Lab 3 | 12 | Canevas, jointures, regroupement et vue |
-| Lab 4 | 14 | Agent, réponses avant/après, instructions et exemple |
-| Lab 5 | 11 | Rapport, règle, bascule coordonnée, Teams et historique |
-| **Total** | **76** | Variantes et écrans de contrôle compris |
+| Lab 1 | 6 | Création, raccourcis, cible source et fichiers S3 |
+| Lab 2 | 8 | Locale, connexion, aperçu, types, mois, destination, résultat et filtre SharePoint |
+| Lab 3 | 6 | Jointures, colonnes développées, regroupement et vue |
+| Lab 4 | 6 | Tables sélectionnées, réponses, instructions et validation de l'exemple |
+| Lab 5 | 6 | État initial, condition, destination, franchissement, Teams et historique |
+| **Total** | **32** | Variantes et écrans de contrôle compris |
 
 Après avoir réalisé et anonymisé un écran, ajoutez son PNG ici, puis remplacez la ligne *[capture : …]* correspondante par une référence Markdown :
 
 ```markdown
-![Lakehouse lh_lab, zones Tables et Fichiers](assets/lab01-05-lakehouse-explorer.png)
+![Lakehouse lh_lab, zones Tables et Fichiers](assets/lab01-lakehouse-explorer.png)
 ```
 
-Gardez l'indentation de la ligne quand elle appartient à une étape numérotée. Le nom suit `<lab>-<écran>-<sujet>.png`, avec un numéro d'écran stable par lab et un sujet anglais. Une capture doit montrer le résultat réellement obtenu ; signalez un écart plutôt que fabriquer l'état attendu.
+Gardez l'indentation de la ligne quand elle appartient à une étape numérotée. Le nom reste stable si une étape est déplacée : par exemple `lab01-shortcut-properties.png` ou `lab02-destination-mapping.png`. Une capture doit montrer le résultat réellement obtenu ; signalez un écart plutôt que fabriquer l'état attendu.
 
 ## Compléments et extensions
 
 | Fichier | Usage | Écran |
 | --- | --- | --- |
-| `lab05-13-rehearsal-notification.png` | Notes animateur uniquement | Notification de répétition datée, identifiée comme telle |
-| `lab06-01-sql-results.png` | Lab 6 | Requêtes, volumes et vue |
-| `lab06-02-pipeline-option.png` | Lab 6, contexte optionnel | Alternative par pipeline |
-| `lab07-01-direct-lake-model.png` | Lab 7 | Relations et mesure total_kgco2e |
-| `lab07-02-agent-semantic-model.png` | Lab 7 | Source sm_energy_lab et résultat DAX |
-| `lab08-01-eventstream.png` | Lab 8 | Bicycles et destination Eventhouse |
-| `lab08-02-kql-results.png` | Lab 8 | Champs mappés et requêtes KQL |
-| `lab08-03-activator.png` | Lab 8 | Objet station et règle active |
-| `bonus-01-copilot-dataflow.png` | Bonus | Transformation dans un flux distinct |
-| `bonus-02-copilot-query.png` | Bonus | Question française et KQL proposé |
+| `lab05-rehearsal-notification.png` | Notes animateur uniquement | Notification de répétition datée, identifiée comme telle |
+| `lab06-sql-results.png` | Lab 6 | Requêtes, volumes et vue |
+| `lab06-pipeline-option.png` | Lab 6, contexte optionnel | Alternative par pipeline |
+| `lab07-direct-lake-model.png` | Lab 7 | Relations et mesure total_kgco2e |
+| `lab07-agent-semantic-model.png` | Lab 7 | Source sm_energy_lab et résultat DAX |
+| `lab08-eventstream.png` | Lab 8 | Bicycles et destination Eventhouse |
+| `lab08-kql-results.png` | Lab 8 | Champs mappés et requêtes KQL |
+| `lab08-activator.png` | Lab 8 | Objet station et règle active |
+| `bonus-copilot-dataflow.png` | Bonus | Transformation dans un flux distinct |
+| `bonus-copilot-query.png` | Bonus | Question française et KQL proposé |
 
 ## Activer les captures livrées
 
