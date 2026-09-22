@@ -291,7 +291,7 @@ def write_answers(output, sites, factors, cleaned, scenario):
         "", "## Contrôle de l'alerte", "",
         "L'instantané est le 31 décembre 2025, pas la date système. Ne pas filtrer le rapport sur AUJOURDHUI().",
         "Le fichier consumption_latest_day_before.csv retire le pic de S030 de l'instantané uniquement ; consumption_latest_day_after.csv le rétablit.",
-        "Remplacer le fichier actif consumption_latest_day.csv, recharger la table puis actualiser le modèle sémantique.",
+        "Exécuter la cellule de bascule after du notebook setup_lh_source.ipynb, puis actualiser le modèle sémantique.",
         f"Seuil de démonstration par région : {french_number(ALERT_THRESHOLD_KWH)} kWh, comparaison strictement supérieure.",
         "Ne pas modifier le CSV annuel pendant ce test. Mesurer la latence en répétition, prévoir une capture.",
         "", "| Région | Avant, kWh | Après, kWh |", "| --- | ---: | ---: |",
@@ -307,7 +307,7 @@ def write_answers(output, sites, factors, cleaned, scenario):
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("--out", type=Path, default=Path(__file__).resolve().parent / "out", help="Dossier de sortie")
+    parser.add_argument("--out", type=Path, default=Path(__file__).resolve().parent / "csv", help="Dossier de sortie des CSV versionnés")
     parser.add_argument("--latest-state", choices=("before", "after"), default="before", help="État du fichier actif pour l'alerte")
     args = parser.parse_args()
     args.out.mkdir(parents=True, exist_ok=True)

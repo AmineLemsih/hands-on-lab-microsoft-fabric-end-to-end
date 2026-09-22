@@ -1,0 +1,2 @@
+data/csv/*.csv text eol=lf
+setup/*.ipynb text eol=lf

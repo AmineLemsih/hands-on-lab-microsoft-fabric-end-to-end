@@ -14,6 +14,7 @@ dist/
 .env.*
 !.env.example
 data/out/
+data/csv/*.md
 setup/participants.csv
 setup/participants.local.csv
 setup/participants.resolved.csv
@@ -22,7 +23,6 @@ setup/*.csv.lock
 setup/*.local.*
 docs/participant-sheet.md
 docs/participant-sheet.*.md
-!docs/participant-sheet.template.md
 *.pbix
 **/.pbi/
 .DS_Store

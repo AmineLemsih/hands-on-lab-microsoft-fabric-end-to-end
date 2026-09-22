@@ -10,7 +10,7 @@ Depuis la racine du dépôt, avec Python 3.11 ou ultérieur, sans dépendance ex
 python data/generate_data.py
 ```
 
-La graine vaut `2025`. Les sept fichiers sont écrits dans `data/out/`, exclu de Git. Relancer la même commande produit les mêmes fichiers. Le script relit les CSV, vérifie les volumes et calcule les six réponses attendues. Aucun téléchargement ni appel cloud. Les identifiants restent en anglais, même si le texte de l'atelier est traduit.
+La graine vaut `2025`. Les six CSV sont écrits dans `data/csv/` et versionnés dans Git. Le corrigé Markdown y est également généré, mais reste ignoré. Relancer la même commande produit les mêmes valeurs. Le script relit les CSV, vérifie les volumes et calcule les six réponses attendues. Aucun téléchargement ni appel cloud. Les identifiants restent en anglais, même si le texte de l'atelier est traduit.
 
 | Fichier généré | Volume hors en-tête | Usage |
 | --- | ---: | --- |
@@ -88,45 +88,21 @@ Six pics dépassent chacun 20 000 kWh au total. Ils ne sont jamais corrompus par
 
 Une anomalie n'est pas une preuve de panne. Les données ne permettent pas d'en déduire une cause.
 
-## Déposer les fichiers dans lh_source
+## Fichiers publics et préparation de lh_source
 
-À réaliser par l'animateur avant la session, avec un accès en écriture au workspace commun indiqué dans le lien de session. Les noms `ws-shared` et `lh_source` sont des noms génériques.
+Les données synthétiques sont [consultables et téléchargeables dans le dépôt](https://github.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/tree/main/data/csv). Le parcours participant utilise directement l'[URL raw du CSV annuel](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv), authentification anonyme. Aucun fichier à envoyer séparément ni dépôt manuel dans le lakehouse n'est nécessaire.
 
-1. Ouvrir le workspace commun.
-2. Ouvrir `lh_source`.
-3. Sélectionner « Fichiers ».
-4. Choisir « Charger des fichiers » dans le menu de chargement. <!-- TODO vérifier -->
-5. Sélectionner `sites.csv`, `emission_factors.csv`, `consumption_2025.csv` et `consumption_latest_day.csv` dans `data/out/`.
-6. Lancer le chargement.
-7. Vérifier les quatre noms de fichiers dans « Fichiers ».
-8. Créer un Dataflow Gen2 de préparation `df_source_references` dans le workspace commun.
-9. Ajouter le connecteur « Lakehouse ».
-10. Naviguer vers les fichiers de `lh_source`.
-11. Importer `sites.csv` comme requête `sites`.
-12. Définir les types indiqués dans le dictionnaire.
-13. Affecter la destination `lh_source`, schéma `dbo`, table `sites`, méthode « Remplacer ».
-14. Ajouter une seconde requête depuis `emission_factors.csv`.
-15. Définir les types indiqués dans le dictionnaire, avec la bonne locale décimale.
-16. Affecter la destination `lh_source`, schéma `dbo`, table `emission_factors`, méthode « Remplacer ».
-17. Publier le flux.
-18. Exécuter le flux.
-19. Vérifier les **tables Delta**, pas seulement les fichiers : 30 sites et une ligne de facteurs.
-20. Vérifier que les deux tables sont visibles dans le point de terminaison SQL.
-21. Tester leur lecture avec un compte participant.
+Pour préparer la source commune, importer [setup_lh_source.ipynb](../setup/setup_lh_source.ipynb) dans Fabric, l'attacher à **lh_source**, schémas activés, puis exécuter les cellules 2 à 4. La [procédure d'import](../setup/README.md#préparer-lh_source-avec-le-notebook) détaille les clics. Le notebook vérifie son lakehouse par défaut avant toute écriture, télécharge les sources publiques, applique des types explicites et remplace les quatre tables de démonstration. Il ne configure ni permissions, ni modèle sémantique, ni rapport.
 
-Ne pas déposer les versions `before` et `after` dans le dossier ingéré par un connecteur qui combine les fichiers : cela triplerait les observations. Garder ces deux fichiers localement pour le remplacement du seul fichier actif.
-
-Pour un lakehouse sans schémas créé antérieurement, ne pas ajouter un faux niveau de dossier `dbo` dans « Tables ». Le point de terminaison SQL expose les noms sous `dbo` ; tester les chemins réellement affichés avant la session.
+Il prépare `sites` (30 lignes), `emission_factors` (une ligne), `consumption` (10 840 lignes nettoyées, avec `month_start`) et `consumption_latest_day` (30 lignes dans l'état `before`). Le participant recrée lui-même `consumption` dans `lh_lab` depuis le CSV imparfait, sans exécuter ce notebook pendant le tronc commun.
 
 **Accès OneLake obligatoire :** donner Viewer au groupe sur `ws-shared` **et partager explicitement `lh_source` avec ce groupe**. Activer l'option qui accorde `ReadAll`, « Lire toutes les données Apache Spark » / « Lire toutes les données OneLake » selon l'interface. <!-- TODO vérifier --> Le partage ajoute aussi `Read`. Il ne donne aucun droit d'écriture. Cela permet les raccourcis et Direct Lake sur OneLake en SSO. Si la sécurité OneLake est activée, faire valider également ses rôles de lecture. Tester avec un compte participant. [Permissions du lakehouse](https://learn.microsoft.com/fabric/data-engineering/lakehouse-sharing) ; [sécurité Direct Lake](https://learn.microsoft.com/fabric/fundamentals/direct-lake-security-integration).
-
-Le parcours de navigation d'un fichier binaire CSV dans le connecteur Lakehouse doit être répété en français avant diffusion. Si cette navigation n'est pas disponible dans le tenant, retenir **la variante SharePoint du lab 2**. Ne pas remplacer l'exercice par une URL publique ou un connecteur inventé. <!-- TODO vérifier -->
 
 Pour SharePoint, déposer uniquement `consumption_2025.csv` dans une bibliothèque accessible aux participants. Transmettre l'URL du **site** par la variable `sp_site` du lien de session. Le connecteur « Dossier SharePoint » attend l'URL du site, pas un lien de partage du CSV.
 
 ## Préparer les tables du rapport
 
-Dans `lh_source`, préparer également la table **nettoyée** `consumption` en appliquant le lab 2, y compris la colonne `month_start`, avec `lh_source` comme destination. Préparer `consumption_latest_day` dans un flux séparé `df_source_latest` depuis **le fichier actif** `consumption_latest_day.csv`, avec les mêmes types, sans cumul des chargements.
+Le notebook prépare déjà les tables du rapport. Il nettoie le fichier annuel avec les mêmes règles : suppression des observations vides et mal typées, sans imputation, puis ajout du premier jour du mois. Attendre leur synchronisation dans le point de terminaison SQL avant de connecter le rapport.
 
 Contrôles avant de suivre [le guide du rapport](../report/README.md) : `consumption` = 10 840 lignes ; `consumption_latest_day` = 30 lignes ; `sites` = 30 ; `emission_factors` = 1. Le rapport est construit sur ces tables, jamais sur le CSV annuel sale.
 
@@ -134,18 +110,10 @@ Contrôles avant de suivre [le guide du rapport](../report/README.md) : `consump
 
 Le dernier jour disponible est **le dernier jour du jeu**, le 31 décembre 2025. Ce choix rend l'atelier réutilisable n'importe quelle année. Ne pas appliquer de filtre relatif « aujourd'hui » au rapport.
 
-```powershell
-Copy-Item data/out/consumption_latest_day_before.csv data/out/consumption_latest_day.csv -Force
-```
+Les cellules 2 à 4 initialisent `consumption_latest_day` depuis `consumption_latest_day_before.csv`. Actualiser ensuite `sm_energy_report` et attendre que les règles Activator aient observé l'état sous le seuil.
 
-Cette version retire le pic de S030 **de l'instantané seulement**. Remplacer le CSV actif dans `lh_source`, exécuter `df_source_latest` qui remplace la table `consumption_latest_day`, puis actualiser le modèle sémantique du rapport. Attendre qu'Activator ait observé l'état sous le seuil. Tous les participants créent leur règle avant de poursuivre.
+Pendant la section 5, mettre `apply_after = True` dans la **cellule 6**, puis exécuter cette cellule seulement. Elle télécharge `consumption_latest_day_after.csv` et remplace uniquement `consumption_latest_day`. Remettre le paramètre à False, puis actualiser `sm_energy_report`. La Bretagne passe de **2 724,55 à 36 724,55 kWh**. Pour réinitialiser, réexécuter les cellules 2 à 4, puis actualiser le modèle.
 
-```powershell
-Copy-Item data/out/consumption_latest_day_after.csv data/out/consumption_latest_day.csv -Force
-```
-
-Pendant la section 5, remplacer uniquement le fichier actif et refaire la même chaîne d'actualisation. Les fichiers historiques restent identiques. Le seuil de démonstration est **10 000 kWh par région**, comparaison strictement supérieure ; ce n'est pas un seuil métier recommandé. Le script garantit que toutes les régions sont sous le seuil avant et exactement une au-dessus après. Le seuil Q4 reste **20 000 kWh par site et jour**. Le corrigé donne les totaux exacts des deux états.
-
-Le script génère les deux variantes en une exécution. `--latest-state after` initialise éventuellement le fichier actif à l'état après ; le défaut `before` est celui à utiliser avant la session. Une nouvelle génération écrase les sorties, y compris le fichier actif.
+Le seuil régional reste **10 000 kWh** ; Q4 conserve **20 000 kWh par site/jour**. Les fichiers annuels et les facteurs ne changent pas pendant la bascule. La version publiée de `consumption_latest_day.csv` reste initialisée à `before` ; ne pas commiter un état temporaire de répétition. Le notebook ne dépend pas de ce fichier actif et choisit explicitement `before` ou `after`.
 
 Le visuel d'alerte n'a pas d'axe temporel. Une alerte qui a déjà observé un point d'un axe temporel peut ignorer une correction de ce même point. Tester la latence et le mode de franchissement avant la session ; garder une notification reçue en amont comme plan B.

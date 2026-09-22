@@ -1,6 +1,29 @@
 # Préparer et nettoyer les workspaces
 
-Ces scripts sont réservés à l'animateur. Ils utilisent l'API REST Fabric publique `https://api.fabric.microsoft.com/v1`. **Ils ne créent pas de capacité, ne la démarrent pas et ne la suppriment pas.** Ils n'importent pas les données et ne publient pas le rapport.
+Les scripts de workspaces sont réservés à l'animateur. Ils utilisent l'API REST Fabric publique `https://api.fabric.microsoft.com/v1`. **Ils ne créent pas de capacité, ne la démarrent pas et ne la suppriment pas.** La préparation des données est assurée séparément par le notebook ci-dessous ; le rapport reste à construire.
+
+## Préparer lh_source avec le notebook
+
+Cette procédure ne nécessite pas les scripts REST si vos workspaces existent déjà. Utiliser un compte autorisé à créer un notebook et écrire dans le lakehouse. Les participants de la session guidée n'exécutent pas cette préparation.
+
+1. Ouvrir le workspace commun, normalement `ws-shared`.
+2. Créer un lakehouse `lh_source` si absent, avec les schémas activés.
+3. Télécharger [setup_lh_source.ipynb](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/setup/setup_lh_source.ipynb).
+4. Dans le workspace, choisir « Importer un notebook » / « Charger un notebook ». <!-- TODO vérifier -->
+5. Sélectionner le fichier téléchargé.
+6. Ouvrir le notebook importé.
+7. Dans son explorateur, choisir « Ajouter un lakehouse » et sélectionner `lh_source`. <!-- TODO vérifier -->
+8. Définir `lh_source` comme lakehouse par défaut ; redémarrer la session Spark si Fabric le demande.
+9. Vérifier l'utilisation du langage PySpark et lire l'avertissement de la cellule 1.
+10. Exécuter les cellules 2 à 4, ou « Exécuter tout » en laissant `apply_after = False` en cellule 6.
+11. Vérifier les volumes affichés : 30 sites, une ligne de facteurs, 10 840 consommations historiques et 30 observations du dernier jour.
+12. Actualiser l'explorateur de `lh_source` et attendre la visibilité des tables dans son point de terminaison SQL.
+
+Le notebook télécharge les CSV publics anonymement avec un délai limité, vérifie le schéma et les volumes avant écriture, puis utilise des types explicites. Les tables de démonstration existantes sont **remplacées**, pas cumulées. Ne pas l'attacher à un lakehouse de production. Le contrôle de nom `lh_source` est un garde-fou, pas une autorisation de modifier un environnement quelconque.
+
+La cellule 6 « bascule after » est volontairement désactivée. Pendant le lab d'alerte, passer `apply_after` à True et exécuter uniquement cette cellule après observation de `before`. Elle remplace `consumption_latest_day`, pas l'historique. Remettre False et actualiser `sm_energy_report` dans le service. Pour revenir à `before`, réexécuter les cellules 2 à 4. La création du rapport suit [report/README.md](../report/README.md).
+
+Le notebook est livré sans sorties ni IDs de tenant. Sa syntaxe et ses données sont contrôlées localement ; téléchargement réseau, `notebookutils.runtime.context` et écriture Delta restent à répéter dans Fabric. [Contexte d'exécution NotebookUtils](https://learn.microsoft.com/fabric/data-engineering/notebookutils/notebookutils-runtime) ; [tables dans les schémas lakehouse](https://learn.microsoft.com/fabric/data-engineering/lakehouse-schemas).
 
 La simulation est le comportement par défaut : elle ne demande pas de jeton, ne lit pas le tenant et n'écrit pas de journal. Elle valide les paramètres locaux et affiche un plan **conditionnel**, pas un inventaire de l'existant.
 

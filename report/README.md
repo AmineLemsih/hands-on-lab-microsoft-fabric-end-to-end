@@ -19,7 +19,7 @@ Prévoir Power BI Desktop et une licence Power BI Pro pour l'auteur, les droits 
 
 Suivre [le guide des données](../data/README.md) pour préparer dans `lh_source` : la table `consumption` (consommation) nettoyée, 10 840 lignes avec `month_start` ; la table `consumption_latest_day` (consommation du dernier jour disponible), 30 lignes ; `sites`, 30 lignes ; `emission_factors`, une ligne.
 
-Préparer `df_source_latest` qui lit uniquement `consumption_latest_day.csv` et **remplace** `dbo.consumption_latest_day`. Les fichiers `before` et `after` restent locaux ; ils servent à remplacer le fichier actif, jamais à être combinés dans la même requête.
+Exécuter le notebook [setup_lh_source.ipynb](../setup/setup_lh_source.ipynb) attaché à `lh_source` : il prépare les quatre tables et initialise `consumption_latest_day` dans l'état `before`. Sa cellule 6 réalise la bascule `after` ; aucune combinaison de fichiers ni Dataflow de préparation supplémentaire n'est nécessaire.
 
 Créer une connexion cloud `conn_energy_report` à identité fixe autorisée à lire le point de terminaison SQL de `lh_source`. Pour cette version Import, utiliser OAuth 2.0 avec une identité d'animation approuvée et stocker l'authentification dans le service, jamais dans le projet. Une identité de workspace est une variante possible si le connecteur et les paramètres tenant la prennent en charge. Aucune clé ni identité supplémentaire n'est provisionnée par le kit.
 
@@ -137,9 +137,9 @@ Si la capacité n'est pas le blocage, F64 ne remplace pas des droits Edit. Ne pa
 
 ## Faire partir l'alerte en section 5
 
-Avant la session, utiliser le fichier `consumption_latest_day_before.csv` comme contenu du fichier actif `consumption_latest_day.csv`. Charger la table et actualiser le modèle. Toutes les régions sont alors sous 10 000 kWh, le seuil régional de l'alerte.
+Avant la session, exécuter les cellules 2 à 4 du notebook, puis actualiser le modèle. Toutes les régions sont alors sous 10 000 kWh, le seuil régional de l'alerte.
 
-Après activation des règles et observation de cet état, remplacer le fichier actif par le contenu de `consumption_latest_day_after.csv`. Exécuter `df_source_latest`, attendre sa réussite, actualiser `sm_energy_report`, puis vérifier les barres. **Bretagne : 2 724,55 → 36 724,55 kWh**. Les autres régions ne changent pas. La mesure conserve le même nom et la même date de jeu.
+Après activation des règles et observation de cet état, passer `apply_after` à True dans la cellule 6 et exécuter uniquement cette cellule. Après réussite, remettre False, actualiser `sm_energy_report`, puis vérifier les barres. **Bretagne : 2 724,55 → 36 724,55 kWh**. Les autres régions ne changent pas. La mesure conserve le même nom et la même date de jeu.
 
 Mesurer à J-7 l'intervalle entre la fin d'actualisation et la notification. Ne pas promettre une réception immédiate ou un délai fixe de 15 minutes. Conserver une capture de notification reçue en amont et de l'historique de règle. Le bouton de test d'action, s'il existe, ne remplace pas un test de franchissement réel.
 

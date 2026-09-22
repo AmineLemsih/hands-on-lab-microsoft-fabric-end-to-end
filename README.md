@@ -58,7 +58,8 @@ Commencer par [docs/facilitator-notes.md](docs/facilitator-notes.md), puis prép
 | Ressource | Utilisation |
 | --- | --- |
 | [setup/README.md](setup/README.md) | Préparer les workspaces et les accès ; simulation par défaut ; nettoyage confirmé |
-| [data/README.md](data/README.md) | Générer les CSV, charger les tables et préparer les deux états d'alerte |
+| [data/README.md](data/README.md) | CSV publics régénérables et préparation des tables par notebook |
+| [setup/setup_lh_source.ipynb](setup/setup_lh_source.ipynb) | Notebook Fabric à importer et attacher à `lh_source` |
 | [report/README.md](report/README.md) | Construire et publier le vrai rapport fourni `energy_report` |
 | [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md) | Réaliser les captures anonymisées |
 
@@ -76,7 +77,7 @@ python -m unittest discover -s setup -p "test_*.py" -v
 
 Attendus : 30 sites, une ligne de facteurs annuels avec deux coefficients, 10 950 lignes brutes, 110 rejets, 10 840 lignes propres, six pics historiques et 30 lignes par instantané. Toutes les régions sont sous 10 000 kWh dans l'état avant ; seule la Bretagne dépasse le seuil dans l'état après. Q4 conserve son seuil distinct de 20 000 kWh par site et jour.
 
-Les fichiers générés et les paramètres réels restent exclus de Git. Le corrigé est calculé dans `data/out/questions_expected_answers.md`. Aucun script n'est exécuté en mode réel lors des tests locaux.
+Les six CSV synthétiques de `data/csv/` sont versionnés et régénérables. Les paramètres réels restent exclus de Git. Le corrigé local est calculé dans `data/csv/questions_expected_answers.md` et reste ignoré. Le dossier `data/out/` reste réservé aux sorties locales de construction. Aucun script n'est exécuté sur Fabric lors des tests locaux.
 
 ## Backlog
 

@@ -233,28 +233,25 @@ Un nettoyage reproductible rend les analyses comparables d'un jour à l'autre.
 6. Choisissez « Options → Paramètres régionaux du dataflow → Anglais (États-Unis) ». <!-- TODO vérifier -->
 7. Ouvrez « Obtenir des données ».
 
-Choisissez **une seule variante**, selon la source retenue pour votre session. Elles utilisent le même fichier `consumption_2025.csv`.
+Utilisez le fichier public du dépôt pour ce lab. La variante SharePoint est réservée à vos propres fichiers au même schéma.
 
-### Variante A : fichier dans lh_source
+### Importer le fichier du dépôt
 
-1. Recherchez le connecteur « Lakehouse ».
+1. Recherchez le connecteur « Web » ou « Texte/CSV » permettant une URL. <!-- TODO vérifier -->
 2. Sélectionnez ce connecteur.
-3. Choisissez l'authentification « Compte d'organisation ».
-4. Sélectionnez « Se connecter » si nécessaire.
-5. Sélectionnez « Suivant ».
-6. Développez `$$shared_ws:ws-shared$$` dans le navigateur de données.
-7. Développez `lh_source`.
-8. Développez « Fichiers ». <!-- TODO vérifier -->
-9. Sélectionnez `consumption_2025.csv`.
-10. Ouvrez son contenu binaire si le navigateur le présente comme « Binary ». <!-- TODO vérifier -->
-11. Choisissez le format « Texte/CSV » si demandé.
-12. Définissez la virgule comme séparateur.
-13. Définissez UTF-8 comme encodage.
-14. Sélectionnez « Créer » ou « Transformer les données » selon l'assistant. <!-- TODO vérifier -->
+3. Collez cette URL : `https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv`.
+4. Choisissez l'authentification « Anonyme ».
+5. Sélectionnez « Suivant » ou « Se connecter ». <!-- TODO vérifier -->
+6. Choisissez le format « Texte/CSV » si demandé.
+7. Définissez la virgule comme séparateur.
+8. Définissez UTF-8 comme encodage.
+9. Sélectionnez « Transformer les données ». <!-- TODO vérifier -->
 
-![Sélection du CSV annuel dans les fichiers du lakehouse source](assets/02-lakehouse-source.png)
+Le fichier est également [disponible en téléchargement](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv). L'import par URL ne nécessite pas de téléchargement local.
 
-### Variante B : fichier dans SharePoint
+### Variante : avec vos propres fichiers
+
+Suivez cette variante uniquement pour un fichier SharePoint autorisé au même schéma. Sinon, passez directement à « Nettoyer et typer ».
 
 1. Recherchez « Dossier SharePoint ».
 2. Sélectionnez ce connecteur.
@@ -355,7 +352,7 @@ La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez
 
 ### Si ça bloque
 
-- **Fichier refusé ou import multiple :** vérifiez l'emplacement et les filtres `Name` et `Folder Path` ; signalez un accès refusé.
+- **Fichier refusé ou import multiple :** vérifiez l'URL raw et l'accès anonyme ; pour SharePoint, contrôlez `Name` et `Folder Path`.
 - **Décimaux ou dates en erreur :** vérifiez la locale de conversion et l'ordre des étapes.
 - **Échec de destination ou doublons :** vérifiez votre workspace, `lh_lab` et la méthode « Remplacer ».
 

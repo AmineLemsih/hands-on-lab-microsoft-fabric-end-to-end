@@ -75,15 +75,15 @@ La documentation des anciennes alertes sur tuiles de dashboard ne valide pas ce 
 
 - [ ] Préparer le lien de session : noms des workspaces, rapport, Teams et contact. Le pipeline est exécuté manuellement ; la planification est facultative dans « Comprendre ».
 - [ ] Générer les données et conserver le corrigé calculé. Vérifier 30 sites, une ligne de facteurs, 10 950 lignes brutes et 10 840 propres.
-- [ ] Déposer les fichiers selon [data/README.md](../data/README.md). Vérifier les types des tables Delta, pas seulement la présence des CSV.
-- [ ] Préparer `consumption` nettoyée dans `lh_source` pour le rapport ; préparer `df_source_latest` séparément pour les changements en direct.
-- [ ] Charger l'état `before` dans le fichier actif, exécuter le flux, puis actualiser le modèle. Vérifier que les six régions sont sous le seuil de 10 000 kWh.
+- [ ] Importer [setup_lh_source.ipynb](../setup/setup_lh_source.ipynb) dans l'espace commun et l'attacher à `lh_source`, schémas activés. Exécuter les cellules 2 à 4 : les quatre tables du rapport sont préparées, sans dépôt manuel de CSV.
+- [ ] Vérifier `consumption` nettoyée (10 840 lignes), `sites` (30), `emission_factors` (1) et `consumption_latest_day` (30), puis leur visibilité SQL.
+- [ ] Actualiser le modèle sur l'état `before`. Vérifier que les six régions sont sous le seuil de 10 000 kWh et que `apply_after` reste False dans le notebook.
 - [ ] Vérifier le rapport partagé, son lien, son modèle à identité fixe et sa dernière actualisation réussie.
 - [ ] Préparer un raccourci de démonstration et un workspace animateur, distincts des espaces participants.
 - [ ] Contrôler les tables du data agent de démonstration et les exemples. Conserver le corrigé accessible sans devoir exécuter un notebook en session.
 - [ ] Préparer les captures listées dans [assets/SCREENSHOTS-TODO.md](assets/SCREENSHOTS-TODO.md), notamment le plan B de notification.
 - [ ] Confirmer le résultat du test Viewer/F64 et annoncer le mode individuel ou démonstration pour la section 5.
-- [ ] Garder les fichiers `before` et `after` locaux. Ne pas les combiner avec le fichier actif dans une source par dossier.
+- [ ] Vérifier les URL raw des états `before` et `after` versionnés. La bascule du notebook ne doit modifier que la table du dernier jour.
 - [ ] Vérifier le rendu MOAW sur ordinateur et mobile. Garder les captures tenant privées tant qu'elles ne sont pas anonymisées.
 
 ## Checklist jour J
@@ -169,10 +169,10 @@ Le seuil de **10 000 kWh** est évalué **par région**. La question Q4 de l'age
 
 ### Avant les règles
 
-1. Préparer le fichier actif avec le contenu `before`.
-2. Remplacer `consumption_latest_day.csv` dans « Fichiers » de `lh_source`.
-3. Exécuter `df_source_latest`.
-4. Attendre son état de réussite.
+1. Ouvrir le notebook de préparation attaché à `lh_source`.
+2. Vérifier `apply_after = False` dans la cellule 6.
+3. Exécuter les cellules 2 à 4 pour initialiser `before`.
+4. Attendre leur réussite.
 5. Contrôler les 30 lignes de `consumption_latest_day`.
 6. Actualiser `sm_energy_report`.
 7. Attendre la réussite de l'actualisation.
@@ -180,28 +180,20 @@ Le seuil de **10 000 kWh** est évalué **par région**. La question Q4 de l'age
 9. Faire créer et démarrer les règles des participants.
 10. Attendre que l'observation de départ soit visible dans les règles, selon la latence mesurée à J-7.
 
-Commande locale de préparation du fichier, sans action cloud :
-
-```powershell
-Copy-Item data/out/consumption_latest_day_before.csv data/out/consumption_latest_day.csv -Force
-```
+Le notebook télécharge le CSV `before` depuis le dépôt public et remplace la table Delta ; aucun fichier n'est à déposer manuellement dans le lakehouse.
 
 ### Pendant la démonstration en direct
 
-1. Préparer le fichier actif avec le contenu `after`.
-2. Remplacer le même fichier dans `lh_source`, en conservant son nom.
-3. Exécuter `df_source_latest`.
-4. Attendre sa réussite.
+1. Ouvrir la cellule 6 « bascule after » du notebook.
+2. Passer `apply_after` à True.
+3. Exécuter cette cellule uniquement.
+4. Attendre sa réussite et remettre `apply_after` à False.
 5. Vérifier que la table conserve 30 lignes.
 6. Actualiser `sm_energy_report`.
 7. Noter l'heure de fin d'actualisation.
 8. Vérifier que la Bretagne passe de **2 724,55 à 36 724,55 kWh**.
 9. Observer l'historique des actions Activator.
 10. Noter l'heure de réception Teams et la latence constatée.
-
-```powershell
-Copy-Item data/out/consumption_latest_day_after.csv data/out/consumption_latest_day.csv -Force
-```
 
 Le CSV annuel, les sites et les facteurs ne changent pas. La table des facteurs garde la mention « fictif, ne pas utiliser pour un reporting réel ». Les autres régions restent sous le seuil. Le visuel ne doit pas avoir d'axe temporel : Activator peut ignorer la correction d'un point temporel déjà examiné.
 
@@ -231,7 +223,7 @@ Les passages ci-dessous ont été retirés du texte participant lors de la relec
 | 4, exemple et dépannage | « Si Q1 n'est pas correcte, l'animateur la vérifie avec vous avant l'ajout. » ; « L'animateur vérifie la capacité payante, la région et les paramètres tenant des data agents et de l'IA. » ; « Testez les instructions en français avant diffusion. » La capacité d'essai ne suffit pas au parcours prévu. |
 | 4, préparation de Q1 après relecture | L'exemple Q1 téléchargeable est validé à J-7. Le participant conserve uniquement le collage et la validation de l'exemple dans l'interface. |
 | 5, bouton indisponible | « Ce chemin doit avoir été validé à J-7 avec les mêmes droits et la même capacité. » ; « La documentation décrit également une expérience demandant Edit sur le rapport. » ; « L'animateur applique le plan B annoncé. » Ne pas accorder l'écriture sur l'espace commun ni imposer une copie sans annonce. |
-| 5, changement des données | « L'animateur remplace uniquement le fichier actif du dernier jour, recharge sa table puis actualise le modèle. » Vérifier `df_source_latest` et `sm_energy_report` avec son identité fixe si le rapport ne change pas. |
+| 5, changement des données | L'animateur exécute la cellule de bascule du notebook, puis actualise `sm_energy_report` avec son identité fixe. Vérifier la table du dernier jour si le rapport ne change pas. |
 | 5, contrôle et dépannage | « La notification peut arriver après la fin du module : sa latence est mesurée à J-7. » ; « Si le plan B capture est utilisé, distinguez clairement la règle créée aujourd'hui de la notification reçue en répétition. » Contrôler les droits et le paramètre tenant ; F64 ne donne pas Edit. Les filtres sont capturés à la création de la règle. |
 | 6, chargement et dépannage | Le chargement automatique et les modes de copie doivent être répétés sur la version du connecteur utilisée ; préparer les destinations si nécessaire. « L'animateur remet la table de démonstration à zéro avant un nouvel essai. » Ne pas improviser des chargements en ajout après un échec. |
 | 7, connexion et dépannage | Accompagner la vérification de SSO, des accès de l'utilisateur et du propriétaire à la cible du raccourci. Membre de l'espace personnel ne remplace pas la lecture de `lh_source`. |
@@ -307,7 +299,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 | 7 | Création/édition explicite du modèle ; mode Direct Lake/SSO ; gestion des relations ; permissions des sources de l'agent |
 | 8 | Source intégrée/casse/champs ; ingestion directe/configuration/mappage ; jeu KQL ; destination Activator ; objet/propriété/condition ; test d'action distinct du test de franchissement |
 | 9 | Disponibilité des deux surfaces Copilot, paramètres tenant/région et chemins français |
-| Données | Chargement des fichiers ; ReadAll ; navigation du connecteur Lakehouse |
+| Données | Téléchargement anonyme des CSV ; notebook attaché au bon lakehouse ; types et volumes Delta ; ReadAll |
 | Rapport | Format projet Desktop ; sélection base SQL ; séparateurs DAX ; interactions visuelles ; connexion cloud et SSO désactivé ; alerte Viewer/F64 |
 | Préparation | Permissions réelles API/tenant ; ReadAll manuel ; contrat de l'option facultative de clonage Power BI |
 
@@ -376,7 +368,7 @@ Prévoir un temps de préparation distinct du parcours chronométré. Utiliser d
 1. Faire confirmer une capacité payante active, la région et les licences nécessaires. Ne pas démarrer ou redimensionner une capacité mutualisée sans autorisation de son propriétaire.
 2. Suivre [setup/README.md](../setup/README.md) avec une seule ligne dans la liste privée des participants : simulation, examen du plan, puis exécution réelle autorisée. Conserver le journal pour le nettoyage.
 3. Vérifier Membre sur l'espace personnel, Viewer sur l'espace commun, puis partager `lh_source` avec ReadAll au groupe participant. Vérifier que le compte n'hérite pas d'un rôle plus élevé par un autre groupe.
-4. Exécuter `python data/generate_data.py`, puis suivre [data/README.md](../data/README.md) pour déposer les fichiers et préparer les tables communes, y compris `consumption` nettoyée et `consumption_latest_day` dans l'état `before`.
+4. Importer le notebook [setup_lh_source.ipynb](../setup/setup_lh_source.ipynb), l'attacher à `lh_source` et exécuter les cellules 2 à 4. Les CSV sont déjà publics ; la génération locale sert seulement à les régénérer à l'identique.
 5. Construire et publier le vrai `energy_report` selon [report/README.md](../report/README.md), avec son modèle à identité fixe ; aucun rapport Power BI prêt à importer n'est livré dans le kit.
 6. Préparer le lien de session. Choisir une seule variante d'ingestion et omettre S3 et Copilot pour la première passe.
 
@@ -388,13 +380,13 @@ Prévoir un temps de préparation distinct du parcours chronométré. Utiliser d
 | 4 | Chercher et ouvrir la création de « Agent de données Fabric » dans l'espace personnel ; le configurer après l'ingestion | Élément disponible avec la capacité et les paramètres tenant retenus, puis lecture effective des trois tables |
 | 5 | Ouvrir `energy_report` en lecture, créer la règle régionale à 10 000 kWh et choisir le workspace personnel comme destination | Règle enregistrée dans `act_energy`, puis notification personnelle Teams après franchissement réel |
 
-Pour le test de section 5, le compte animateur effectue la procédure « Déclenchement contrôlé » de ce guide : état `before` observé, remplacement par `after`, exécution de `df_source_latest`, puis actualisation de `sm_energy_report`. Noter les heures de fin d'actualisation, d'action Activator et de réception Teams. Ne pas assimiler l'envoi d'une notification de test à une détection réelle. La capacité F64 est un repli à faire approuver et tester, pas un substitut aux permissions requises.
+Pour le test de section 5, le compte animateur suit « Déclenchement contrôlé » : état `before` observé, cellule 6 de bascule `after`, puis actualisation de `sm_energy_report`. Noter les heures de fin d'actualisation, d'action Activator et de réception Teams. Ne pas assimiler une notification de test à une détection réelle. F64 est un repli à faire approuver et tester, pas un substitut aux permissions.
 
 ### Dérouler et chronométrer
 
-Suivre ensuite le workshop dans l'ordre avec le compte participant. Si la vérification initiale a déjà créé un élément, le réutiliser pour la recette fonctionnelle ; pour mesurer le temps d'un vrai débutant, prévoir ensuite un espace personnel vierge préparé par l'animateur. Réinitialiser le fichier actif à `before`, recharger la table et actualiser le modèle avant de refaire la section 5.
+Suivre ensuite le workshop dans l'ordre avec le compte participant. Si la vérification initiale a déjà créé un élément, le réutiliser pour la recette fonctionnelle ; pour mesurer le temps d'un vrai débutant, prévoir ensuite un espace personnel vierge. Réexécuter les cellules 2 à 4 et actualiser le modèle avant de refaire la section 5.
 
-Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/out/questions_expected_answers.md`. Valider l'exemple Q1 téléchargeable sur le tenant avant la session. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
+Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/csv/questions_expected_answers.md`. Valider l'exemple Q1 téléchargeable sur le tenant avant la session. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
 
 La section 2 représente **70 étapes avec une seule source**, et non les 84 lignes numérotées du document : mesurer si elle tient en 35 minutes avec les contrôles. La section 8 représente **72 étapes pour 35 minutes** : mesurer avec un profil analyste et consigner le dépassement éventuel. Elle reste hors parcours métiers 3 h ; ne pas la raccourcir ni changer son temps sans retour de répétition.
 
