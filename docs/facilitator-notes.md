@@ -74,14 +74,14 @@ La documentation des anciennes alertes sur tuiles de dashboard ne valide pas ce 
 
 ## Checklist J-1
 
-- [ ] Préparer le lien de session : noms des workspaces, rapport, Teams et contact. Le pipeline est exécuté manuellement ; la planification est facultative dans « Comprendre ».
+- [ ] Préparer le lien de session : noms des workspaces, rapport, Teams et contact. Le pipeline est exécuté manuellement ; la planification est dans le contexte optionnel du Lab 2.
 - [ ] Générer les données et conserver le corrigé calculé. Vérifier 30 sites, une ligne de facteurs, 10 950 lignes brutes et 10 840 propres.
 - [ ] Importer [setup_lh_source.ipynb](../setup/setup_lh_source.ipynb) dans l'espace commun et l'attacher à `lh_source`, schémas activés. Exécuter les cellules 2 à 4 : les quatre tables du rapport sont préparées, sans dépôt manuel de CSV.
 - [ ] Vérifier `consumption` nettoyée (10 840 lignes), `sites` (30), `emission_factors` (1) et `consumption_latest_day` (30), puis leur visibilité SQL.
 - [ ] Actualiser le modèle sur l'état `before`. Vérifier que les six régions sont sous le seuil de 10 000 kWh et que `apply_after` reste False dans le notebook.
 - [ ] Vérifier le rapport partagé, son lien, son modèle à identité fixe et sa dernière actualisation réussie.
 - [ ] Préparer un raccourci de démonstration et un workspace animateur, distincts des espaces participants.
-- [ ] Contrôler les tables du data agent de démonstration et les exemples. Conserver le corrigé accessible sans devoir exécuter un notebook en session.
+- [ ] Contrôler les tables du data agent de démonstration et les exemples. Partager le corrigé calculé dans le canal Teams de l'atelier, pour la comparaison du Lab 4, sans devoir exécuter un notebook en session.
 - [ ] Préparer les captures listées dans [assets/SCREENSHOTS-TODO.md](assets/SCREENSHOTS-TODO.md), notamment le plan B de notification.
 - [ ] Confirmer le résultat du test Viewer/F64 et annoncer le mode individuel ou démonstration pour le Lab 5.
 - [ ] Vérifier les URL raw des états `before` et `after` versionnés. La bascule du notebook ne doit modifier que la table du dernier jour.
@@ -117,7 +117,7 @@ Le créneau d'accueil de dix minutes inclut la lecture, les échanges et le dém
 | 02:50 - 03:00 | Conclusion | 10 |
 | **Total** | 145 activités + 15 pause + 20 réserve | **180** |
 
-Les cinq blocs « Comprendre » restent repliés dans le parcours principal. Copier l'exemple Q1 téléchargeable ne demande pas d'écrire du SQL.
+Les cinq blocs « Contexte (optionnel) » de 5 min restent repliés dans le parcours principal, ainsi que la variante T-SQL du Lab 3. Copier l'exemple Q1 téléchargeable ne demande pas d'écrire du SQL.
 
 ### Options hors des 180 minutes
 
@@ -126,7 +126,7 @@ Les cinq blocs « Comprendre » restent repliés dans le parcours principal. Cop
 | Lab 6 · Entrepôt T-SQL | 30 min |
 | Lab 7 · Modèle sémantique Direct Lake | 25 min |
 | Lab 8 · Temps réel | 35 min |
-| Blocs « Comprendre » | 5 min chacun |
+| Blocs « Contexte (optionnel) » | 5 min chacun |
 | Bonus Copilot | 15 min |
 | Variante S3 du Lab 1 | 10 min |
 
@@ -189,7 +189,7 @@ Les passages ci-dessous ont été retirés du texte participant lors de la relec
 | 0, prérequis et conventions | Vérifier la capacité payante active, les licences de lecture/création et le partage Read + ReadAll de `lh_source`, ainsi que la lecture de `energy_report` et de son modèle à identité fixe. L'accès à la source des raccourcis reste nécessaire au modèle personnel en SSO. Rappeler de ne publier aucun jeton, mot de passe, URL privée ou message d'erreur sensible dans le dépôt. Les prérequis participant ne remplacent pas la checklist d'accès J-7. |
 | 1, dépannage | « L'animateur contrôle le rôle Viewer. » ; « L'animateur adapte le chemin si le lakehouse source est sans schémas. » Vérifier aussi ReadAll et sa propagation si l'item est visible mais sa donnée refusée. |
 | 2, contrôle et pause | Accompagner le contrôle des lignes écrites si les détails d'exécution sont difficiles à lire ; « L'animateur annonce l'heure de reprise. » |
-| 2, planification | Les anciennes étapes 15 à 21 d'« Orchestrer et planifier » deviennent trois lignes facultatives dans « Comprendre » : fréquence quotidienne, heure/fuseau/date de fin, enregistrement. Aucun planning n'est exigé au point de contrôle. Tester la locale du dataflow avant import ; la détection peut laisser `kwh_elec` en Texte à cause de `invalid`, d'où la correction conditionnelle conservée. |
+| 2, planification | La fréquence quotidienne, l'heure/fuseau/date de fin et l'enregistrement restent dans le contexte optionnel. Aucun planning n'est exigé au point de contrôle. Tester la locale du dataflow avant import ; la détection peut laisser `kwh_elec` en Texte à cause de `invalid`, d'où la correction conditionnelle conservée. |
 | 3, vue et contrôle | « Toutes les transformations doivent pouvoir être traduites en SQL par l'éditeur ; l'animateur vérifie ce parcours visuel avant la session. » ; « L'animateur dispose du corrigé calculé pour comparer les résultats. » Ne pas substituer du SQL au parcours visuel sans l'annoncer. |
 | 4, exemple et dépannage | « Si Q1 n'est pas correcte, l'animateur la vérifie avec vous avant l'ajout. » ; « L'animateur vérifie la capacité payante, la région et les paramètres tenant des data agents et de l'IA. » ; « Testez les instructions en français avant diffusion. » La capacité d'essai ne suffit pas au parcours prévu. |
 | 4, préparation de Q1 après relecture | L'exemple Q1 téléchargeable est validé à J-7. Le participant conserve uniquement le collage et la validation de l'exemple dans l'interface. |
@@ -250,7 +250,7 @@ Ne pas changer les noms techniques pour une traduction. Les éléments contextua
 
 ## Livrer en journée d'upskilling
 
-Utiliser les supports de présentation existants pour les concepts, la gouvernance, la sécurité et les cas d'usage. Conserver le parcours principal de 3 h, puis sélectionner les labs optionnels utiles au groupe. Ajouter explicitement leurs durées, les blocs « Comprendre » retenus, les pauses et le temps d'aide : il n'y a pas de second parcours imposé.
+Utiliser les supports de présentation existants pour les concepts, la gouvernance, la sécurité et les cas d'usage. Conserver le parcours principal de 3 h, puis sélectionner les labs optionnels utiles au groupe. Ajouter explicitement leurs durées, les contextes optionnels retenus, les pauses et le temps d'aide : il n'y a pas de second parcours imposé.
 
 Préparer en plus : postes analystes pour copier les requêtes, licences de création Power BI, répétition Direct Lake/DAX, lecture inter-bases Warehouse et types des tables créées, échantillon RTI et quotas de capacité, arrêt des flux, appui d'un second animateur si besoin. Précharger seulement les sources communes ; les participants construisent leurs propres éléments. Les corrigés et captures de reprise restent disponibles. Aucun deck ni simulateur de compteurs n'est créé dans la v1 du kit.
 
@@ -297,39 +297,39 @@ Hypothèses retenues au-delà des décisions validées :
 | --- | --- |
 | Génération et contrôles intégrés | Réussis localement sur le schéma anglais ; six tests de reproductibilité, volumes, résultats et états d'alerte réussis |
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
-| Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; auteur unique ; 415 étapes conservées ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
-| Rendu navigateur v3 | Ordinateur 1440 px et mobile 390 px ; six variables avec valeurs par défaut puis personnalisées, conservation entre pages et URL de rapport avec paramètres vérifiées ; lien Q1 corrigé et chargé en HTTP 200 ; trois CTAS du Lab 6 et Takeaways présents |
-| Relecture accueil et schémas | Construction MOAW réussie ; accueil sans double titre, menu Introduction conservé, variable de canal avec et sans valeur ; trois images chargées ; affichage ordinateur/mobile sans débordement ; textes des SVG contenus dans leurs zones ; 415 étapes et tous les blocs de code inchangés |
+| Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 233 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
+| Rendu et liens | Variables avec valeurs par défaut et personnalisées ; `s3_shortcut` testé ; lien Fabric sans tracking dans le rendu, lien Q1 chargé en HTTP 200 ; encadrés task et contextes repliés contrôlés |
+| Relecture par écran | Labs 1 à 5 : introductions de sous-sections, 59 étapes-écrans variantes comprises, vérifications dans les encadrés et 76 indications de capture ; questions, instructions métier de l'agent et blocs SQL inchangés ; extensions non réécrites |
 | Fichiers publics | Six CSV accessibles anonymement, identiques octet par octet après régénération ; SQL et sources des six cellules du notebook publics et conformes aux fichiers locaux |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
-| Captures, schémas, bannière et projet Power BI réel | Contrôle : 85 références, trois images présentes, 82 captures absentes commentées, aucune modification nécessaire ; fil rouge et récap en SVG, architecture en PNG et SVG avec source draw.io ; bannière non référencée ; aucun projet Power BI factice |
+| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; 76 indications textuelles à remplacer par les captures des Labs 1 à 5 ; dix références de captures complémentaires encore commentées ; bannière non référencée ; aucun projet Power BI factice |
 | Notebook de préparation | JSON, métadonnées et syntaxe Python contrôlés localement ; exécution Spark/Delta dans Fabric non réalisée |
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.
 
-La v3 conserve 53 commentaires `TODO vérifier` : Labs 1 à 8, respectivement 4, 12, 6, 7, 6, 3, 4 et 9 ; bonus Copilot, 2. Les commentaires d'images sont distincts de ces vérifications produit. Les trois vérifications d'accès des Labs 1, 4 et 5 restent à effectuer sur tenant ; la recette documentaire ne les valide pas.
+La réécriture conserve 52 commentaires `TODO vérifier` : Labs 1 à 8, respectivement 4, 12, 5, 7, 6, 3, 4 et 9 ; bonus Copilot, 2. Les deux marqueurs de navigation vers l'endpoint SQL du Lab 3 ont été réunis sur la même étape, pas considérés comme validés. Les trois vérifications d'accès des Labs 1, 4 et 5 restent à effectuer sur tenant ; la recette documentaire ne les valide pas.
 
-### Bilan des étapes v3
+### Bilan de la réécriture par écran
 
-Comptage des lignes numérotées écrites, hors blocs de code, comparé au premier commit `c5ec06a`. Les deux variantes d'ingestion sont comptées dans le total du fichier, même si une seule est suivie. Les répétitions indiquées en prose ne sont pas développées artificiellement.
+Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'état avant cette réécriture (`ea17ac0`). Les deux variantes d'ingestion sont comptées dans le total du fichier, même si une seule est suivie. Les contrôles et les répétitions des questions ne sont pas artificiellement comptés comme autant de clics.
 
-| Page | Premier état | V3 |
+| Page | Avant | Par écran |
 | --- | ---: | ---: |
 | Introduction | 0 | 0 |
-| Lab 1 | 30 | 47, dont 17 facultatives S3 |
-| Lab 2 | 102 | 79, soit 65 par Web ou 70 par SharePoint |
-| Lab 3 | 69 | 49 |
-| Lab 4 | 37 | 35 |
-| Lab 5 | 31 | 31 |
-| Lab 6 | 65 | 33 |
+| Lab 1 | 47 | 11, dont 3 facultatives S3 |
+| Lab 2 | 79 | 21, soit 18 avec une seule source |
+| Lab 3 | 49 | 9 |
+| Lab 4 | 35 | 11 |
+| Lab 5 | 31 | 7 |
+| Lab 6 | 33 | 33, inchangé |
 | Lab 7 | 40 | 40 |
 | Lab 8 | 72 | 72 |
 | Bonus | 19 | 19 |
 | Conclusion | 10 | 10 |
-| **Total écrit** | **475** | **415** |
+| **Total écrit** | **415** | **233** |
 
-Dans le Lab 2, une seule source est utilisée, dont une correction de type conditionnelle. La planification facultative n'est pas un critère de réussite. La variante S3 et le bonus Copilot restent hors des 180 minutes. Les références de captures ne modifient pas le nombre des étapes.
+Les Labs 1 à 5 passent de 241 lignes numérotées à 59 étapes-écrans ; le chemin sans S3 et avec une seule source d'ingestion en compte 53. Ce regroupement ne réduit ni le travail à réaliser ni le budget des contrôles. La planification facultative n'est pas un critère de réussite ; S3 et Copilot restent hors des 180 minutes.
 
 Hypothèses retenues : l'accueil garde dix minutes dans le planning animateur, sans minutage affiché sur la page d'accueil. Les Labs 1 à 5 durent de 15 à 35 min ; le Lab 6 optionnel dispose de 30 min. Les six CSV sont publics et régénérables, sans modification des valeurs, et Q4 reste à 20 000 kWh. Le notebook prépare aussi l'historique propre nécessaire au rapport, en plus des trois tables de référence/instantané demandées. L'exemple Q1 est téléchargeable pour éviter tout support séparé. Les paramètres de session ne sont ni des secrets ni un mécanisme d'autorisation.
 
@@ -392,7 +392,7 @@ Suivre ensuite le workshop dans l'ordre avec le compte participant. Si la vérif
 
 Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/csv/questions_expected_answers.md`. Valider l'exemple Q1 téléchargeable sur le tenant avant la session. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
 
-Le Lab 2 représente **65 étapes par Web**, ou 70 avec SharePoint, et non les 79 étapes des deux variantes réunies : mesurer s'il tient en 35 minutes avec les contrôles. Le Lab 8 représente **72 étapes pour 35 minutes** : mesurer avec un profil analyste et consigner le dépassement éventuel. Il reste optionnel, hors des 3 h ; ne pas le raccourcir sans retour de répétition.
+Le Lab 2 représente **18 étapes-écrans avec une seule source**, Web ou SharePoint, et non les 21 étapes des deux variantes réunies : mesurer s'il tient en 35 minutes avec les contrôles. Le Lab 8 conserve ses **72 étapes pour 35 minutes** : mesurer avec un profil analyste et consigner le dépassement éventuel. Il reste optionnel, hors des 3 h ; ne pas le raccourcir sans retour de répétition.
 
 Après le Lab 5, ouvrir la page Conclusion, ou poursuivre avec les labs optionnels retenus avant de conclure. Garder S3 et Copilot pour des passes séparées. Le simulateur de compteurs vers Eventstream reste une piste du backlog, non implémentée.
 

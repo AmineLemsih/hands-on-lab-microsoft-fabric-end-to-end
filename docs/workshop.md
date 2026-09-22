@@ -674,113 +674,92 @@ Vous n'avez pas à garder le rapport ouvert pour repérer une dérive. Vous alle
 
 ### Ouvrir le rapport commun
 
+Vous allez surveiller une consommation déjà présentée dans le rapport partagé, sans le copier. Vous restez lecteur dans l'espace commun ; seule votre alerte sera enregistrée dans votre workspace personnel.
+
 1. Ouvrez $$report_link:le rapport energy_report dans l'espace commun$$.
-2. Vérifiez que le rapport est `energy_report` dans l'espace commun.
-3. Repérez le visuel **« consommation du dernier jour disponible par région »**.
 
-<!-- ![energy_report en lecture](assets/lab05-01-shared-report.png) -->
+  *[capture : energy_report ouvert en lecture dans l'espace commun]*
 
-4. Vérifiez que le dernier jour disponible affiché est le 31 décembre 2025.
-5. Vérifiez que toutes les régions sont sous **10 000 kWh** dans l'état de départ.
+<div class="task" data-title="Point de contrôle avant l'alerte">
 
-<!-- ![Six régions sous 10 000 kWh](assets/lab05-02-before-state.png) -->
+> Dans `energy_report`, retrouvez le visuel **consommation du dernier jour disponible par région**. Le dernier jour affiché doit être le **31 décembre 2025** et les six régions doivent être sous **10 000 kWh**. C'est cet état de départ qui permettra ensuite de détecter un franchissement. Si une barre dépasse déjà le seuil, signalez-le dans le canal Teams $$teams_channel:de l'atelier$$ avant de continuer.
 
+</div>
 
-Ne copiez pas le rapport. Vous restez lecteur dans l'espace commun. L'alerte, elle, sera enregistrée dans votre workspace personnel.
-
+*[capture : visuel régional à l'état initial, six barres sous 10 000 kWh]*
 
 ### Définir votre règle
 
-1. Ouvrez le menu « … » du visuel en barres.
+Vous allez demander une notification lorsque la consommation d'une région **devient supérieure à 10 000 kWh**. Le destinataire sera votre propre compte Teams, pas le canal de l'atelier : celui-ci reste réservé à l'entraide.
 
-<!-- ![Menu du visuel, Définir une alerte](assets/lab05-03-alert-menu.png) -->
+1. Dans le menu **…** du visuel en barres, choisissez **Définir une alerte** ou **Ajouter une alerte**. <!-- TODO vérifier -->
 
-2. Sélectionnez « Définir une alerte » ou « Ajouter une alerte ». <!-- TODO vérifier -->
-3. Vérifiez la mesure `latest_day_kwh` dans le volet.
-4. Vérifiez que la condition est évaluée pour chaque `region`.
+  *[capture : menu du visuel et commande Définir une alerte]*
 
-<!-- ![latest_day_kwh suivi par region](assets/lab05-04-alert-measure.png) -->
+2. Dans le volet, réglez la condition sur **Devient > Supérieur à**, avec la valeur `10000`, puis choisissez **Teams** et votre propre compte comme destinataire. <!-- TODO vérifier -->
 
-5. Choisissez « Devient » dans la condition. <!-- TODO vérifier -->
-6. Choisissez « Supérieur à ».
-7. Saisissez `10000`.
+  *[capture : volet d'alerte, seuil régional et destinataire personnel masqué]*
 
-<!-- ![Devient supérieur à 10000](assets/lab05-05-alert-threshold.png) -->
+3. Dans **Sélectionner l'emplacement d'enregistrement**, choisissez `$$lab_ws:ws-lab-<votre identifiant>$$`, puis un nouvel élément Activator nommé `act_energy`, et confirmez l'emplacement. <!-- TODO vérifier -->
 
-8. Choisissez « Teams » comme canal de notification.
-9. Choisissez votre propre compte comme destinataire.
+  *[capture : dialogue de destination, workspace personnel et act_energy]*
 
-<!-- ![Teams et destinataire anonymisé](assets/lab05-06-alert-recipient.png) -->
+4. De retour dans le volet, sélectionnez **Appliquer** ou **Créer** pour enregistrer la règle. <!-- TODO vérifier -->
 
-10. Ouvrez « Sélectionner l'emplacement d'enregistrement ». <!-- TODO vérifier -->
-11. Sélectionnez `$$lab_ws:ws-lab-<votre identifiant>$$`.
+  *[capture : volet après enregistrement de la règle]*
 
-<!-- ![Workspace personnel comme destination](assets/lab05-07-alert-workspace.png) -->
+<div class="task" data-title="Point de contrôle avant le franchissement">
 
-12. Choisissez un nouvel élément Activator.
-13. Nommez-le `act_energy`.
+> Dans le volet d'alerte, contrôlez la mesure **`latest_day_kwh`**, suivie pour chaque **`region`**, la condition **Devient supérieur à 10000** et votre compte Teams. La règle doit être **active**, enregistrée dans `act_energy` dans votre workspace. Ne poursuivez pas avec une règle sur le total de toutes les régions ou une destination dans l'espace commun.
 
-<!-- ![Nouvel élément act_energy](assets/lab05-08-activator-dialog.png) -->
-
-14. Confirmez l'emplacement.
-15. Sélectionnez « Appliquer » ou « Créer » selon le volet. <!-- TODO vérifier -->
-16. Vérifiez que l'alerte est active.
-
-<!-- ![Règle enregistrée et active](assets/lab05-09-rule-active.png) -->
-
-
-Le canal Teams de l'atelier sert à l'entraide. Il n'est **pas** le destinataire de cette alerte : vous vous envoyez un message personnel.
-
+</div>
 
 ### Voir le déclenchement et ouvrir Activator
 
-1. Signalez à l'animateur que votre règle est active.
-2. Attendez sa confirmation que l'état sous le seuil a été observé.
-3. Observez le changement des barres dans le rapport actualisé.
+Vous allez suivre un vrai changement de valeur, puis retrouver ce qui a déclenché le message. La bascule des données communes est coordonnée dans le canal Teams : vous ne modifiez pas vous-même la source, et rafraîchir la page du navigateur n'actualise pas le modèle sémantique.
 
-<!-- ![Bretagne au-dessus du seuil](assets/lab05-10-after-state.png) -->
+1. Dans le canal Teams $$teams_channel:de l'atelier$$, signalez que votre règle est active. Attendez la confirmation que l'état sous le seuil a été observé, puis l'annonce de la bascule et de l'actualisation du modèle avant le contrôle suivant.
 
-4. Ouvrez vos notifications Teams.
-5. Repérez le message de dépassement pour la région concernée.
+  *[capture : confirmation de la bascule dans le canal de l'atelier, messages anonymisés]*
 
-<!-- ![Notification reçue, compte masqué](assets/lab05-11-teams-message.png) -->
+<div class="task" data-title="Point de contrôle du déclenchement">
 
-6. Revenez au volet d'alerte du rapport.
-7. Ouvrez le menu de l'élément Activator.
-8. Sélectionnez « Ouvrir dans Activator ». <!-- TODO vérifier -->
-9. Ouvrez la règle dans `act_energy`.
-10. Repérez la valeur observée, la condition, le destinataire et l'historique des actions. <!-- TODO vérifier -->
-
-<!-- ![Condition et historique réel des actions](assets/lab05-12-rule-history.png) -->
-
-
-Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'actualise pas le modèle sémantique.
-
-
-<div class="info" data-title="Sous le capot">
-
-> Le même moteur Activator peut surveiller des flux temps réel et des événements Fabric. Selon la source, les permissions et les actions configurées, il peut envoyer un courriel, appeler un flux Power Automate ou déclencher un élément Fabric tel qu'un pipeline, sans code. Ce lab configure seulement une notification personnelle. Le Lab 8 compare cette alerte sur rapport à une règle sur flux.
+> Dans le **rapport actualisé**, la barre de la Bretagne doit maintenant dépasser **10 000 kWh**. Dans vos **notifications personnelles Teams**, retrouvez le message concernant cette région. La règle créée ne suffit pas : c'est la réception du message après ce changement qui confirme le résultat. Si elle tarde, gardez la règle active et signalez le délai dans le canal Teams $$teams_channel:de l'atelier$$ ; ne confondez pas une notification de test avec ce franchissement.
 
 </div>
+
+*[capture : rapport actualisé, Bretagne au-dessus de 10 000 kWh]*
+
+*[capture : notification personnelle Teams correspondant au franchissement]*
+
+2. Depuis le volet d'alerte du rapport, ouvrez le menu de l'élément et choisissez **Ouvrir dans Activator**, puis ouvrez la règle dans `act_energy`. <!-- TODO vérifier -->
+
+  *[capture : règle act_energy ouverte dans Activator]*
 
 <div class="task" data-title="Point de contrôle">
 
-> C'est maintenant votre règle qui surveille la consommation. Retrouvez `act_energy` dans **votre** workspace et vérifiez la règle par région sur `latest_day_kwh`, le seuil de 10 000 kWh et votre compte comme destinataire. Après la bascule et l'actualisation, vérifiez que la Bretagne franchit le seuil, puis que vous recevez la notification Teams. La règle créée ne suffit pas : c'est la réception du message qui confirme ce dernier résultat.
+> Dans `act_energy`, retrouvez la **valeur observée**, la **condition**, votre **destinataire** et l'**historique des actions**. <!-- TODO vérifier --> La règle sur `latest_day_kwh` par `region`, au seuil de **10 000 kWh**, doit expliquer le message reçu pour la Bretagne après actualisation. Vous avez relié un changement dans les données à une action traçable, dans votre workspace personnel.
 
 </div>
 
+*[capture : historique réel des actions et condition de la règle régionale]*
+
 ### Si ça bloque
 
-- **Bouton absent ou destination refusée :** vérifiez le workspace personnel choisi, puis transmettez le message à $$contact:votre animateur$$.
-- **Rapport inchangé :** signalez que les barres n'ont pas changé et conservez votre règle active.
+Pour trouver où le parcours s'arrête, distinguez le droit de créer la règle, l'actualisation des données et l'envoi du message.
+
+- **Bouton absent ou destination refusée :** vérifiez le workspace personnel choisi, puis transmettez le message dans le canal Teams $$teams_channel:de l'atelier$$.
+- **Rapport inchangé :** signalez dans le canal Teams $$teams_channel:de l'atelier$$ que les barres n'ont pas changé et conservez votre règle active.
 - **Pas de notification :** vérifiez la règle active, la région, votre destinataire et les deux états observés dans l'historique.
 
 <details>
-<summary>Comprendre : surveiller un état et déclencher une action (optionnel, 5 min)</summary>
+<summary>Contexte (optionnel) : surveiller un état et déclencher une action (5 min)</summary>
 
 Une règle combine des observations, une condition et une action. « Devient supérieur à » recherche un franchissement, pas simplement une valeur qui reste élevée. Le jeu avant/après crée ce changement de manière contrôlée.
 
 Utilisez une alerte pour inviter à une vérification ou automatiser une réponse autorisée. Sur un rapport, le délai dépend de l'actualisation du modèle et de l'évaluation de la règle. Ce n'est pas la même latence qu'un événement reçu dans un flux. Une notification ne prouve pas une panne et ne doit pas engager une action irréversible sans contrôle adapté.
+
+Le même moteur Activator peut surveiller des flux temps réel et des événements Fabric. Selon la source, les permissions et les actions configurées, il peut envoyer un courriel, appeler un flux Power Automate ou déclencher un élément Fabric tel qu'un pipeline, sans code. Ce lab configure seulement une notification personnelle ; le Lab 8 la compare à une règle sur flux.
 
 </details>
 

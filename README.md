@@ -4,13 +4,13 @@ Un atelier hands-on réutilisable pour relier données, analyse et action dans M
 
 Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de solutions cloud, dans un environnement autorisé. Aucun nom de client, URL de tenant, secret ou lien privé n'est intégré au contenu public.
 
-**État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les trois schémas pédagogiques sont fournis ; les captures Fabric absentes restent masquées. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
+**État : brouillon, `published: false`.** Les contrôles locaux ne remplacent pas une répétition sur tenant. Les trois schémas pédagogiques sont fournis ; les Labs 1 à 5 indiquent où ajouter les captures pendant le déroulé. Aucun fichier Power BI factice n'est fourni. Le parcours d'alerte depuis le rapport partagé est un test J-7 bloquant avant une session individuelle.
 
 ## Un parcours de 3 heures
 
 Vous allez partir d'un fichier brut, préparer une table fiable, explorer ses données, poser vos questions à un agent et recevoir une alerte Teams. Le parcours principal réunit l'accueil, les Labs 1 à 5 et la conclusion, sans code à écrire : **145 min d'activités + 15 min de pause après le Lab 2 + 20 min d'aide = 180 min**.
 
-Il s'adresse aux profils métiers, analystes, chefs de projet, contrôle de gestion et RSE. Pour une session à distance, prévoir 15 à 20 participants. Les cinq blocs « Comprendre » restent repliés et optionnels, avec 5 min supplémentaires chacun.
+Il s'adresse aux profils métiers, analystes, chefs de projet, contrôle de gestion et RSE. Pour une session à distance, prévoir 15 à 20 participants. Les cinq blocs « Contexte (optionnel) » de 5 min restent repliés, hors des 180 min.
 
 Pour aller plus loin, ou composer une journée d'upskilling, choisir les labs optionnels à la carte :
 
@@ -24,7 +24,7 @@ Le **bonus Copilot** demande environ 15 minutes supplémentaires, si le temps et
 
 La **variante S3** du Lab 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
 
-Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification reste une option du bloc « Comprendre ». La préparation de l'environnement et du rapport se fait avant la session.
+Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification reste dans le contexte optionnel. La préparation de l'environnement et du rapport se fait avant la session.
 
 ## Architecture
 
@@ -70,7 +70,7 @@ Contrôle de construction, après génération des données :
 moaw build docs/workshop.md -d data/out/workshop.build.md
 ```
 
-Les écrans attendus sont détaillés dans [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md). Après ajout de captures réelles anonymisées, exécuter `python tools/check_assets.py` pour réactiver leurs références. `--check --summary` contrôle l'état sans écrire. Aucun fichier image vide ou fausse capture ne doit être ajouté.
+Ajoutez les captures réelles anonymisées en remplaçant les lignes *[capture : …]* pendant le déroulé ; [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md) décrit le format et les 76 emplacements des Labs 1 à 5. Exécutez ensuite `python tools/check_assets.py` pour synchroniser les références Markdown insérées. `--check --summary` contrôle l'état sans écrire ; les indications textuelles ne sont pas transformées automatiquement. Aucun fichier image vide ou fausse capture ne doit être ajouté.
 
 ## Pour les animateurs
 
