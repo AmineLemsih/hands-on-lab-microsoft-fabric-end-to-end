@@ -971,14 +971,11 @@ Direct Lake ne supprime pas les règles d'accès aux données. Avec SSO, les aut
 
 **Pourquoi c'est important pour Contoso**
 
-Un relevé quotidien ne suffit pas toujours pour comprendre une situation qui évolue rapidement.  
-Le chemin événement, analyse, alerte prépare l'arrivée future de mesures plus fréquentes.
+Vous allez suivre des données qui arrivent en continu, puis déclencher une action à partir de leurs changements. Pour Contoso, c'est une façon de préparer l'arrivée de mesures plus fréquentes ; vous apprendrez le mécanisme avec un échantillon technique distinct des consommations énergétiques.
 
 **Objectif :** observer un flux d'exemple, le requêter dans un Eventhouse et créer une règle Activator sur ce flux.
 
 **Durée : 35 min, lab optionnel.**
-
-Un **Eventstream** reçoit et distribue des événements. Un **Eventhouse** héberge des bases optimisées pour les événements. **KQL**, ou Kusto Query Language, est le langage de requête utilisé ici.
 
 <div class="important" data-title="Un échantillon technique, pas de l'énergie">
 
@@ -988,58 +985,55 @@ Un **Eventstream** reçoit et distribue des événements. Un **Eventhouse** héb
 
 ### Créer les éléments et le flux
 
-1. Revenez à votre workspace personnel.
-2. Sélectionnez « Nouvel élément ».
-3. Choisissez « Eventhouse ».
-4. Saisissez `eh_sample`.
-5. Créez l'élément.
-6. Repérez sa base KQL, créée avec lui.
-7. Revenez au workspace.
-8. Créez un élément « Eventstream ».
-9. Nommez-le `es_sample`.
-10. Sélectionnez « Utiliser des données d'exemple ». <!-- TODO vérifier -->
-11. Choisissez « Bicycles » dans les échantillons intégrés.
-12. Nommez la source `sample_bicycles`.
-13. Sélectionnez « Ajouter ».
-14. Sélectionnez « Publier ».
-15. Ouvrez l'aperçu des événements.
-16. Repérez `Timestamp`, `BikepointID` et `No_Bikes` avec leur casse exacte. <!-- TODO vérifier -->
+Vous allez préparer le lieu de stockage des événements, `eh_sample`, puis le flux qui les reçoit, `es_sample`. L'Eventhouse contient une base KQL créée avec lui ; l'Eventstream distribuera ensuite les événements vers cette base et vers votre règle.
 
-Si les champs de l'aperçu diffèrent, signalez les noms affichés avant de poursuivre le mappage.
+1. Dans votre workspace, choisissez **Nouvel élément > Eventhouse**, nommez-le `eh_sample`, puis créez l'élément.
+
+2. Revenez au workspace et créez un **Eventstream** nommé `es_sample`.
+
+3. Dans `es_sample`, choisissez **Utiliser des données d'exemple**, puis **Bicycles**. Nommez la source `sample_bicycles`, sélectionnez **Ajouter**, puis **Publier**. <!-- TODO vérifier -->
+
+<div class="task" data-title="Point de contrôle de la source">
+
+> Dans l'**aperçu des événements** de `es_sample`, retrouvez `Timestamp`, `BikepointID` et `No_Bikes`, avec cette casse exacte. <!-- TODO vérifier --> Dans l'explorateur de `eh_sample`, repérez aussi sa **base KQL** : vous la choisirez comme destination. Si les champs de l'échantillon diffèrent, partagez les noms observés dans le canal Teams $$teams_channel:de l'atelier$$ avant de poursuivre le mappage.
+
+</div>
+
+*[capture : aperçu Bicycles avec Timestamp, BikepointID et No_Bikes]*
 
 ### Acheminer vers Eventhouse
 
-1. Passez l'Eventstream en mode « Modifier ».
-2. Sélectionnez « Ajouter une destination ».
-3. Choisissez « Eventhouse ».
-4. Nommez la destination `sample_storage`.
-5. Choisissez le mode « Ingestion directe ». <!-- TODO vérifier -->
-6. Sélectionnez votre workspace.
-7. Sélectionnez `eh_sample`.
-8. Sélectionnez sa base KQL.
-9. Enregistrez la destination.
-10. Reliez la sortie du flux à la destination si le lien n'est pas déjà présent.
-11. Publiez l'Eventstream.
-12. Ouvrez « Configurer » sur la destination. <!-- TODO vérifier -->
-13. Créez la table `sample_events`.
-14. Ouvrez le mappage des colonnes.
-15. Mappez `Timestamp` vers `event_time`, type `datetime`.
-16. Mappez `BikepointID` vers `station_id`, type `string`.
-17. Mappez `No_Bikes` vers `bike_count`, type `long`.
-18. Terminez l'assistant.
-19. Ouvrez `sample_events` dans la base KQL.
-20. Vérifiez que de nouvelles lignes arrivent.
+Vous allez conserver les événements dans `sample_events` pour pouvoir les interroger. Le mappage donnera aux champs des noms et des types explicites ; les requêtes suivantes utiliseront ces noms de destination.
 
-<!-- ![Eventstream avec source Bicycles et destination Eventhouse, sans source énergétique fictive](assets/lab08-eventstream.png) -->
+1. Dans `es_sample`, passez en mode **Modifier**, puis choisissez **Ajouter une destination > Eventhouse**. Nommez-la `sample_storage`, choisissez **Ingestion directe**, votre workspace, `eh_sample` et sa base KQL, puis enregistrez. <!-- TODO vérifier -->
+
+  *[capture : configuration de sample_storage, ingestion directe et base KQL cible]*
+
+2. Sur le canevas, reliez la sortie du flux à `sample_storage` si le lien n'existe pas déjà, puis **Publiez** l'Eventstream.
+
+3. Ouvrez **Configurer** sur la destination, créez la table `sample_events` et appliquez le mappage ci-dessous, puis terminez l'assistant. <!-- TODO vérifier -->
+
+| Champ reçu | Colonne dans sample_events | Type |
+| --- | --- | --- |
+| `Timestamp` | `event_time` | `datetime` |
+| `BikepointID` | `station_id` | `string` |
+| `No_Bikes` | `bike_count` | `long` |
+
+*[capture : mappage des trois champs vers sample_events avec leurs types]*
+
+<div class="task" data-title="Point de contrôle de l'ingestion">
+
+> Dans la **base KQL de `eh_sample`**, ouvrez `sample_events` et son aperçu : de nouvelles lignes doivent arriver. Retrouvez les colonnes `event_time`, `station_id` et `bike_count`, avec des dates, des identifiants et des nombres lisibles. Le canevas de `es_sample` doit montrer la source reliée à `sample_storage` et la version publiée.
+
+</div>
 
 ### Exécuter trois requêtes KQL
 
-1. Ouvrez un « Jeu de requêtes KQL » dans votre workspace. <!-- TODO vérifier -->
-2. Nommez-le `qs_sample`.
-3. Connectez-le à la base de `eh_sample`.
-4. Collez la requête 1.
-5. Exécutez-la.
-6. Vérifiez les trois colonnes et des valeurs non nulles.
+Vous allez examiner les événements, visualiser leur rythme d'arrivée puis isoler le dernier état des stations peu approvisionnées. Le langage **KQL** sert ici à lire les événements stockés dans l'Eventhouse ; il ne modifie pas le jeu Contoso.
+
+1. Dans votre workspace, créez un **Jeu de requêtes KQL** nommé `qs_sample` et connectez-le à la base de `eh_sample`. <!-- TODO vérifier -->
+
+2. Dans l'éditeur de `qs_sample`, collez la requête 1 ci-dessous et exécutez-la.
 
 ```kql
 // Requête 1 : examiner les derniers événements et vérifier le mappage.
@@ -1048,10 +1042,15 @@ sample_events
 | top 10 by event_time desc
 ```
 
-1. Ouvrez un nouvel onglet du jeu de requêtes.
-2. Collez la requête 2.
-3. Exécutez-la.
-4. Observez l'évolution sur les trente dernières minutes.
+<div class="task" data-title="Point de contrôle des événements">
+
+> Dans la **grille de résultats** de la requête 1, contrôlez les trois colonnes projetées et leurs valeurs non nulles. Les événements sont présentés du plus récent au plus ancien ; leurs dates vous indiquent si la fenêtre des requêtes suivantes correspond bien aux données reçues.
+
+</div>
+
+*[capture : résultat KQL des derniers événements et colonnes mappées]*
+
+3. Ouvrez un nouvel onglet dans `qs_sample`, collez la requête 2, puis exécutez-la pour afficher le nombre d'événements par minute.
 
 ```kql
 // Requête 2 : compter les événements, pas additionner des stocks de vélos.
@@ -1062,10 +1061,15 @@ sample_events
 | render timechart
 ```
 
-1. Ouvrez un troisième onglet.
-2. Collez la requête 3.
-3. Exécutez-la.
-4. Repérez les stations dont la dernière observation indique moins de cinq vélos.
+<div class="task" data-title="Point de contrôle du rythme d'arrivée">
+
+> Dans le **graphique** de la requête 2, retrouvez le nombre d'événements par minute sur les trente dernières minutes. Vous comptez des événements : additionner les stocks de vélos à chaque observation ne donnerait pas un total de vélos disponibles.
+
+</div>
+
+*[capture : courbe KQL du nombre d'événements par minute]*
+
+4. Ouvrez un troisième onglet, collez la requête 3 et exécutez-la pour ne garder que le dernier état récent de chaque station sous le seuil.
 
 ```kql
 // Requête 3 : ne garder que le dernier état récent de chaque station.
@@ -1077,42 +1081,41 @@ sample_events
 | order by bike_count asc, station_id
 ```
 
-La troisième requête peut légitimement être vide. Une valeur de stock comme `bike_count` ne s'additionne pas sur toutes les observations pour déduire un total de vélos.
+<div class="task" data-title="Point de contrôle des stations">
 
-<!-- ![Aperçu des événements, courbe du nombre d'événements et derniers états par station](assets/lab08-kql-results.png) -->
+> Dans la **grille de résultats** de la requête 3, une station ne doit apparaître qu'avec sa dernière observation récente, si elle indique moins de cinq vélos. Le résultat peut légitimement être vide : cela ne prouve pas un échec de la requête. Comparez la fenêtre de temps aux dates vues dans la requête 1 avant de conclure.
+
+</div>
 
 ### Ajouter une règle sur le flux
 
-1. Revenez au workspace.
-2. Créez un élément « Activator » nommé `act_sample`.
-3. Ouvrez `es_sample`.
-4. Passez en mode « Modifier ».
-5. Ajoutez une destination « Activator ». <!-- TODO vérifier -->
-6. Nommez la destination `sample_alerts`.
-7. Sélectionnez votre workspace.
-8. Sélectionnez `act_sample`.
-9. Enregistrez la destination.
-10. Reliez-la à la sortie du flux.
-11. Publiez.
-12. Ouvrez `act_sample`.
-13. Sélectionnez les événements reçus.
-14. Créez un objet `station`, identifié par `BikepointID`. <!-- TODO vérifier -->
-15. Choisissez `Timestamp` comme horodatage de l'événement.
-16. Ajoutez la propriété numérique `bike_count` à partir de `No_Bikes`.
-17. Créez une règle `low_bike_count`.
-18. Choisissez une condition sur `bike_count` inférieur à `5`. <!-- TODO vérifier -->
-19. Choisissez une notification Teams à votre propre compte.
-20. Enregistrez la règle.
-21. Démarrez-la.
-22. Consultez les observations et l'historique des actions.
+Vous allez brancher une seconde destination sur le flux pour suivre chaque station dans Activator. Attention : cette destination reçoit les champs d'origine `BikepointID`, `Timestamp` et `No_Bikes`, pas les noms renommés dans la table Eventhouse.
 
-La destination Eventhouse a renommé ses colonnes par mappage. La destination Activator reçoit encore les champs du flux d'origine : c'est pourquoi elle utilise `BikepointID`, `Timestamp` et `No_Bikes` pour construire l'objet.
+1. Dans votre workspace, créez un élément **Activator** nommé `act_sample`.
 
-Vérifiez dans l'aperçu si un événement satisfait la condition. Un bouton de test de notification vérifie le canal, pas le franchissement du seuil. <!-- TODO vérifier -->
+2. Dans `es_sample`, passez en mode **Modifier** et ajoutez une destination **Activator**. Nommez-la `sample_alerts`, choisissez votre workspace et `act_sample`, puis enregistrez. <!-- TODO vérifier -->
 
-<!-- ![Règle Activator branchée sur le flux Bicycles avec identité de station et propriété numérique](assets/lab08-activator.png) -->
+3. Sur le canevas, reliez `sample_alerts` à la sortie du flux, puis **Publiez**.
+
+4. Dans `act_sample`, sélectionnez les événements reçus et créez un objet `station`, identifié par `BikepointID`. Choisissez `Timestamp` comme horodatage et ajoutez la propriété numérique `bike_count` à partir de `No_Bikes`. <!-- TODO vérifier -->
+
+  *[capture : objet station dans Activator, identifiant, horodatage et propriété numérique]*
+
+5. Sur cet objet, créez la règle `low_bike_count` avec la condition `bike_count` **inférieur à** `5` et une notification **Teams** à votre propre compte. Enregistrez la règle, puis démarrez-la. <!-- TODO vérifier -->
+
+  *[capture : règle low_bike_count, seuil, destinataire personnel et état actif]*
+
+<div class="task" data-title="Point de contrôle de la règle">
+
+> Dans les **observations** de `act_sample`, retrouvez l'identifiant de station, l'horodatage et `bike_count`. Dans l'**historique des actions**, cherchez l'action liée à un événement qui satisfait la condition, puis la notification Teams correspondante. Si aucun événement ne satisfait la condition, aucune notification n'est attendue. Un bouton de test de notification vérifie le canal d'envoi, pas une détection réelle sur les événements. <!-- TODO vérifier -->
+
+</div>
+
+*[capture : observations et historique réel des actions dans act_sample]*
 
 ### Relier les deux alertes
+
+Vous avez utilisé le même moteur d'action, mais pas le même rythme d'observation. Comparez les deux chemins pour choisir celui qui convient à la donnée à surveiller et au délai attendu.
 
 | Lab 5 | Lab 8 |
 | --- | --- |
@@ -1125,15 +1128,26 @@ Vérifiez dans l'aperçu si un événement satisfait la condition. Un bouton de 
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir de nouvelles lignes dans `sample_events`, les résultats des trois requêtes et une règle active dans `act_sample`. Une notification n'est attendue que si la condition est satisfaite. Aucune valeur de cet échantillon n'entre dans le calcul carbone Contoso.
+> Dans la **base de `eh_sample`**, `sample_events` reçoit de nouvelles lignes ; dans `qs_sample`, vous retrouvez les résultats des trois requêtes ; dans `act_sample`, la règle est active et ses observations sont lisibles. Vous savez expliquer une notification à partir d'un événement, ou son absence si la condition n'est pas satisfaite. Aucune valeur de cet échantillon n'entre dans le calcul carbone Contoso.
 
 </div>
 
 ### Si ça bloque
 
+Suivez le trajet de l'événement : source publiée, connexion de destination, mappage, puis règle. Une erreur à l'entrée ne se corrige pas en changeant le seuil de l'alerte.
+
 - **Aucune ligne :** vérifiez la publication, les connexions du canevas et la fin de configuration de la destination Eventhouse.
 - **Requête vide ou colonne absente :** contrôlez le mappage, la casse et la date affichée dans les derniers événements.
 - **Alerte muette ou répétitive :** vérifiez la station, la propriété numérique, la condition, l'activation et la fréquence de notification.
+
+<details>
+<summary>Contexte (optionnel) : des événements, des états et des actions</summary>
+
+L'Eventstream reçoit et distribue les événements ; l'Eventhouse les conserve pour les analyses KQL ; Activator observe leurs propriétés pour décider d'une action. Les destinations peuvent utiliser des noms de colonnes différents sans que les événements d'origine aient changé.
+
+La fréquence d'arrivée des événements, leur horodatage et les règles de notification influencent ce que vous observez. Un stock de vélos est un état à un instant donné : additionner ses observations successives ne mesure pas une activité. Gardez cette distinction quand vous transposerez le mécanisme à des capteurs Contoso.
+
+</details>
 
 ---
 
