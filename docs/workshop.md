@@ -154,7 +154,7 @@ Si l'assistant n'accepte qu'une table à la fois, créez `sites`, puis recommenc
 
 <div class="task" data-title="Point de contrôle">
 
-> Sous **Tables** de `lh_lab`, `sites` et `emission_factors` apparaissent avec l'icône de raccourci. Ouvrez `sites` : l'aperçu montre **30 lignes**, avec les colonnes `site_id`, `region` et `opening_date`. Ouvrez `emission_factors` : **une seule ligne**, l'année **2025** et les coefficients **0,055** et **0,205**. Dans les **Propriétés** d'un raccourci, la cible reste `lh_source` dans `$$shared_ws:ws-shared$$`. Aucune copie n'a été lancée : vous lisez la donnée là où elle est. <!-- TODO vérifier -->
+> Sous **Tables** de `lh_lab`, `sites` et `emission_factors` apparaissent avec l'icône de raccourci. Ouvrez `sites` : l'aperçu montre **<span data-expected="site_count">30</span> lignes**, avec les colonnes `site_id`, `region` et `opening_date`. Ouvrez `emission_factors` : **<span data-expected="factor_rows">une</span> seule ligne**, l'année **2025** et les coefficients **<span data-expected="electricity_factor">0,055</span>** et **<span data-expected="gas_factor">0,205</span>**. Dans les **Propriétés** d'un raccourci, la cible reste `lh_source` dans `$$shared_ws:ws-shared$$`. Aucune copie n'a été lancée : vous lisez la donnée là où elle est. <!-- TODO vérifier -->
 
 </div>
 
@@ -249,15 +249,15 @@ Vous pouvez remplacer la source Web par un fichier SharePoint autorisé, avec le
 
 ### Nettoyer et typer
 
-Vous allez retirer les observations inutilisables, puis préparer une date de début de mois pour comparer les consommations. Les six colonnes de départ sont `site_id`, `date`, `year`, `kwh_elec`, `kwh_gas` et `avg_temp`.
+Vous allez retirer les observations inutilisables, puis préparer une date de début de mois pour comparer les consommations. Les <span data-expected="raw_columns">six</span> colonnes de départ sont `site_id`, `date`, `year`, `kwh_elec`, `kwh_gas` et `avg_temp`.
 
 1. Dans Power Query, renommez la requête `consumption`. Si les noms des colonnes sont encore sur la première ligne, appliquez **Utiliser la première ligne pour les en-têtes** ; puis choisissez **Accueil > Supprimer les lignes > Supprimer les lignes vides**.
 
 2. Avec l'icône de type des colonnes, corrigez uniquement les types incorrects : `site_id` en **Texte**, `date` en **Date**, `year` en **Nombre entier**, et les trois autres en **Nombre décimal**. La valeur `invalid` peut notamment laisser `kwh_elec` en Texte : convertissez-la avant la suite. <!-- TODO vérifier -->
 
-  *[capture : types des six colonnes et erreurs révélées par la conversion]*
+  *[capture : types des <span data-expected="raw_columns">six</span> colonnes et erreurs révélées par la conversion]*
 
-3. Sélectionnez les six colonnes, puis **Supprimer les lignes > Supprimer les erreurs**.
+3. Sélectionnez les <span data-expected="raw_columns">six</span> colonnes, puis **Supprimer les lignes > Supprimer les erreurs**.
 
 4. Sélectionnez `date`, puis **Ajouter une colonne > Date > Mois > Début du mois**. Nommez la nouvelle colonne `month_start` et utilisez le type **Date**. <!-- TODO vérifier -->
 
@@ -266,7 +266,7 @@ Vous allez retirer les observations inutilisables, puis préparer une date de d�
 
 <div class="important" data-title="Une erreur n'est pas une consommation nulle">
 
-> Le fichier contient 55 enregistrements vides et 55 valeurs `invalid`. Ne remplacez pas ces erreurs par zéro. Les 110 observations sont exclues de l'analyse. Les lignes à zéro avant l'ouverture d'un site sont valides et restent présentes. L'aperçu Power Query peut être limité : ne confondez pas son nombre de lignes avec le volume complet.
+> Le fichier contient <span data-expected="blank_rows">55</span> enregistrements vides et <span data-expected="invalid_rows">55</span> valeurs `invalid`. Ne remplacez pas ces erreurs par zéro. Les <span data-expected="rejected_rows">110</span> observations sont exclues de l'analyse. Les lignes à zéro avant l'ouverture d'un site sont valides et restent présentes. L'aperçu Power Query peut être limité : ne confondez pas son nombre de lignes avec le volume complet.
 
 </div>
 
@@ -278,15 +278,15 @@ Votre préparation est prête ; vous allez écrire son résultat dans `lh_lab`. 
 
 2. Dans le sélecteur, choisissez votre workspace, `lh_lab`, le schéma `dbo`, puis une **Nouvelle table** nommée `consumption`.
 
-3. Dans les paramètres de destination, choisissez **Remplacer** et conservez la correspondance des sept colonnes vers les colonnes de même nom, puis validez. <!-- TODO vérifier -->
+3. Dans les paramètres de destination, choisissez **Remplacer** et conservez la correspondance des <span data-expected="clean_columns">sept</span> colonnes vers les colonnes de même nom, puis validez. <!-- TODO vérifier -->
 
-  *[capture : correspondance des sept colonnes et méthode Remplacer]*
+  *[capture : correspondance des <span data-expected="clean_columns">sept</span> colonnes et méthode Remplacer]*
 
 4. Dans l'éditeur, choisissez **Publier** ou **Enregistrer et exécuter** selon l'interface. Si la publication n'a pas lancé d'exécution, lancez le flux depuis le workspace. <!-- TODO vérifier -->
 
 <div class="task" data-title="Point de contrôle avant le pipeline">
 
-> Dans l'**historique d'actualisation** de `df_energy`, attendez la réussite, puis ouvrez les **détails de l'exécution** : la destination doit avoir reçu **10 840 lignes**. <!-- TODO vérifier --> Dans `lh_lab`, actualisez **Tables > dbo**, puis ouvrez `consumption` : vous retrouvez les sept colonnes, dont `month_start` de type Date au premier jour du mois. L'aperçu peut être limité ; le volume complet se contrôle dans les détails d'exécution, pas en comptant ses lignes visibles.
+> Dans l'**historique d'actualisation** de `df_energy`, attendez la réussite, puis ouvrez les **détails de l'exécution** : la destination doit avoir reçu **<span data-expected="clean_rows">10 840</span> lignes**. <!-- TODO vérifier --> Dans `lh_lab`, actualisez **Tables > dbo**, puis ouvrez `consumption` : vous retrouvez les <span data-expected="clean_columns">sept</span> colonnes, dont `month_start` de type Date au premier jour du mois. L'aperçu peut être limité ; le volume complet se contrôle dans les détails d'exécution, pas en comptant ses lignes visibles.
 
 </div>
 
@@ -304,7 +304,7 @@ Vous allez relancer la même préparation depuis un pipeline, `pl_energy_daily`.
 
 <div class="task" data-title="Point de contrôle">
 
-> Dans la sortie d'exécution du pipeline, l'activité **Dataflow** doit être réussie. Retrouvez aussi cette nouvelle exécution dans l'historique de `df_energy` : ses détails indiquent toujours **10 840 lignes** écrites dans `lh_lab.dbo.consumption`. La destination est restée en **Remplacer** et la table garde ses **sept colonnes** : vous avez rejoué le nettoyage sans cumuler les chargements.
+> Dans la sortie d'exécution du pipeline, l'activité **Dataflow** doit être réussie. Retrouvez aussi cette nouvelle exécution dans l'historique de `df_energy` : ses détails indiquent toujours **<span data-expected="clean_rows">10 840</span> lignes** écrites dans `lh_lab.dbo.consumption`. La destination est restée en **Remplacer** et la table garde ses **<span data-expected="clean_columns">sept</span> colonnes** : vous avez rejoué le nettoyage sans cumuler les chargements.
 
 </div>
 
@@ -375,7 +375,7 @@ Vous allez donner une région à chaque relevé, puis lui associer les facteurs 
 
   *[capture : développement des deux coefficients sans préfixe]*
 
-La table des facteurs possède **une seule ligne par année**, avec deux colonnes de coefficients. Chaque observation doit rester une seule observation après la jointure ; transformer les deux énergies en deux lignes changerait ce résultat.
+La table des facteurs possède **<span data-expected="factor_rows">une</span> seule ligne par année**, avec deux colonnes de coefficients. Chaque observation doit rester une seule observation après la jointure ; transformer les deux énergies en deux lignes changerait ce résultat.
 
 ### Regrouper les consommations
 
@@ -395,7 +395,7 @@ Vous allez conserver cette analyse sous le nom `v_energy_monthly` pour la retrou
 
 <div class="task" data-title="Point de contrôle">
 
-> Dans l'explorateur du **point de terminaison SQL** de `lh_lab`, actualisez la liste des vues et ouvrez `dbo.v_energy_monthly`. Le résultat doit contenir **72 couples région/mois** et les colonnes `total_kwh_elec`, `total_kwh_gas` et `observation_count`. La somme des `observation_count` doit être **10 840**, pas le double. Sur le canevas de `q_energy_monthly`, revenez au résultat des jointures pour contrôler `region` et les deux coefficients : ils ne doivent pas être vides pour les données Contoso. L'ordre d'affichage des lignes de la vue n'est pas garanti. <!-- TODO vérifier -->
+> Dans l'explorateur du **point de terminaison SQL** de `lh_lab`, actualisez la liste des vues et ouvrez `dbo.v_energy_monthly`. Le résultat doit contenir **<span data-expected="monthly_groups">72</span> couples région/mois** et les colonnes `total_kwh_elec`, `total_kwh_gas` et `observation_count`. La somme des `observation_count` doit être **<span data-expected="clean_rows">10 840</span>**, pas le double. Sur le canevas de `q_energy_monthly`, revenez au résultat des jointures pour contrôler `region` et les deux coefficients : ils ne doivent pas être vides pour les données Contoso. L'ordre d'affichage des lignes de la vue n'est pas garanti. <!-- TODO vérifier -->
 
 </div>
 
@@ -493,13 +493,13 @@ Vous allez d'abord voir ce que l'agent comprend sans vos définitions métier. G
 | Q1 | Quelle est la consommation électrique totale observée en 2025, en kWh ? |
 | Q2 | Quelle région émet le plus de kgCO2e en 2025, électricité et gaz réunis ? |
 | Q3 | Quel mois de 2025 a la consommation totale la plus élevée, en kWh ? |
-| Q4 | Quels couples site et jour dépassent 20 000 kWh, électricité et gaz réunis, en 2025 ? |
+| Q4 | Quels couples site et jour dépassent <span data-expected="anomaly_threshold_kwh">20 000</span> kWh, électricité et gaz réunis, en 2025 ? |
 | Q5 | Combien de sites étaient actifs au 1er janvier 2025 ? |
 | Q6 | De quel pourcentage nos émissions ont-elles baissé entre 2024 et 2025 ? |
 
 <div class="task" data-title="Point de contrôle avant configuration">
 
-> Dans les **étapes de chaque réponse**, développez la source choisie et la requête générée, sans la modifier. <!-- TODO vérifier --> Notez le résultat, la période et l'unité dans vos notes personnelles. Pour Q2, cherchez l'usage des deux facteurs ; pour Q4, le seuil de **20 000 kWh par site et jour**, pas par région ; pour Q6, la reconnaissance de l'absence de **2024**. Une règle ignorée ou une réponse inventée se note comme un écart à comparer après configuration.
+> Dans les **étapes de chaque réponse**, développez la source choisie et la requête générée, sans la modifier. <!-- TODO vérifier --> Notez le résultat, la période et l'unité dans vos notes personnelles. Pour Q2, cherchez l'usage des deux facteurs ; pour Q4, le seuil de **<span data-expected="anomaly_threshold_kwh">20 000</span> kWh par site et jour**, pas par région ; pour Q6, la reconnaissance de l'absence de **2024**. Une règle ignorée ou une réponse inventée se note comme un écart à comparer après configuration.
 
 </div>
 
@@ -523,7 +523,7 @@ Vous allez préciser ce que signifient une consommation, un site actif et un cal
 >
 > Reliez consumption.site_id à sites.site_id. Reliez consumption.year à emission_factors.year, unique par année. Utilisez elec_kgco2e_per_kwh pour l'électricité et gas_kgco2e_per_kwh pour le gaz. Additionnez les deux contributions en kgCO2e. Arrondissez après la somme. Les facteurs sont fictifs, ne pas utiliser pour un reporting réel.
 >
-> Les 110 observations rejetées au nettoyage sont absentes. Les totaux portent sur les observations conservées ; n'inventez pas leurs valeurs. Les six pics sont présents dans les données nettoyées. Pour une anomalie journalière, comparez la somme des deux énergies au seuil par couple site/date.
+> Les <span data-expected="rejected_rows">110</span> observations rejetées au nettoyage sont absentes. Les totaux portent sur les observations conservées ; n'inventez pas leurs valeurs. Les <span data-expected="peak_count">six</span> pics sont présents dans les données nettoyées. Pour une anomalie journalière, comparez la somme des deux énergies au seuil par couple site/date.
 >
 > Si une période ou une information manque, dites-le et demandez les données nécessaires. N'inventez pas de résultat pour 2024, de pourcentage de baisse, de cause de panne ou de facteur d'émission externe.
 
@@ -559,7 +559,7 @@ Vous allez reposer les mêmes questions dans une conversation vide pour comparer
 
 <div class="task" data-title="Point de contrôle">
 
-> Dans l'explorateur de `energy_agent`, retrouvez les **trois tables** sélectionnées ; dans sa configuration, les instructions enregistrées et l'exemple Q1 validé. Développez les **étapes des nouvelles réponses** pour comparer sources, requêtes, périodes et unités dans vos notes, puis confrontez les résultats au corrigé partagé dans le canal Teams $$teams_channel:de l'atelier$$. Q4 doit retrouver **six couples site/jour** ; Q5, **27 sites actifs au 1er janvier 2025** ; Q6 doit expliquer que le pourcentage ne peut pas être calculé sans **2024**. Si une erreur persiste, conservez-la dans la comparaison : c'est une limite à traiter, pas à masquer.
+> Dans l'explorateur de `energy_agent`, retrouvez les **trois tables** sélectionnées ; dans sa configuration, les instructions enregistrées et l'exemple Q1 validé. Développez les **étapes des nouvelles réponses** pour comparer sources, requêtes, périodes et unités dans vos notes, puis confrontez les résultats au corrigé partagé dans le canal Teams $$teams_channel:de l'atelier$$. Q4 doit retrouver **<span data-expected="peak_count">six</span> couples site/jour** ; Q5, **<span data-expected="active_sites">27</span> sites actifs au 1er janvier 2025** ; Q6 doit expliquer que le pourcentage ne peut pas être calculé sans **2024**. Si une erreur persiste, conservez-la dans la comparaison : c'est une limite à traiter, pas à masquer.
 
 </div>
 
@@ -602,19 +602,19 @@ Vous allez surveiller une consommation déjà présentée dans le rapport partag
 
 <div class="task" data-title="Point de contrôle avant l'alerte">
 
-> Dans `energy_report`, retrouvez le visuel **consommation du dernier jour disponible par région**. Le dernier jour affiché doit être le **31 décembre 2025** et les six régions doivent être sous **10 000 kWh**. C'est cet état de départ qui permettra ensuite de détecter un franchissement. Si une barre dépasse déjà le seuil, signalez-le dans le canal Teams $$teams_channel:de l'atelier$$ avant de continuer.
+> Dans `energy_report`, retrouvez le visuel **consommation du dernier jour disponible par région**. Le dernier jour affiché doit être le **31 décembre 2025** et les <span data-expected="region_count">six</span> régions doivent être sous **<span data-expected="alert_threshold_kwh">10 000</span> kWh**. C'est cet état de départ qui permettra ensuite de détecter un franchissement. Si une barre dépasse déjà le seuil, signalez-le dans le canal Teams $$teams_channel:de l'atelier$$ avant de continuer.
 
 </div>
 
-*[capture : visuel régional à l'état initial, six barres sous 10 000 kWh]*
+*[capture : visuel régional à l'état initial, <span data-expected="region_count">six</span> barres sous <span data-expected="alert_threshold_kwh">10 000</span> kWh]*
 
 ### Définir votre règle
 
-Vous allez demander une notification lorsque la consommation d'une région **devient supérieure à 10 000 kWh**. Le destinataire sera votre propre compte Teams, pas le canal de l'atelier : celui-ci reste réservé à l'entraide.
+Vous allez demander une notification lorsque la consommation d'une région **devient supérieure à <span data-expected="alert_threshold_kwh">10 000</span> kWh**. Le destinataire sera votre propre compte Teams, pas le canal de l'atelier : celui-ci reste réservé à l'entraide.
 
 1. Dans le menu **…** du visuel en barres, choisissez **Définir une alerte** ou **Ajouter une alerte**. <!-- TODO vérifier -->
 
-2. Dans le volet, réglez la condition sur **Devient > Supérieur à**, avec la valeur `10000`, puis choisissez **Teams** et votre propre compte comme destinataire. <!-- TODO vérifier -->
+2. Dans le volet, réglez la condition sur **Devient > Supérieur à**, avec la valeur <span data-expected="alert_threshold_kwh"><code>10000</code></span>, puis choisissez **Teams** et votre propre compte comme destinataire. <!-- TODO vérifier -->
 
   *[capture : volet d'alerte, seuil régional et destinataire personnel masqué]*
 
@@ -626,7 +626,7 @@ Vous allez demander une notification lorsque la consommation d'une région **dev
 
 <div class="task" data-title="Point de contrôle avant le franchissement">
 
-> Dans le volet d'alerte, contrôlez la mesure **`latest_day_kwh`**, suivie pour chaque **`region`**, la condition **Devient supérieur à 10000** et votre compte Teams. La règle doit être **active**, enregistrée dans `act_energy` dans votre workspace. Ne poursuivez pas avec une règle sur le total de toutes les régions ou une destination dans l'espace commun.
+> Dans le volet d'alerte, contrôlez la mesure **`latest_day_kwh`**, suivie pour chaque **`region`**, la condition **Devient supérieur à <span data-expected="alert_threshold_kwh">10000</span>** et votre compte Teams. La règle doit être **active**, enregistrée dans `act_energy` dans votre workspace. Ne poursuivez pas avec une règle sur le total de toutes les régions ou une destination dans l'espace commun.
 
 </div>
 
@@ -638,11 +638,11 @@ Vous allez suivre un vrai changement de valeur, puis retrouver ce qui a déclenc
 
 <div class="task" data-title="Point de contrôle du déclenchement">
 
-> Dans le **rapport actualisé**, la barre de la Bretagne doit maintenant dépasser **10 000 kWh**. Dans vos **notifications personnelles Teams**, retrouvez le message concernant cette région. La règle créée ne suffit pas : c'est la réception du message après ce changement qui confirme le résultat. Si elle tarde, gardez la règle active et signalez le délai dans le canal Teams $$teams_channel:de l'atelier$$ ; ne confondez pas une notification de test avec ce franchissement.
+> Dans le **rapport actualisé**, la barre de la Bretagne doit maintenant dépasser **<span data-expected="alert_threshold_kwh">10 000</span> kWh**. Dans vos **notifications personnelles Teams**, retrouvez le message concernant cette région. La règle créée ne suffit pas : c'est la réception du message après ce changement qui confirme le résultat. Si elle tarde, gardez la règle active et signalez le délai dans le canal Teams $$teams_channel:de l'atelier$$ ; ne confondez pas une notification de test avec ce franchissement.
 
 </div>
 
-*[capture : rapport actualisé, Bretagne au-dessus de 10 000 kWh]*
+*[capture : rapport actualisé, Bretagne au-dessus de <span data-expected="alert_threshold_kwh">10 000</span> kWh]*
 
 *[capture : notification personnelle Teams correspondant au franchissement]*
 
@@ -650,7 +650,7 @@ Vous allez suivre un vrai changement de valeur, puis retrouver ce qui a déclenc
 
 <div class="task" data-title="Point de contrôle">
 
-> Dans `act_energy`, retrouvez la **valeur observée**, la **condition**, votre **destinataire** et l'**historique des actions**. <!-- TODO vérifier --> La règle sur `latest_day_kwh` par `region`, au seuil de **10 000 kWh**, doit expliquer le message reçu pour la Bretagne après actualisation. Vous avez relié un changement dans les données à une action traçable, dans votre workspace personnel.
+> Dans `act_energy`, retrouvez la **valeur observée**, la **condition**, votre **destinataire** et l'**historique des actions**. <!-- TODO vérifier --> La règle sur `latest_day_kwh` par `region`, au seuil de **<span data-expected="alert_threshold_kwh">10 000</span> kWh**, doit expliquer le message reçu pour la Bretagne après actualisation. Vous avez relié un changement dans les données à une action traçable, dans votre workspace personnel.
 
 </div>
 
@@ -745,7 +745,7 @@ FROM dbo.consumption
 WHERE [date] >= '2025-01-01' AND [date] < '2026-01-01';
 ```
 
-Vous attendez **10 840 observations**, **2 896 164,51 kWh électriques** et **1 686 455,14 kWh de gaz**.
+Vous attendez **<span data-expected="clean_rows">10 840</span> observations**, **<span data-expected="electricity_kwh">2 896 164,51</span> kWh électriques** et **<span data-expected="gas_kwh">1 686 455,14</span> kWh de gaz**.
 
 1. Ouvrez une seconde requête SQL.
 2. Collez la requête 2.
@@ -765,12 +765,12 @@ GROUP BY sites.region
 ORDER BY total_kgco2e DESC, sites.region;
 ```
 
-Les Hauts-de-France arrivent en tête, avec **133 453,59 kgCO2e fictifs**. Un résultat deux fois trop grand indique une erreur de données ou de jointure, pas une nouvelle découverte métier.
+Les Hauts-de-France arrivent en tête, avec **<span data-expected="top_region_kgco2e">133 453,59</span> kgCO2e fictifs**. Un résultat deux fois trop grand indique une erreur de données ou de jointure, pas une nouvelle découverte métier.
 
 1. Ouvrez une troisième requête SQL.
 2. Collez la requête 3.
 3. Exécutez-la.
-4. Comparez les six couples au corrigé de Q4.
+4. Comparez les <span data-expected="peak_count">six</span> couples au corrigé de Q4.
 
 ```sql
 -- Requête 3 : chercher les dépassements au grain site/jour, pas région/an.
@@ -819,7 +819,7 @@ Dans cette extension, vous avez **copié** les tables pour apprendre l'entrepôt
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir les trois tables et `v_energy_monthly` dans `wh_energy`. `consumption` contient 10 840 lignes, `sites` 30 et `emission_factors` une. Les trois requêtes retrouvent les valeurs attendues.
+> Vous devez voir les trois tables et `v_energy_monthly` dans `wh_energy`. `consumption` contient <span data-expected="clean_rows">10 840</span> lignes, `sites` <span data-expected="site_count">30</span> et `emission_factors` <span data-expected="factor_rows">une</span>. Les trois requêtes retrouvent les valeurs attendues.
 
 </div>
 
@@ -942,7 +942,7 @@ Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source mod�
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir les deux relations plusieurs-vers-un et la mesure `total_kgco2e`. Le total 2025 vaut **505 012,35 kgCO2e fictifs**, et Q2 retrouve **133 453,59 kgCO2e** pour les Hauts-de-France. La trace de l'agent doit montrer le modèle choisi, pas une addition de deux sources.
+> Vous devez voir les deux relations plusieurs-vers-un et la mesure `total_kgco2e`. Le total 2025 vaut **<span data-expected="carbon_kgco2e">505 012,35</span> kgCO2e fictifs**, et Q2 retrouve **<span data-expected="top_region_kgco2e">133 453,59</span> kgCO2e** pour les Hauts-de-France. La trace de l'agent doit montrer le modèle choisi, pas une addition de deux sources.
 
 </div>
 
@@ -1107,7 +1107,7 @@ Vérifiez dans l'aperçu si un événement satisfait la condition. Un bouton de 
 | Attend l'actualisation du modèle et l'évaluation | Dépend de l'arrivée et du traitement des événements |
 | Objet suivi : région | Objet suivi : station |
 | Valeur : kWh du dernier jour | Valeur : nombre de vélos de l'échantillon |
-| Seuil : 10 000 kWh par région | Seuil : moins de 5 vélos par station |
+| Seuil : <span data-expected="alert_threshold_kwh">10 000</span> kWh par région | Seuil : moins de 5 vélos par station |
 | Action : notification Teams personnelle | Même famille d'action et même moteur Activator |
 
 <div class="task" data-title="Point de contrôle">

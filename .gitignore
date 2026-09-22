@@ -15,6 +15,7 @@ dist/
 !.env.example
 data/out/
 data/csv/*.md
+!data/csv/expected_values.md
 setup/participants.csv
 setup/participants.local.csv
 setup/participants.resolved.csv

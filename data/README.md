@@ -10,7 +10,7 @@ Depuis la racine du dépôt, avec Python 3.11 ou ultérieur, sans dépendance ex
 python data/generate_data.py
 ```
 
-La graine vaut `2025`. Les six CSV sont écrits dans `data/csv/` et versionnés dans Git. Le corrigé Markdown y est également généré, mais reste ignoré. Relancer la même commande produit les mêmes valeurs. Le script relit les CSV, vérifie les volumes et calcule les six réponses attendues. Aucun téléchargement ni appel cloud. Les identifiants restent en anglais, même si le texte de l'atelier est traduit.
+La graine vaut `2025`. Les six CSV et [expected_values.md](csv/expected_values.md) sont écrits dans `data/csv/` et versionnés dans Git. Le corrigé complet `questions_expected_answers.md` y est aussi généré, mais reste ignoré. Relancer la même commande produit les mêmes valeurs. Le script relit les CSV, vérifie les volumes et calcule les six réponses attendues ainsi que les valeurs de référence. Aucun téléchargement ni appel cloud. Les identifiants restent en anglais, même si le texte de l'atelier est traduit.
 
 | Fichier généré | Volume hors en-tête | Usage |
 | --- | ---: | --- |
@@ -21,8 +21,28 @@ La graine vaut `2025`. Les six CSV sont écrits dans `data/csv/` et versionnés 
 | `consumption_latest_day_before.csv` | 30 | Toutes les régions sous 10 000 kWh |
 | `consumption_latest_day_after.csv` | 30 | Une région au-dessus de 10 000 kWh |
 | `questions_expected_answers.md` | 6 questions | Corrigé numérique et totaux régionaux avant/après |
+| `expected_values.md` | 26 valeurs identifiées | Référence calculée et versionnée pour les chiffres du workshop |
 
 Format CSV : UTF-8 avec BOM, séparateur virgule, point décimal, dates ISO `YYYY-MM-DD`. Dans Power Query français, convertir les décimaux avec les paramètres régionaux « Anglais (États-Unis) ». Les régions restent des noms géographiques français. Les codes d'activité restent en anglais.
+
+## Vérifier les chiffres du workshop
+
+Les quantités Contoso affichées dans [le workshop](../docs/workshop.md) sont reliées à un identifiant de `expected_values.md` par une balise sans effet visuel :
+
+```html
+<span data-expected="clean_rows">10 840</span>
+```
+
+Le test compare chaque occurrence à **sa** valeur calculée, pas à n'importe quel nombre présent dans le fichier. Il accepte les espaces français et les formes courtes en lettres déjà utilisées (`une`, `six`, `sept`). Les facteurs gardent leurs trois décimales ; les totaux sont arrondis après la somme, comme le corrigé. Les seuils régional et site/jour ont des identifiants distincts.
+
+```powershell
+python data/generate_data.py
+python -m unittest discover -s data -p "test_*.py" -v
+```
+
+Les tests régénèrent les données et la référence dans un dossier temporaire, contrôlent la fraîcheur du fichier versionné, puis vérifient les occurrences du workshop. Ils signalent aussi les quantités non balisées, notamment nombres groupés, décimaux français et nombres associés aux unités de données. Les durées, numéros d'étapes, dates du scénario fixe et paramètres du code SQL/DAX/KQL ne sont pas des résultats numériques à comparer par ce contrôle ; les contrats de dates et de données restent testés séparément.
+
+Pour ajouter un chiffre métier, ajouter son calcul et son identifiant au générateur, puis baliser chaque occurrence dans le workshop. Ne pas ajouter une valeur seulement pour faire passer le test : vérifier le calcul et le scénario. Une correction modifiant les données impose de régénérer puis de relire les contrôles concernés, y compris ceux des autres guides et du notebook, hors du périmètre de ce test documentaire.
 
 ## Dictionnaire
 

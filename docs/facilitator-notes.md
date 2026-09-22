@@ -295,7 +295,7 @@ Hypothèses retenues au-delà des décisions validées :
 
 | Vérification | État à la rédaction |
 | --- | --- |
-| Génération et contrôles intégrés | Réussis localement sur le schéma anglais ; six tests de reproductibilité, volumes, résultats et états d'alerte réussis |
+| Génération et contrôles intégrés | Neuf tests locaux : reproductibilité, volumes, résultats, états d'alerte, référence expected_values.md et comparaison des chiffres du workshop ; dérives documentaires et valeurs non balisées testées par cas négatifs |
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
 | Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 233 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
 | Rendu et liens | Variables avec valeurs par défaut et personnalisées ; `s3_shortcut` testé ; lien Fabric sans tracking dans le rendu, lien Q1 chargé en HTTP 200 ; encadrés task et contextes repliés contrôlés |

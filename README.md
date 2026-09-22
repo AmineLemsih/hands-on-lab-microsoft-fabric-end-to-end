@@ -98,7 +98,7 @@ python -m unittest discover -s setup -p "test_*.py" -v
 
 Attendus : 30 sites, une ligne de facteurs annuels avec deux coefficients, 10 950 lignes brutes, 110 rejets, 10 840 lignes propres, six pics historiques et 30 lignes par instantané. Toutes les régions sont sous 10 000 kWh dans l'état avant ; seule la Bretagne dépasse le seuil dans l'état après. Q4 conserve son seuil distinct de 20 000 kWh par site et jour.
 
-Les six CSV synthétiques de `data/csv/` sont versionnés et régénérables. Les paramètres réels restent exclus de Git. Le corrigé local est calculé dans `data/csv/questions_expected_answers.md` et reste ignoré. Le dossier `data/out/` reste réservé aux sorties locales de construction. Aucun script n'est exécuté sur Fabric lors des tests locaux.
+Les six CSV synthétiques de `data/csv/` sont versionnés et régénérables, ainsi que [data/csv/expected_values.md](data/csv/expected_values.md). Les tests comparent les chiffres métier balisés dans le workshop à cette référence recalculée et détectent une dérive. Les paramètres réels restent exclus de Git. Le corrigé complet est calculé dans `data/csv/questions_expected_answers.md` et reste ignoré. Le dossier `data/out/` reste réservé aux sorties locales de construction. Aucun script n'est exécuté sur Fabric lors des tests locaux.
 
 ## Backlog
 
@@ -118,6 +118,8 @@ La liste [CONTRIBUTORS.md](CONTRIBUTORS.md) est volontairement vide à ce stade.
 ## Contribuer
 
 Utiliser les issues et demandes de tirage du dépôt. Indiquer le module, l'étape, le comportement attendu et le résultat constaté. Fournir uniquement des données synthétiques et des captures anonymisées. Maintenir les minutages, les identifiants anglais et les contrôles du jeu de données.
+
+Conserver les balises `data-expected` autour des chiffres métier : elles relient chaque valeur à son calcul, sans changer son affichage. La [convention de vérification des chiffres](data/README.md#vérifier-les-chiffres-du-workshop) décrit comment ajouter une valeur et régénérer la référence.
 
 Dans les Labs 1 à 5, regrouper les clics d'un écran en une étape, mettre les libellés d'interface en gras et les identifiants en code. Les indications *[capture : …]* précisent les écrans à ajouter. Les contrôles indiquent où regarder et les valeurs attendues dans un encadré `task`. Le menu utilise `navigation_numbering: false` et des titres explicites pour commencer à zéro. Pour éviter le tracking ajouté par MOAW aux liens Microsoft, utiliser une ancre HTML dont le protocole est écrit `https&#58;//` ; l'URL rendue reste une URL HTTPS normale, à vérifier dans le navigateur.
 

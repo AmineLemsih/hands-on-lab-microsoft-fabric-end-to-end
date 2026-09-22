@@ -1,14 +1,95 @@
 """Contrôler les contrats des données synthétiques sans dépendance externe."""
 
+import csv
+import io
 import re
 import subprocess
 import sys
 import tempfile
 import unittest
-from decimal import Decimal
+from decimal import Decimal, InvalidOperation
+from html.parser import HTMLParser
 from pathlib import Path
 
 import generate_data as generator
+
+
+def numeric_value(text):
+    words = {"un": "1", "une": "1", "deux": "2", "trois": "3", "six": "6", "sept": "7"}
+    normalized = " ".join(text.split()).lower()
+    return Decimal(words.get(normalized, normalized).replace(" ", "").replace(",", "."))
+
+
+def read_expected_values(markdown):
+    table = "\n".join(line for line in markdown.splitlines() if line.startswith("|"))
+    rows = list(csv.reader(io.StringIO(table), delimiter="|"))
+    return {row[1].strip(): numeric_value(row[2]) for row in rows[2:]}
+
+
+class WorkshopValues(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.references = []
+        self.unmarked = []
+        self.current = None
+        self.parts = []
+
+    def handle_starttag(self, tag, attrs):
+        key = dict(attrs).get("data-expected")
+        if key is not None:
+            if tag != "span" or self.current is not None:
+                raise ValueError("data-expected exige un span non imbriqué")
+            self.current = (key, self.getpos()[0])
+            self.parts = []
+            self.unmarked.append(" ")
+
+    def handle_data(self, data):
+        if self.current is None:
+            self.unmarked.append(data)
+        else:
+            self.parts.append(data)
+
+    def handle_endtag(self, tag):
+        if tag == "span" and self.current is not None:
+            key, line = self.current
+            self.references.append((key, "".join(self.parts), line))
+            self.current = None
+            self.unmarked.append(" ")
+
+
+def workshop_value_errors(workshop, expected):
+    prose = re.sub(r"^---\n.*?\n---\n", lambda match: "\n" * match[0].count("\n"), workshop, count=1, flags=re.DOTALL)
+    prose = re.sub(r"```[^\n]*\n.*?```", lambda match: "\n" * match[0].count("\n"), prose, flags=re.DOTALL)
+    prose = re.sub(r"`([^`\n]+)`", lambda match: match[1] if re.fullmatch(r"\d[\d ,.]*", match[1]) else "", prose)
+    prose = re.sub(r"\]\([^\n)]*\)", "", prose)
+    parsed = WorkshopValues()
+    parsed.feed(prose)
+    parsed.close()
+    errors = []
+    if not parsed.references or parsed.current is not None:
+        errors.append("Valeurs absentes ou balisage data-expected incomplet")
+    for key, text, line in parsed.references:
+        try:
+            actual = numeric_value(text)
+        except InvalidOperation:
+            errors.append(f"Ligne {line} : {key} n'est pas une valeur numérique : {text!r}")
+            continue
+        if key not in expected:
+            errors.append(f"Ligne {line} : {key} absent de expected_values.md")
+        elif actual != expected[key]:
+            errors.append(f"Ligne {line} : {key} affiche {text!r}, attendu {expected[key]}")
+    unmarked = "".join(parsed.unmarked).replace("*", "")
+    quantities = re.compile(
+        r"(?<![\w])(?:\d{1,3}(?:[ \u00a0\u202f]\d{3})+(?:[.,]\d+)?"
+        r"|\d{5,}"
+        r"|\d+,\d+"
+        r"|une(?=\s+seule\s+ligne\b)"
+        r"|(?:\d+|six|sept|trente)(?=\s+(?:lignes?|observations?|sites?|colonnes?|pics?|régions?|barres?|couples?|kWh|kgCO2e|valeurs?|enregistrements?)\b))",
+        re.IGNORECASE,
+    )
+    for match in quantities.finditer(unmarked):
+        errors.append(f"Valeur métier sans data-expected : {match.group()!r}")
+    return errors
 
 
 class DataTests(unittest.TestCase):
@@ -35,6 +116,7 @@ class DataTests(unittest.TestCase):
             "sites.csv", "emission_factors.csv", "consumption_2025.csv",
             "consumption_latest_day.csv", "consumption_latest_day_before.csv",
             "consumption_latest_day_after.csv", "questions_expected_answers.md",
+            "expected_values.md",
         }
         self.assertEqual({path.name for path in self.before.iterdir()}, expected)
         for name in expected:
@@ -50,6 +132,42 @@ class DataTests(unittest.TestCase):
         for path in self.before.glob("*.csv"):
             for column in generator.read_csv(path)[0]:
                 self.assertIsNotNone(re.fullmatch(r"[a-z][a-z0-9_]*", column))
+
+    def test_expected_values_are_calculated_and_scenario_independent(self):
+        expected = (self.before / "expected_values.md").read_text(encoding="utf-8")
+        self.assertIn(f"| site_count | {len(self.sites)} |", expected)
+        self.assertIn(f"| clean_rows | {len(self.cleaned):,} |".replace(",", " "), expected)
+        electricity = sum(Decimal(row["kwh_elec"]) for row in self.cleaned)
+        self.assertIn(f"| electricity_kwh | {generator.french_number(electricity)} |", expected)
+        self.assertIn("| electricity_factor | 0,055 |", expected)
+        self.assertIn("| gas_factor | 0,205 |", expected)
+        self.assertEqual(expected, (self.after / "expected_values.md").read_text(encoding="utf-8"))
+        committed = Path(generator.__file__).resolve().parent / "csv/expected_values.md"
+        self.assertEqual(expected, committed.read_text(encoding="utf-8"), "Régénérer expected_values.md avant de publier")
+
+    def test_workshop_values_match_generated_reference(self):
+        workshop = (Path(generator.__file__).resolve().parents[1] / "docs/workshop.md").read_text(encoding="utf-8")
+        expected = read_expected_values((self.before / "expected_values.md").read_text(encoding="utf-8"))
+        self.assertEqual(workshop_value_errors(workshop, expected), [])
+
+    def test_workshop_guard_rejects_changed_or_unmarked_values(self):
+        expected = read_expected_values((self.before / "expected_values.md").read_text(encoding="utf-8"))
+        valid = '<span data-expected="site_count">30</span> sites ; <span data-expected="clean_rows">10\u202f840</span> lignes'
+        self.assertEqual(workshop_value_errors(valid, expected), [])
+        for altered in (
+            valid.replace('>30<', '>27<'),
+            valid.replace('10\u202f840', '110840'),
+            valid.replace('data-expected="site_count"', 'data-expected="unknown_count"'),
+            valid + ' ; 10 841 observations',
+            valid + ' ; 27 sites',
+            valid + ' ; 0,056 kgCO2e par kWh',
+            valid + ' ; seuil `10000`',
+            valid + ' ; une seule ligne de facteurs',
+        ):
+            with self.subTest(workshop=altered):
+                self.assertTrue(workshop_value_errors(altered, expected))
+        changed_generation = dict(expected, site_count=Decimal(31))
+        self.assertTrue(workshop_value_errors(valid, changed_generation))
 
     def test_alert_states_do_not_modify_historical_files(self):
         for name in ("sites.csv", "emission_factors.csv", "consumption_2025.csv",

@@ -14,6 +14,7 @@ SEED = 2025
 YEAR = 2025
 LAST_DAY = date(YEAR, 12, 31)
 ALERT_THRESHOLD_KWH = Decimal("10000")
+ANOMALY_THRESHOLD_KWH = Decimal("20000")
 REGIONS = (
     "Île-de-France",
     "Auvergne-Rhône-Alpes",
@@ -175,7 +176,7 @@ def validate_output(output, latest_state="before"):
     after = read_csv(output / "consumption_latest_day_after.csv")
     cleaned, blank_count, invalid_count = clean_rows(raw)
     actual_peaks = {
-        (row["site_id"], row["date"]) for row in cleaned if energy(row) > Decimal("20000")
+        (row["site_id"], row["date"]) for row in cleaned if energy(row) > ANOMALY_THRESHOLD_KWH
     }
     site_ids = {site["site_id"] for site in sites}
     before_totals = regional_energy(before, sites)
@@ -238,7 +239,7 @@ def write_answers(output, sites, factors, cleaned, scenario):
     top_month = max(month_energy, key=month_energy.get)
     active_sites = sum(site["opening_date"] <= "2025-01-01" for site in sites)
     peaks = sorted(
-        (row for row in cleaned if energy(row) > Decimal("20000")),
+        (row for row in cleaned if energy(row) > ANOMALY_THRESHOLD_KWH),
         key=lambda row: (-energy(row), row["site_id"], row["date"]),
     )
     lines = [
@@ -304,6 +305,57 @@ def write_answers(output, sites, factors, cleaned, scenario):
     ])
     (output / "questions_expected_answers.md").write_text("\n".join(lines), encoding="utf-8")
 
+    raw = read_csv(output / "consumption_2025.csv")
+    _, blank_count, invalid_count = clean_rows(raw)
+    monthly_groups = {(by_id[row["site_id"]]["region"], row["date"][:7]) for row in cleaned}
+    values = {
+        "site_count": (len(sites), "sites dans le référentiel"),
+        "factor_rows": (len(read_csv(output / "emission_factors.csv")), "lignes de facteurs"),
+        "electricity_factor": (Decimal(factors["elec_kgco2e_per_kwh"]), "kgCO2e par kWh électrique"),
+        "gas_factor": (Decimal(factors["gas_kgco2e_per_kwh"]), "kgCO2e par kWh de gaz"),
+        "raw_rows": (len(raw), "observations avant nettoyage"),
+        "blank_rows": (blank_count, "observations vides"),
+        "invalid_rows": (invalid_count, "observations en erreur"),
+        "rejected_rows": (blank_count + invalid_count, "observations rejetées"),
+        "clean_rows": (len(cleaned), "observations conservées"),
+        "raw_columns": (len(FIELDS), "colonnes du CSV annuel"),
+        "clean_columns": (len(FIELDS) + 1, "colonnes après ajout de month_start"),
+        "region_count": (len({site["region"] for site in sites}), "régions"),
+        "monthly_groups": (len(monthly_groups), "couples région/mois observés"),
+        "active_sites": (active_sites, "sites actifs au 1er janvier 2025"),
+        "peak_count": (len(peaks), "couples site/jour au-dessus du seuil d'anomalie"),
+        "snapshot_rows": (len(read_csv(output / "consumption_latest_day_before.csv")), "observations par instantané"),
+        "electricity_kwh": (french_number(electricity), "kWh électriques observés en 2025"),
+        "gas_kwh": (french_number(gas), "kWh de gaz observés en 2025"),
+        "total_kwh": (french_number(electricity + gas), "kWh totaux observés en 2025"),
+        "carbon_kgco2e": (french_number(sum(region_carbon.values())), "kgCO2e fictifs en 2025"),
+        "top_region_kgco2e": (french_number(region_carbon[top_region]), f"kgCO2e fictifs : {top_region}"),
+        "top_month_kwh": (french_number(month_energy[top_month]), f"kWh du mois maximal : {top_month}"),
+        "alert_threshold_kwh": (ALERT_THRESHOLD_KWH, "seuil strict par région, instantané"),
+        "anomaly_threshold_kwh": (ANOMALY_THRESHOLD_KWH, "seuil strict par site/jour, historique"),
+        "bretagne_before_kwh": (french_number(before["Bretagne"]), "kWh en Bretagne avant franchissement"),
+        "bretagne_after_kwh": (french_number(after["Bretagne"]), "kWh en Bretagne après franchissement"),
+    }
+    expected_lines = [
+        "# Valeurs attendues du jeu Contoso",
+        "",
+        "Généré par `python data/generate_data.py` à partir des CSV relus ; ne pas modifier à la main.",
+        "Les comptes et les sommes portent sur les observations réellement conservées, sans imputation.",
+        "Les seuils sont les paramètres du scénario ; les facteurs carbone restent fictifs.",
+        "",
+        "| Identifiant | Valeur | Signification |",
+        "| --- | ---: | --- |",
+    ]
+    for key, (value, meaning) in values.items():
+        if isinstance(value, int):
+            display = f"{value:,}".replace(",", " ")
+        elif isinstance(value, Decimal):
+            display = format(value, ",f").replace(",", " ").replace(".", ",")
+        else:
+            display = value
+        expected_lines.append(f"| {key} | {display} | {meaning} |")
+    (output / "expected_values.md").write_text("\n".join(expected_lines) + "\n", encoding="utf-8")
+
 
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
@@ -333,7 +385,7 @@ def main():
     write_csv(args.out / "consumption_latest_day.csv", current, FIELDS)
     loaded_sites, loaded_factors, cleaned = validate_output(args.out, args.latest_state)
     write_answers(args.out, loaded_sites, loaded_factors, cleaned, args.latest_state)
-    print(f"Données et six réponses calculées dans {args.out}")
+    print(f"Données, six réponses et valeurs de référence calculées dans {args.out}")
 
 
 if __name__ == "__main__":
