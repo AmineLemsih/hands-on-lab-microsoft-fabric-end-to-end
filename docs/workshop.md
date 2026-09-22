@@ -866,59 +866,51 @@ Lakehouse et warehouse partagent OneLake, mais n'ont pas la même surface d'écr
 
 **Pourquoi c'est important pour Contoso**
 
-Le même indicateur carbone doit garder sa définition d'un rapport à une conversation.  
-Un modèle partagé rend explicites les relations, les unités et les calculs.
+Vous allez donner au calcul carbone de Contoso une définition partagée, que vous pourrez retrouver dans un rapport comme dans une conversation. Le modèle sémantique vous permettra de rendre visibles les relations entre les données et de conserver la même mesure d'une analyse à l'autre.
 
 **Objectif :** créer un modèle Direct Lake sur `lh_lab` et l'interroger depuis le data agent.
 
 **Durée : 25 min, lab optionnel.**
 
-Un **modèle sémantique** décrit les relations et les mesures utilisées pour analyser les données. **Direct Lake** permet au moteur Power BI de lire les tables Delta de OneLake sans construire une copie Import complète. Une **mesure DAX** est un calcul évalué selon les filtres de l'analyse.
-
 ### Créer explicitement le modèle
 
-1. Ouvrez `lh_lab`.
-2. Sélectionnez « Nouveau modèle sémantique ». <!-- TODO vérifier -->
-3. Saisissez `sm_energy_lab`.
-4. Choisissez votre workspace personnel.
-5. Sélectionnez `consumption`.
-6. Sélectionnez `sites`.
-7. Sélectionnez `emission_factors`.
-8. Créez le modèle.
-9. Ouvrez le modèle en modification. <!-- TODO vérifier -->
-10. Vérifiez le mode de stockage « Direct Lake » des tables.
-11. Vérifiez que le mode de connexion de ce modèle personnel utilise SSO. <!-- TODO vérifier -->
+Vous allez créer `sm_energy_lab` à partir des tables Delta de `lh_lab`, y compris celles accessibles par raccourci. Avec **Direct Lake**, le modèle lit ces données dans OneLake sans construire une copie Import complète ; il n'est pas nécessaire qu'un modèle par défaut existe déjà.
 
-Ne sélectionnez pas `v_energy_monthly` : c'est une vue SQL, pas une table Delta physique. Une vue peut entraîner un chemin DirectQuery selon le type de modèle. **DirectQuery** interroge la source à chaque requête au lieu de charger ses colonnes en mémoire comme Direct Lake.
+1. Dans `lh_lab`, choisissez **Nouveau modèle sémantique**, nommez-le `sm_energy_lab` et sélectionnez votre workspace. Cochez `consumption`, `sites` et `emission_factors`, puis créez le modèle. <!-- TODO vérifier -->
 
-Il n'est pas nécessaire qu'un modèle par défaut existe dans le lakehouse. Vous venez d'en créer un explicitement. Les trois tables incluent les tables référencées par raccourci.
+  *[capture : création de sm_energy_lab avec les trois tables, sans la vue v_energy_monthly]*
+
+2. Ouvrez `sm_energy_lab` en **modification** pour accéder aux tables, aux relations et aux mesures. <!-- TODO vérifier -->
+
+<div class="task" data-title="Point de contrôle du modèle">
+
+> Dans les **propriétés des tables** du modèle, contrôlez le mode **Direct Lake**. Dans ses **paramètres de connexion**, vérifiez que ce modèle personnel utilise **SSO**. <!-- TODO vérifier --> Les tables sélectionnées doivent être `consumption`, `sites` et `emission_factors`, pas `v_energy_monthly` : une vue SQL peut entraîner un chemin DirectQuery selon le type de modèle. DirectQuery interroge la source à chaque requête, contrairement à la lecture Direct Lake attendue ici.
+
+</div>
+
+*[capture : propriétés du modèle personnel, mode Direct Lake et connexion SSO]*
 
 ### Définir les relations
 
-1. Ouvrez la vue « Modèle ».
-2. Choisissez « Gérer les relations ». <!-- TODO vérifier -->
-3. Créez une relation de `consumption.site_id` vers `sites.site_id`.
-4. Choisissez la cardinalité « Plusieurs à un ».
-5. Choisissez le filtrage « Simple », depuis `sites` vers `consumption`.
-6. Laissez la relation active.
-7. Enregistrez cette relation.
-8. Créez une relation de `consumption.year` vers `emission_factors.year`.
-9. Choisissez « Plusieurs à un ».
-10. Choisissez le filtrage « Simple », depuis `emission_factors` vers `consumption`.
-11. Laissez cette relation active.
-12. Enregistrez.
+Vous allez relier chaque consommation à son site et aux facteurs de son année. Les références doivent rester uniques du côté « un » pour éviter de compter plusieurs fois les mêmes observations ; si une relation identique existe déjà, contrôlez-la au lieu de la recréer.
 
-S'il existe déjà une relation identique créée automatiquement, vérifiez-la au lieu d'en ajouter une seconde. `sites.site_id` et `emission_factors.year` doivent être uniques.
+1. Dans la vue **Modèle**, choisissez **Gérer les relations**. Créez la relation de `consumption.site_id` vers `sites.site_id`, avec la cardinalité **Plusieurs à un**, le filtrage **Simple** depuis `sites` vers `consumption` et la relation **active**, puis enregistrez. <!-- TODO vérifier -->
+
+2. Dans le même gestionnaire, créez la relation de `consumption.year` vers `emission_factors.year`, avec **Plusieurs à un**, le filtrage **Simple** depuis `emission_factors` vers `consumption` et la relation **active**, puis enregistrez.
+
+<div class="task" data-title="Point de contrôle des relations">
+
+> Dans le **diagramme du modèle**, retrouvez les deux relations actives, avec `consumption` du côté « plusieurs » et les références du côté « un ». Le filtre va des références vers les consommations, dans un seul sens. Dans les tables sources, `sites.site_id` et `emission_factors.year` doivent être uniques : ne contournez pas un doublon en changeant la cardinalité.
+
+</div>
+
+*[capture : diagramme des relations, cardinalités et sens de filtrage vers consumption]*
 
 ### Ajouter la mesure carbone
 
-1. Sélectionnez `consumption` dans le modèle.
-2. Choisissez « Nouvelle mesure ».
-3. Collez la mesure ci-dessous.
-4. Validez la formule.
-5. Définissez son format numérique à deux décimales.
-6. Ajoutez la description « Estimation fictive en kgCO2e, électricité et gaz, sur les observations disponibles ».
-7. Enregistrez le modèle.
+Vous allez conserver le calcul carbone dans une mesure DAX, `total_kgco2e`. Elle appliquera le facteur de chaque énergie aux observations disponibles et sera recalculée selon les filtres de l'analyse.
+
+1. Dans le modèle, sélectionnez `consumption`, puis **Nouvelle mesure**. Collez la formule ci-dessous et validez-la ; choisissez un format numérique à deux décimales, ajoutez la description « Estimation fictive en kgCO2e, électricité et gaz, sur les observations disponibles », puis enregistrez le modèle.
 
 ```dax
 total_kgco2e =
@@ -932,36 +924,46 @@ SUMX(
 
 Le format d'affichage arrondit le résultat final. Ne remplacez pas cette expression par un arrondi des émissions de chaque observation.
 
-<!-- ![Modèle Direct Lake, relations à sens unique et mesure total_kgco2e](assets/lab07-direct-lake-model.png) -->
+*[capture : éditeur de total_kgco2e, formule validée, format et description]*
 
 ### Ajouter le modèle à l'agent
 
-1. Ouvrez `energy_agent`.
-2. Sélectionnez « Ajouter une source de données ».
-3. Choisissez `sm_energy_lab`.
-4. Sélectionnez « Ajouter ».
-5. Complétez les instructions : « Pour les émissions agrégées, utilisez sm_energy_lab et la mesure total_kgco2e. Ne cumulez pas les résultats de ce modèle et de lh_lab : ils représentent les mêmes données. »
-6. Enregistrez.
-7. Démarrez une nouvelle conversation.
-8. Reposez Q2 en précisant : « Utilisez uniquement sm_energy_lab et sa mesure total_kgco2e. »
-9. Vérifiez la source et la requête DAX affichées dans les étapes.
-10. Comparez la réponse à Q2 et à la requête SQL du Lab 6.
+Vous allez demander à l'agent d'utiliser cette définition partagée, puis comparer sa réponse à l'analyse SQL. Le lakehouse et le modèle représentent les mêmes données : l'agent ne doit pas additionner leurs résultats.
+
+1. Dans `energy_agent`, choisissez **Ajouter une source de données**, sélectionnez `sm_energy_lab`, puis **Ajouter**.
+
+  *[capture : sm_energy_lab sélectionné comme source de energy_agent]*
+
+2. Dans les **instructions**, ajoutez « Pour les émissions agrégées, utilisez sm_energy_lab et la mesure total_kgco2e. Ne cumulez pas les résultats de ce modèle et de lh_lab : ils représentent les mêmes données. », puis enregistrez.
+
+3. Démarrez une **nouvelle conversation** et reposez Q2 en précisant : « Utilisez uniquement sm_energy_lab et sa mesure total_kgco2e. »
 
 Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source modèle sémantique comme pour un lakehouse. Cela n'empêche pas l'agent de l'interroger. Ses mesures et métadonnées portent la définition métier.
 
-<!-- ![Le modèle sm_energy_lab comme source de l'agent et réponse carbone vérifiée](assets/lab07-agent-semantic-model.png) -->
-
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir les deux relations plusieurs-vers-un et la mesure `total_kgco2e`. Le total 2025 vaut **<span data-expected="carbon_kgco2e">505 012,35</span> kgCO2e fictifs**, et Q2 retrouve **<span data-expected="top_region_kgco2e">133 453,59</span> kgCO2e** pour les Hauts-de-France. La trace de l'agent doit montrer le modèle choisi, pas une addition de deux sources.
+> Dans les **étapes de la réponse de l'agent**, retrouvez `sm_energy_lab` comme source et la requête DAX utilisant `total_kgco2e`. Q2 doit retrouver **<span data-expected="top_region_kgco2e">133 453,59</span> kgCO2e** pour les Hauts-de-France, comme la requête SQL du Lab 6. Demandez également le total 2025 à partir de cette mesure : il vaut **<span data-expected="carbon_kgco2e">505 012,35</span> kgCO2e fictifs**. Si la trace cumule les données du modèle et du lakehouse, la comparaison n'est pas valide.
 
 </div>
 
+*[capture : réponse carbone de l'agent, source sm_energy_lab et requête DAX visible]*
+
 ### Si ça bloque
 
+Vérifiez d'abord les relations et les accès avant de modifier la formule : le même calcul peut échouer parce que la clé n'est pas unique ou que la cible d'un raccourci est inaccessible.
+
 - **Relation impossible :** vérifiez les types des clés et l'absence de doublons du côté « un ».
-- **Accès Direct Lake refusé :** ouvrez la table source du raccourci et transmettez le message d'accès refusé à $$contact:votre animateur$$.
+- **Accès Direct Lake refusé :** ouvrez la table source du raccourci et transmettez le message d'accès refusé dans le canal Teams $$teams_channel:de l'atelier$$.
 - **Mesure ou source absente :** vérifiez l'enregistrement de `sm_energy_lab` et sa sélection dans l'agent.
+
+<details>
+<summary>Contexte (optionnel) : un calcul partagé, des accès à vérifier</summary>
+
+Le modèle sémantique conserve les relations et les mesures utilisées pour l'analyse. Une mesure DAX s'évalue selon les filtres de la demande : sa définition reste commune, même si le résultat change quand vous choisissez une région ou une période.
+
+Direct Lake ne supprime pas les règles d'accès aux données. Avec SSO, les autorisations sur les tables sources restent déterminantes, y compris derrière un raccourci. Le modèle personnel de ce lab se distingue donc du modèle du rapport commun, configuré avec une identité fixe.
+
+</details>
 
 ---
 
