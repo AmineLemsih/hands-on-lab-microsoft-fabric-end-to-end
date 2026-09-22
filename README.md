@@ -45,7 +45,7 @@ Le participant reçoit **un lien et se connecte, rien d'autre**. Les variables M
 
 [Ouvrir la session de démonstration Contoso](https://aka.ms/ws?src=gh:AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/docs/&vars=shared_ws:ws-shared,lab_ws:ws-lab-demo,teams_channel:Atelier%20Contoso,contact:Amine%20Lemsih)
 
-Les valeurs par défaut permettent aussi de lire le workshop sans `vars`. Utiliser `&vars=` après le paramètre `src` ; encoder les valeurs et ne jamais y mettre de secret. La [préparation du lien de session](docs/facilitator-notes.md#lien-de-session) décrit les six variables disponibles. Ce lien ne crée pas de workspace et ne donne pas de droits.
+Les valeurs par défaut permettent aussi de lire le workshop sans `vars`. Utiliser `&vars=` après le paramètre `src` ; encoder les valeurs et ne jamais y mettre de secret. La [préparation du lien de session](docs/facilitator-notes.md#lien-de-session) décrit les variables disponibles, dont `s3_shortcut` pour la variante facultative. Ce lien ne crée pas de workspace et ne donne pas de droits.
 
 Le dépôt et les CSV synthétiques sont publics. `published: false` empêche le référencement dans le catalogue, **pas l'accès par lien direct** : ce n'est pas une protection de confidentialité. GitHub et MOAW peuvent mettre en cache brièvement une version précédente après un push.
 
@@ -118,6 +118,8 @@ La liste [CONTRIBUTORS.md](CONTRIBUTORS.md) est volontairement vide à ce stade.
 ## Contribuer
 
 Utiliser les issues et demandes de tirage du dépôt. Indiquer le module, l'étape, le comportement attendu et le résultat constaté. Fournir uniquement des données synthétiques et des captures anonymisées. Maintenir les minutages, les identifiants anglais et les contrôles du jeu de données.
+
+Dans les Labs 1 à 5, regrouper les clics d'un écran en une étape, mettre les libellés d'interface en gras et les identifiants en code. Les indications *[capture : …]* précisent les écrans à ajouter. Les contrôles indiquent où regarder et les valeurs attendues dans un encadré `task`. Le menu utilise `navigation_numbering: false` et des titres explicites pour commencer à zéro. Pour éviter le tracking ajouté par MOAW aux liens Microsoft, utiliser une ancre HTML dont le protocole est écrit `https&#58;//` ; l'URL rendue reste une URL HTTPS normale, à vérifier dans le navigateur.
 
 Conventions suivies, sans reprise du texte des exercices : le template et la [syntaxe MOAW](https://aka.ms/ws?src=create-workshop/), le lab Microsoft Agent Framework avec Microsoft Foundry, le workshop FabConRTI et les [exercices Microsoft Learn Fabric](https://microsoftlearning.github.io/mslearn-fabric/). Les modèles ne sont pas crédités comme co-auteurs de cet atelier.
 

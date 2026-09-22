@@ -25,6 +25,7 @@ La table `consumption` (consommation) contient les observations annuelles nettoy
 | `contact` | votre animateur | Nom ou moyen de contact de l'animateur |
 | `report_link` | le rapport energy_report dans l'espace commun | Lien du rapport publié |
 | `sp_site` | l'URL de votre site SharePoint | URL du site, uniquement pour la variante de données propres |
+| `s3_shortcut` | `s3_demo` | Nom du raccourci S3 déjà préparé sous Fichiers de `lh_source`, uniquement si la variante est disponible |
 
 Sur une URL de lecture sans paramètres, la syntaxe est `?vars=shared_ws:ws-shared,teams_channel:Atelier%20Contoso`. Sur le lien court qui contient déjà `?src=...`, ajouter **`&vars=`**, jamais un second `?` :
 
@@ -32,7 +33,7 @@ Sur une URL de lecture sans paramètres, la syntaxe est `?vars=shared_ws:ws-shar
 
 Les valeurs de cet exemple sont fictives. Encoder les valeurs d'URL avec `encodeURIComponent`, notamment les espaces, `&`, `#` et les URL de rapport. Le format MOAW sépare les paires par des virgules : éviter les virgules dans les valeurs et vérifier le rendu avant diffusion. Aucun mot de passe, jeton ou secret dans `vars` : ces paramètres restent visibles dans l'historique du navigateur. Distribuer les liens réels en privé, jamais les commiter. Un lien individuel peut renseigner `lab_ws` sans document séparé.
 
-L'exemple Q1 est disponible dans [assets/q1-example.sql](assets/q1-example.sql). Le valider sur le tenant de répétition avant diffusion. Pour S3, annoncer la disponibilité et désigner le raccourci dans le canal de session ; aucune clé d'accès n'est transmise au participant.
+L'exemple Q1 est disponible dans [assets/q1-example.sql](assets/q1-example.sql). Le valider sur le tenant de répétition avant diffusion. Pour S3, préparer `s3_demo`, ou son nom fourni par `s3_shortcut`, puis annoncer sa disponibilité dans le canal Teams de l'atelier ; aucune clé d'accès n'est transmise au participant.
 
 ## Checklist J-7
 

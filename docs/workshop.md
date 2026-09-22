@@ -5,7 +5,7 @@ title: Product Hands-on Lab - Microsoft Fabric de bout en bout
 short_title: Fabric de bout en bout
 description: En trois heures, construisez une chaîne de données dans Microsoft Fabric, du fichier brut à l'alerte Teams, sans code à écrire. Des labs optionnels permettent d'aller plus loin.
 level: beginner
-navigation_numbering: true
+navigation_numbering: false
 navigation_levels: 3
 authors: [Amine Lemsih]
 contacts: ['@aminelemsih']
@@ -13,17 +13,17 @@ duration_minutes: 180
 tags: fabric, onelake, lakehouse, dataflow gen2, pipeline, data agent, activator, real-time intelligence, csu, métiers
 audience: profils métiers, analystes, équipes data
 sections_title:
-  - Introduction
-  - Lab 1 · Prise en main
-  - Lab 2 · Ingestion
-  - Lab 3 · Exploration
-  - Lab 4 · Data agent
-  - Lab 5 · Alerte
-  - 'Lab 6 · Extension : entrepôt et T-SQL'
-  - 'Lab 7 · Extension : modèle sémantique Direct Lake'
-  - 'Lab 8 · Extension : temps réel'
-  - Bonus · Copilot dans Fabric
-  - Conclusion
+  - 0. Introduction
+  - 1. Lab 01 · Prise en main
+  - 2. Lab 02 · Ingestion
+  - 3. Lab 03 · Exploration
+  - 4. Lab 04 · Data agent
+  - 5. Lab 05 · Alerte
+  - '6. Lab 06 · Extension : entrepôt et T-SQL'
+  - '7. Lab 07 · Extension : modèle sémantique Direct Lake'
+  - '8. Lab 08 · Extension : temps réel'
+  - 9. Bonus · Copilot dans Fabric
+  - 10. Conclusion
 ---
 
 # Product Hands-on Lab - Microsoft Fabric de bout en bout
@@ -76,7 +76,7 @@ Les tables de référence de `lh_source` sont vues depuis votre lakehouse `lh_la
 - Un navigateur récent, Fabric affiché en français.
 - Teams, pour l'entraide dans le canal $$teams_channel:de l'atelier$$ et pour recevoir votre alerte.
 
-Deux conventions pour la route : une ligne numérotée correspond à une action ; à chaque point de contrôle, vérifiez que vous voyez la même chose que nous avant de continuer.
+Deux conventions pour la route : dans les Labs 1 à 5, une étape regroupe les actions d'un même écran ; à chaque point de contrôle, vérifiez que vous voyez la même chose que nous avant de continuer.
 
 ## Auteur
 
@@ -116,140 +116,100 @@ Vous allez travailler avec les mêmes bâtiments et les mêmes facteurs d'émiss
 
 **Durée : 20 min.**
 
-### Ouvrir votre espace
+### Créer votre lakehouse
 
-1. Ouvrez [Microsoft Fabric](https://app.fabric.microsoft.com/).
-2. Connectez-vous avec votre compte professionnel.
-3. Sélectionnez « Espaces de travail ».
-4. Ouvrez votre workspace personnel `$$lab_ws:ws-lab-<votre identifiant>$$`.
-5. Vérifiez que vous n'êtes pas dans l'espace commun.
+Tout ce que vous construirez pendant l'atelier vivra dans votre workspace `$$lab_ws:ws-lab-<votre identifiant>$$`. Vous commencez par y créer un lakehouse : c'est l'endroit où vos tables et vos fichiers seront stockés dans OneLake.
 
-<!-- ![Workspace personnel, nom et Nouvel élément](assets/lab01-01-workspace.png) -->
+1. Ouvrez <a href="https&#58;//app.fabric.microsoft.com/" target="_blank" rel="noopener noreferrer">Microsoft Fabric</a> et connectez-vous avec votre compte professionnel.
 
-6. Sélectionnez « Nouvel élément ».
-7. Recherchez « Lakehouse ».
-8. Sélectionnez « Lakehouse ».
+  *[capture : accueil Fabric après connexion, compte masqué]*
 
-<!-- ![Sélecteur d'items, Lakehouse](assets/lab01-02-item-picker.png) -->
+2. Dans le menu de gauche, sélectionnez **Espaces de travail**, puis ouvrez `$$lab_ws:ws-lab-<votre identifiant>$$`.
 
-9. Saisissez `lh_lab` comme nom.
-10. Laissez « Schémas de lakehouse » activé. <!-- TODO vérifier -->
+  *[capture : votre workspace et la commande Nouvel élément]*
 
-<!-- ![Dialogue lh_lab, case schémas](assets/lab01-03-lakehouse-dialog.png) -->
+3. Sélectionnez **Nouvel élément**, recherchez **Lakehouse** et sélectionnez-le.
 
-11. Sélectionnez « Créer ».
+  *[capture : sélecteur d'éléments avec Lakehouse]*
 
-<!-- ![Explorer lh_lab, Tables et dbo](assets/lab01-04-lakehouse-explorer.png) -->
+4. Nommez-le `lh_lab`, laissez **Schémas de lakehouse** activé, puis sélectionnez **Créer**. <!-- TODO vérifier -->
 
+  *[capture : dialogue de création de lh_lab, schémas activés]*
 
+Le lakehouse s'ouvre sur son explorateur : une zone **Tables**, pour les données structurées, et une zone **Fichiers**, pour tout le reste. Les deux sont vides pour l'instant.
 
-### Créer les raccourcis
+*[capture : lakehouse lh_lab vide, avec Tables et Fichiers]*
 
-1. Développez « Tables » dans `lh_lab`.
-2. Ouvrez le menu du schéma `dbo`. <!-- TODO vérifier -->
-3. Sélectionnez « Nouveau raccourci ».
+### Créer les raccourcis vers les références
 
-<!-- ![Menu dbo, Nouveau raccourci](assets/lab01-05-shortcut-menu.png) -->
+Les tables `sites` et `emission_factors` existent déjà dans le lakehouse commun `lh_source`. Plutôt que de les copier, vous allez créer deux raccourcis OneLake : elles apparaîtront dans `lh_lab`, mais la donnée restera dans `lh_source`, maintenue à un seul endroit.
 
-4. Choisissez « Microsoft OneLake ».
+1. Dans `lh_lab`, ouvrez le menu **…** du schéma `dbo` sous **Tables**, puis sélectionnez **Nouveau raccourci**. <!-- TODO vérifier -->
 
-<!-- ![Source Microsoft OneLake](assets/lab01-06-shortcut-source.png) -->
+  *[capture : menu de dbo et commande Nouveau raccourci]*
 
-5. Sélectionnez le workspace commun `$$shared_ws:ws-shared$$`.
-6. Sélectionnez `lh_source`.
+2. Choisissez **Microsoft OneLake** comme source, puis le workspace `$$shared_ws:ws-shared$$` et le lakehouse `lh_source`. Sélectionnez **Suivant**.
 
-<!-- ![Catalogue, source lh_source](assets/lab01-07-onelake-catalog.png) -->
+  *[capture : catalogue OneLake avec lh_source sélectionné]*
 
-7. Sélectionnez « Suivant ».
-8. Développez les tables du schéma `dbo` de la source.
-9. Cochez `sites`.
-10. Cochez `emission_factors`.
+3. Développez les tables du schéma `dbo`, cochez `sites` et `emission_factors`, puis sélectionnez **Suivant**.
 
-<!-- ![Tables sites et emission_factors cochées](assets/lab01-08-reference-tables.png) -->
+  *[capture : assistant de raccourci avec les deux tables cochées]*
 
-11. Sélectionnez « Suivant ».
-12. Vérifiez les deux noms de raccourcis.
+4. Gardez les noms `sites` et `emission_factors` dans le résumé, puis sélectionnez **Créer**.
 
-<!-- ![Résumé des deux raccourcis](assets/lab01-09-shortcut-review.png) -->
+  *[capture : résumé des deux raccourcis avant création]*
 
-13. Sélectionnez « Créer ».
-14. Ouvrez le raccourci `sites`.
-15. Repérez `site_id`, `region` et `opening_date` dans l'aperçu.
-
-<!-- ![Aperçu sites, colonnes et valeurs](assets/lab01-10-sites-preview.png) -->
-
-16. Ouvrez le raccourci `emission_factors`.
-17. Repérez l'année 2025 et les deux coefficients.
-
-<!-- ![Facteurs 2025 et deux coefficients fictifs](assets/lab01-11-factors-preview.png) -->
-
-18. Ouvrez les propriétés d'un raccourci. <!-- TODO vérifier -->
-19. Vérifiez que la cible reste `lh_source` dans l'espace commun.
-
-<!-- ![Propriétés, cible source sans UUID visible](assets/lab01-12-shortcut-properties.png) -->
-
-
-Si l'assistant ne permet qu'une sélection, créez `sites`, puis répétez les mêmes étapes pour `emission_factors`.
-
+Si l'assistant n'accepte qu'une table à la fois, créez `sites`, puis recommencez pour `emission_factors`.
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous pouvez maintenant consulter les références de Contoso depuis votre propre espace. Vérifiez que `sites` et `emission_factors` apparaissent sous `lh_lab` avec l'indication de raccourci : 30 sites, une ligne de facteurs pour 2025 et deux coefficients, 0,055 et 0,205. Vous avez accès aux données sans avoir lancé d'activité de copie de ces tables.
+> Sous **Tables** de `lh_lab`, `sites` et `emission_factors` apparaissent avec l'icône de raccourci. Ouvrez `sites` : l'aperçu montre **30 lignes**, avec les colonnes `site_id`, `region` et `opening_date`. Ouvrez `emission_factors` : **une seule ligne**, l'année **2025** et les coefficients **0,055** et **0,205**. Dans les **Propriétés** d'un raccourci, la cible reste `lh_source` dans `$$shared_ws:ws-shared$$`. Aucune copie n'a été lancée : vous lisez la donnée là où elle est. <!-- TODO vérifier -->
 
 </div>
 
-### Variante : parcourir une source S3 (10 min, si disponible)
+*[capture : aperçu de sites, 30 lignes et colonnes de référence]*
 
-Cette variante est **hors minutage du parcours principal**. Suivez-la uniquement si $$contact:votre animateur$$ confirme la disponibilité du raccourci. Un **bucket S3** est un conteneur de fichiers dans un stockage objet. Son raccourci de démonstration est déjà disponible dans `lh_source`.
+*[capture : aperçu de emission_factors, année et deux coefficients]*
 
-1. Ouvrez l'espace commun `$$shared_ws:ws-shared$$`.
-2. Ouvrez `lh_source`.
-3. Développez « Fichiers ».
-4. Ouvrez le raccourci S3 de démonstration indiqué par $$contact:votre animateur$$.
-5. Parcourez les fichiers de démonstration.
+*[capture : propriétés du raccourci, cible lh_source sans identifiant privé]*
 
-<!-- ![Variante S3, fichiers visibles dans lh_source](assets/lab01-13-s3-source.png) -->
+### Variante : lire une source S3 (10 min, si disponible)
 
-6. Revenez à votre workspace personnel.
-7. Ouvrez `lh_lab`.
-8. Ouvrez le menu de « Fichiers ».
-9. Sélectionnez « Nouveau raccourci ».
+Un raccourci fonctionne aussi vers un stockage externe. Si le raccourci `$$s3_shortcut:s3_demo$$` est disponible sous **Fichiers** de `lh_source`, vous pouvez le lire depuis votre lakehouse de la même façon. Cette variante reste hors des 3 heures ; sa disponibilité est annoncée dans le canal Teams $$teams_channel:de l'atelier$$.
 
-<!-- ![Variante S3, nouveau raccourci dans Fichiers](assets/lab01-14-files-menu.png) -->
+1. Dans `lh_lab`, ouvrez le menu **…** de **Fichiers**, puis **Nouveau raccourci** et **Microsoft OneLake**.
 
-10. Choisissez « Microsoft OneLake ».
-11. Sélectionnez l'espace commun `$$shared_ws:ws-shared$$`.
-12. Sélectionnez `lh_source`.
-13. Dans « Fichiers », sélectionnez le raccourci S3 déjà parcouru comme cible. <!-- TODO vérifier -->
+  *[capture : nouveau raccourci OneLake sous Fichiers]*
 
-<!-- ![Variante S3, cible du raccourci, après validation réelle](assets/lab01-15-nested-target.png) -->
+2. Sélectionnez `$$shared_ws:ws-shared$$`, puis `lh_source` et, sous **Fichiers**, `$$s3_shortcut:s3_demo$$`. Sélectionnez **Suivant**, gardez le nom proposé et sélectionnez **Créer**. <!-- TODO vérifier -->
 
-14. Sélectionnez « Suivant ».
-15. Conservez le nom du raccourci proposé.
-16. Sélectionnez « Créer ».
-17. Ouvrez le nouveau raccourci dans `lh_lab`.
+  *[capture : cible s3_demo sous Fichiers dans lh_source]*
 
-<!-- ![Variante S3, mêmes fichiers dans lh_lab](assets/lab01-16-nested-preview.png) -->
+3. Ouvrez `$$s3_shortcut:s3_demo$$` dans `lh_lab` et parcourez les fichiers.
 
+  *[capture : fichiers S3 accessibles depuis le raccourci dans lh_lab]*
 
 <div class="task" data-title="Point de contrôle de la variante">
 
-> Vous venez d'accéder à une autre source sans déplacer ses fichiers. Retrouvez les mêmes fichiers de démonstration depuis `lh_source` et `lh_lab`, à travers les raccourcis, et vérifiez qu'aucune copie n'a été lancée.
+> Dans **Fichiers** de `lh_lab`, vous retrouvez les mêmes fichiers de démonstration que sous `$$s3_shortcut:s3_demo$$` dans `lh_source`. Ils restent dans le bucket Amazon S3 : vous les lisez depuis Fabric sans les avoir déplacés, par un raccourci vers un raccourci.
 
 </div>
 
 ### Si ça bloque
 
-- **Source invisible :** vérifiez votre organisation et le workspace `$$shared_ws:ws-shared$$`.
-- **Données refusées :** transmettez le message d'accès refusé à $$contact:votre animateur$$.
-- **Nom refusé ou schéma introuvable :** utilisez `lh_lab` ; cherchez `dbo` sous « Tables », pas sous « Fichiers ».
+Avant de recréer un élément, situez le blocage : trouver la source, lire sa donnée ou choisir le bon emplacement.
+
+- **`ws-shared` ou `lh_source` invisible :** vérifiez votre compte professionnel, l'organisation de l'atelier et le workspace `$$shared_ws:ws-shared$$`.
+- **Table visible mais données refusées :** notez le message exact et transmettez-le dans le canal Teams $$teams_channel:de l'atelier$$ ; les droits de lecture sur `lh_source` et leur propagation sont à contrôler.
+- **`dbo` introuvable :** cherchez-le sous **Tables**, pas sous **Fichiers** ; si le lakehouse source est sans schémas, utilisez directement son dossier **Tables** dans l'assistant.
 
 <details>
-<summary>Comprendre : partager une référence, pas une copie (optionnel, 5 min)</summary>
+<summary>Contexte (optionnel) : partager une référence, pas une copie (5 min)</summary>
 
-Le raccourci stocke une référence vers la table source. Les moteurs consultent les données autorisées à cette cible. Les fichiers peuvent être mis en cache par les moteurs, mais il n'existe pas une seconde table métier indépendante à tenir à jour.
+Un raccourci stocke une référence vers la table source. Quand vous l'interrogez, le moteur lit la donnée à la cible, avec vos droits. Il n'y a pas de seconde table métier à tenir à jour ; les moteurs peuvent toutefois mettre les fichiers en cache.
 
-Utilisez ce mécanisme pour des référentiels ou des données gouvernées communes. Il ne remplace ni une sauvegarde ni un transfert de propriété. La suppression de la source ou le retrait des permissions peut casser la lecture du raccourci. Donner Membre dans votre workspace ne vous donne pas l'écriture sur la source commune.
+C'est le mécanisme à utiliser pour un référentiel partagé : la même table de sites pour toutes les équipes, mise à jour à un seul endroit. Il ne remplace ni une sauvegarde ni un transfert de propriété : si la source est supprimée ou si son propriétaire retire le droit de lecture, le raccourci ne peut plus la lire. Être Membre de votre workspace ne vous donne aucun droit d'écriture sur `lh_source`.
 
 </details>
 
