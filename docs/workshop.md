@@ -14,21 +14,21 @@ tags: fabric, onelake, lakehouse, dataflow gen2, pipeline, data agent, activator
 audience: profils métiers, analystes, équipes data
 sections_title:
   - Introduction
-  - Prise en main
-  - Ingestion
-  - Exploration
-  - Data agent
-  - Alerte
-  - 'Extension : Entrepôt et T-SQL'
-  - 'Extension : Modèle sémantique Direct Lake'
-  - 'Extension : Temps réel'
-  - 'Bonus : Copilot dans Fabric'
+  - Lab 1 · Prise en main
+  - Lab 2 · Ingestion
+  - Lab 3 · Exploration
+  - Lab 4 · Data agent
+  - Lab 5 · Alerte
+  - 'Lab 6 · Extension : entrepôt et T-SQL'
+  - 'Lab 7 · Extension : modèle sémantique Direct Lake'
+  - 'Lab 8 · Extension : temps réel'
+  - Bonus · Copilot dans Fabric
   - Conclusion
 ---
 
 # Product Hands-on Lab - Microsoft Fabric de bout en bout
 
-## 0. Introduction
+## Introduction
 
 Bienvenue dans cet atelier pratique Microsoft Fabric : vous allez construire une chaîne complète de la donnée brute à l'action.  
 Ce lab s'adresse aux analystes métier, chefs de projet, équipes de contrôle de gestion et de responsabilité sociétale ; le tronc commun ne demande pas de programmation.  
@@ -82,9 +82,9 @@ Les références de `lh_source` deviennent des raccourcis dans `lh_lab`. Le CSV 
 
 | Parcours | Public et format | Sections | Temps réservé |
 | --- | --- | --- | ---: |
-| **Parcours métiers 3 h** | Analystes métier, chefs de projet, contrôle de gestion, RSE ; distanciel, 15 à 20 personnes | 0 à 5, puis 10 ; sauter les blocs « Comprendre » | 180 min, dont 15 min de pause et 20 min d'aide |
-| **Parcours complet 5 h** | Analystes et journée d'upskilling en présentiel | 0 à 8, puis 10 ; lire les cinq blocs « Comprendre » | 300 min, dont 25 min de pauses et 25 min d'aide |
-| **Bonus Copilot** | Selon le temps disponible et les paramètres du tenant | 9 | Environ 15 min supplémentaires, hors des deux minutages |
+| **Parcours métiers 3 h** | Analystes métier, chefs de projet, contrôle de gestion, RSE ; distanciel, 15 à 20 personnes | Introduction, Labs 1 à 5, Conclusion ; sauter « Comprendre » | 180 min, dont 15 min de pause et 20 min d'aide |
+| **Parcours complet 5 h** | Analystes et journée d'upskilling en présentiel | Introduction, Labs 1 à 8, Conclusion ; lire les cinq blocs « Comprendre » | 300 min, dont 25 min de pauses et 25 min d'aide |
+| **Bonus Copilot** | Selon le temps disponible et les paramètres du tenant | Bonus | Environ 15 min supplémentaires, hors des deux minutages |
 
 ### Prérequis
 
@@ -122,7 +122,7 @@ Le fichier annuel couvre l'année civile 2025. Le « dernier jour disponible » 
 
 ---
 
-## 1. Prise en main
+## Lab 1 · Prise en main
 
 **Pourquoi c'est important pour Contoso**
 
@@ -226,7 +226,7 @@ Utilisez ce mécanisme pour des référentiels ou des données gouvernées commu
 
 ---
 
-## 2. Ingestion
+## Lab 2 · Ingestion
 
 **Pourquoi c'est important pour Contoso**
 
@@ -393,7 +393,7 @@ Enregistrez la planification ; ne l'activez que si vous souhaitez réellement ce
 
 ---
 
-## 3. Exploration
+## Lab 3 · Exploration
 
 **Pourquoi c'est important pour Contoso**
 
@@ -528,7 +528,7 @@ ORDER BY kgco2e DESC, region, month_start;
 
 Le point de terminaison SQL lit les tables Delta. Il peut conserver une définition de vue, mais ne permet pas d'écrire les relevés comme un warehouse. Le lakehouse et la vue ne sont donc pas deux bases contenant deux copies des consommations.
 
-La vue visuelle conserve séparément les kWh électriques et de gaz. Le calcul en kgCO2e reste dans la variante T-SQL repliée, les instructions de l'agent en section 4 et la mesure DAX en section 7. Exécuter la variante T-SQL remplace `v_energy_monthly` par sa version avec calcul carbone : choisissez une variante, pas deux définitions à cumuler.
+La vue visuelle conserve séparément les kWh électriques et de gaz. Le calcul en kgCO2e reste dans la variante T-SQL repliée, les instructions de l'agent en Lab 4 et la mesure DAX en Lab 7. Exécuter la variante T-SQL remplace `v_energy_monthly` par sa version avec calcul carbone : choisissez une variante, pas deux définitions à cumuler.
 
 Utilisez la vue pour une logique de lecture partagée. Le calcul carbone dépend de la validité des clés et des coefficients. Le moteur ne sait pas qu'une jointure a doublé vos résultats. Une vue agrégée perd aussi le détail : le data agent doit conserver l'accès aux tables pour retrouver un jour anormal.
 
@@ -536,7 +536,7 @@ Utilisez la vue pour une logique de lecture partagée. Le calcul carbone dépend
 
 ---
 
-## 4. Data agent
+## Lab 4 · Data agent
 
 **Pourquoi c'est important pour Contoso**
 
@@ -660,7 +660,7 @@ Utilisez-le pour retrouver des faits et explorer des questions bien définies. I
 
 ---
 
-## 5. Alerte
+## Lab 5 · Alerte
 
 **Pourquoi c'est important pour Contoso**
 
@@ -725,7 +725,7 @@ Vous ne modifiez pas les données communes. Rafraîchir la page du navigateur n'
 
 <div class="info" data-title="Sous le capot">
 
-> Le même moteur Activator peut surveiller des flux temps réel et des événements Fabric. Selon la source, les permissions et les actions configurées, il peut envoyer un courriel, appeler un flux Power Automate ou déclencher un élément Fabric tel qu'un pipeline, sans code. Ce lab configure seulement une notification personnelle. La section 8 compare cette alerte sur rapport à une règle sur flux.
+> Le même moteur Activator peut surveiller des flux temps réel et des événements Fabric. Selon la source, les permissions et les actions configurées, il peut envoyer un courriel, appeler un flux Power Automate ou déclencher un élément Fabric tel qu'un pipeline, sans code. Ce lab configure seulement une notification personnelle. Le Lab 8 compare cette alerte sur rapport à une règle sur flux.
 
 </div>
 
@@ -750,11 +750,11 @@ Utilisez une alerte pour inviter à une vérification ou automatiser une répons
 
 </details>
 
-**Parcours métiers :** passez maintenant à la section 10, « Conclusion ». **Parcours complet :** poursuivez avec l'extension Entrepôt.
+**Parcours métiers :** passez maintenant à la Conclusion, « Conclusion ». **Parcours complet :** poursuivez avec l'extension Entrepôt.
 
 ---
 
-## 6. Extension : Entrepôt et T-SQL
+## Lab 6 · Extension : entrepôt et T-SQL
 
 **Pourquoi c'est important pour Contoso**
 
@@ -926,7 +926,7 @@ Lakehouse et warehouse partagent OneLake, mais n'ont pas la même surface d'écr
 
 ---
 
-## 7. Extension : Modèle sémantique Direct Lake
+## Lab 7 · Extension : modèle sémantique Direct Lake
 
 **Pourquoi c'est important pour Contoso**
 
@@ -1009,7 +1009,7 @@ Le format d'affichage arrondit le résultat final. Ne remplacez pas cette expres
 7. Démarrez une nouvelle conversation.
 8. Reposez Q2 en précisant : « Utilisez uniquement sm_energy_lab et sa mesure total_kgco2e. »
 9. Vérifiez la source et la requête DAX affichées dans les étapes.
-10. Comparez la réponse à Q2 et à la requête SQL de la section 6.
+10. Comparez la réponse à Q2 et à la requête SQL de le Lab 6.
 
 Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source modèle sémantique comme pour un lakehouse. Cela n'empêche pas l'agent de l'interroger. Ses mesures et métadonnées portent la définition métier.
 
@@ -1029,13 +1029,13 @@ Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source mod�
 
 <div class="info" data-title="Deuxième pause : 10 minutes">
 
-> Cette pause appartient au parcours complet de 5 h. Reprenez ensuite à la section 8. Le bonus Copilot reste hors minutage.
+> Cette pause appartient au parcours complet de 5 h. Reprenez ensuite à le Lab 8. Le bonus Copilot reste hors minutage.
 
 </div>
 
 ---
 
-## 8. Extension : Temps réel
+## Lab 8 · Extension : temps réel
 
 **Pourquoi c'est important pour Contoso**
 
@@ -1182,7 +1182,7 @@ Vérifiez dans l'aperçu si un événement satisfait la condition. Un bouton de 
 
 ### Relier les deux alertes
 
-| Section 5 | Section 8 |
+| Lab 5 | Lab 8 |
 | --- | --- |
 | Observe un résultat de modèle sémantique dans un rapport | Observe les événements d'un flux |
 | Attend l'actualisation du modèle et l'évaluation | Dépend de l'arrivée et du traitement des événements |
@@ -1205,7 +1205,7 @@ Vérifiez dans l'aperçu si un événement satisfait la condition. Un bouton de 
 
 ---
 
-## 9. Bonus : Copilot dans Fabric
+## Bonus · Copilot dans Fabric
 
 **Pourquoi c'est important pour Contoso**
 
@@ -1237,7 +1237,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 
 ### Générer une requête en langage naturel
 
-1. Ouvrez `qs_sample` créé à la section 8.
+1. Ouvrez `qs_sample` créé à le Lab 8.
 2. Ouvrez un nouvel onglet.
 3. Ouvrez « Copilot » dans le jeu de requêtes. <!-- TODO vérifier -->
 4. Demandez : « Dans sample_events, comptez les événements par minute sur les trente dernières minutes selon event_time, puis affichez une courbe. »
@@ -1245,7 +1245,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 6. Vérifiez qu'elle compte des événements et ne somme pas `bike_count`.
 7. Insérez la proposition si elle est en lecture seule et conforme.
 8. Exécutez-la.
-9. Comparez-la à la requête 2 de la section 8 sur la même fenêtre.
+9. Comparez-la à la requête 2 de le Lab 8 sur la même fenêtre.
 
 ![Question en français, KQL proposé et résultat comparé à une requête de référence](assets/09-copilot-query.png)
 
@@ -1263,7 +1263,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 
 ---
 
-## 10. Conclusion
+## Conclusion
 
 **Objectif :** retenir les usages pertinents et choisir un prochain cas d'application.
 

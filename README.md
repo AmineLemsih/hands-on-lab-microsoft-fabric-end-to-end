@@ -10,14 +10,14 @@ Le kit est conçu pour être animé par n'importe quel CSA, ou architecte de sol
 
 | Parcours | Contenu | Public | Durée |
 | --- | --- | --- | ---: |
-| **Parcours métiers 3 h** | Sections 0 à 5, puis 10 ; pas de code à écrire ; blocs « Comprendre » sautés | Analystes métier, projets, contrôle de gestion, RSE ; distanciel, 15 à 20 participants | 145 min d'activités + 15 min de pause + 20 min d'aide |
+| **Parcours métiers 3 h** | Introduction, Labs 1 à 5, Conclusion ; pas de code à écrire ; blocs « Comprendre » sautés | Analystes métier, projets, contrôle de gestion, RSE ; distanciel, 15 à 20 participants | 145 min d'activités + 15 min de pause + 20 min d'aide |
 | **Parcours complet 5 h** | Tronc commun, cinq blocs « Comprendre », extensions 6 à 8, conclusion | Analystes, journée d'upskilling en présentiel | 225 min d'activités + 25 min d'explications + 25 min de pauses + 25 min d'aide |
 
-La section 9, **Bonus Copilot**, demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Elle n'entre dans aucun des deux totaux. La seconde pause de 10 minutes intervient après la section 7.
+Le bonus Copilot, **Bonus Copilot**, demande environ 15 minutes supplémentaires, si le temps et les paramètres du tenant le permettent. Elle n'entre dans aucun des deux totaux. La seconde pause de 10 minutes intervient après le Lab 7.
 
-La **variante S3** de la section 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
+La **variante S3** de le Lab 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
 
-La section 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification n'est qu'une option du bloc « Comprendre ». La section 6 dure 20 minutes : les dix minutes gagnées portent la réserve du parcours complet à 25 minutes. L'introduction garde dix minutes d'accueil, dont environ cinq de lecture.
+Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification n'est qu'une option du bloc « Comprendre ». Le Lab 6 dure 20 minutes : les dix minutes gagnées portent la réserve du parcours complet à 25 minutes. L'introduction garde dix minutes d'accueil, dont environ cinq de lecture.
 
 ## Ouvrir l'atelier
 

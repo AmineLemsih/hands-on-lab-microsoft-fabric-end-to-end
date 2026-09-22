@@ -65,7 +65,7 @@ La table `consumption` (consommation) reçoit l'historique nettoyé. La table `c
 | `kwh_gas` | Décimal | Énergie du gaz journalière en kWh |
 | `avg_temp` | Décimal | Température moyenne simulée en degrés Celsius |
 
-Dans le lab 2, ajouter `month_start`, de type **Date**, avec le premier jour du mois. Ne pas utiliser seulement un nom de mois, qui se trierait alphabétiquement.
+Dans le Lab 2, ajouter `month_start`, de type **Date**, avec le premier jour du mois. Ne pas utiliser seulement un nom de mois, qui se trierait alphabétiquement.
 
 Les jours d'hiver demandent davantage de chauffage. Les week-ends consomment moins. Un bruit aléatoire à graine fixe évite des courbes parfaitement régulières. Ce n'est ni un modèle physique ni une estimation financière.
 
@@ -112,7 +112,7 @@ Le dernier jour disponible est **le dernier jour du jeu**, le 31 décembre 2025.
 
 Les cellules 2 à 4 initialisent `consumption_latest_day` depuis `consumption_latest_day_before.csv`. Actualiser ensuite `sm_energy_report` et attendre que les règles Activator aient observé l'état sous le seuil.
 
-Pendant la section 5, mettre `apply_after = True` dans la **cellule 6**, puis exécuter cette cellule seulement. Elle télécharge `consumption_latest_day_after.csv` et remplace uniquement `consumption_latest_day`. Remettre le paramètre à False, puis actualiser `sm_energy_report`. La Bretagne passe de **2 724,55 à 36 724,55 kWh**. Pour réinitialiser, réexécuter les cellules 2 à 4, puis actualiser le modèle.
+Pendant le Lab 5, mettre `apply_after = True` dans la **cellule 6**, puis exécuter cette cellule seulement. Elle télécharge `consumption_latest_day_after.csv` et remplace uniquement `consumption_latest_day`. Remettre le paramètre à False, puis actualiser `sm_energy_report`. La Bretagne passe de **2 724,55 à 36 724,55 kWh**. Pour réinitialiser, réexécuter les cellules 2 à 4, puis actualiser le modèle.
 
 Le seuil régional reste **10 000 kWh** ; Q4 conserve **20 000 kWh par site/jour**. Les fichiers annuels et les facteurs ne changent pas pendant la bascule. La version publiée de `consumption_latest_day.csv` reste initialisée à `before` ; ne pas commiter un état temporaire de répétition. Le notebook ne dépend pas de ce fichier actif et choisit explicitement `before` ou `after`.
 

@@ -135,7 +135,7 @@ La documentation [Activator sur rapport](https://learn.microsoft.com/fabric/real
 
 Si la capacité n'est pas le blocage, F64 ne remplace pas des droits Edit. Ne pas ouvrir l'écriture sur le workspace commun. Annoncer une démonstration/capture ou valider séparément un autre mode de livraison. La copie par participant n'est pas le parcours par défaut.
 
-## Faire partir l'alerte en section 5
+## Faire partir l'alerte en Lab 5
 
 Avant la session, exécuter les cellules 2 à 4 du notebook, puis actualiser le modèle. Toutes les régions sont alors sous 10 000 kWh, le seuil régional de l'alerte.
 

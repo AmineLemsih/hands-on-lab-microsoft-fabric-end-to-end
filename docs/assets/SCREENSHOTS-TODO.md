@@ -35,7 +35,7 @@ Faire les captures dans un environnement de démonstration autorisé, interface 
 | `09-copilot-query.png` | 9, bonus | Question française, KQL proposé, fenêtre de temps et résultat comparé |
 | `10-recap.png` | 10, conclusion | Synthèse des éléments et de leurs rôles, sans liens ni IDs privés |
 
-Les deux schémas de section 0 sont à produire manuellement par l'auteur ou à capturer depuis un support autorisé ; aucun rendu graphique n'est fabriqué automatiquement ici. Le fil rouge textuel reste lisible sans eux.
+Les deux schémas de introduction sont à produire manuellement par l'auteur ou à capturer depuis un support autorisé ; aucun rendu graphique n'est fabriqué automatiquement ici. Le fil rouge textuel reste lisible sans eux.
 
 ## Contrôle avant publication
 
