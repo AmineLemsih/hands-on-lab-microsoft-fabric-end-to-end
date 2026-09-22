@@ -38,7 +38,7 @@ L'exemple Q1 est disponible dans [assets/q1-example.sql](assets/q1-example.sql).
 
 - [ ] Confirmer 15 à 20 inscrits, les comptes dans le tenant et le parcours retenu. Prévoir un animateur et, si possible, un second intervenant pour l'assistance distancielle.
 - [ ] Préparer le groupe de sécurité Entra contenant les participants ; contrôler les invités et leurs identifiants dans le tenant d'accueil.
-- [ ] Confirmer les licences : droits de création Fabric, licence Power BI adaptée pour les exercices d'auteur, Pro ou compatible pour lire le rapport sous F64. Prévoir Pro pour les analystes qui créent les modèles de le Lab 7.
+- [ ] Confirmer les licences : droits de création Fabric, licence Power BI adaptée pour les exercices d'auteur, Pro ou compatible pour lire le rapport sous F64. Prévoir Pro pour les analystes qui créent les modèles du Lab 7.
 - [ ] Vérifier la capacité **payante**, la région, les fonctionnalités disponibles et le budget de la session. La capacité minimale d'une fonction ne constitue pas un dimensionnement pour 20 personnes.
 - [ ] Faire un test de concurrence représentatif : quelques Dataflows simultanés, endpoint SQL, agent, modèle et flux temps réel. Échelonner les exécutions si nécessaire.
 - [ ] Exécuter la simulation de [préparation](../setup/README.md), vérifier les noms, puis autoriser séparément les écritures réelles. Conserver le journal local.
@@ -51,7 +51,7 @@ L'exemple Q1 est disponible dans [assets/q1-example.sql](assets/q1-example.sql).
 - [ ] Créer un data agent de test sur les tables du lab. Vérifier les six questions, les instructions françaises, l'exemple validé et l'affichage des requêtes. Aucun secret Azure OpenAI n'est nécessaire pour le chat intégré.
 - [ ] Exécuter l'exemple téléchargeable Q1 sur le tenant et valider **2 896 164,51 kWh électriques observés en 2025**. Vérifier sa compatibilité avec la source `lh_lab` sélectionnée par le participant.
 - [ ] Répéter les variantes CSV et annoncer la source retenue dans le canal de session. Vérifier locale décimale, suppression des erreurs et nombre final de lignes.
-- [ ] Répéter les opérations visuelles de le Lab 3 jusqu'à l'enregistrement de la vue. La simple lecture du SQL de référence ne valide pas le parcours sans code.
+- [ ] Répéter les opérations visuelles du Lab 3 jusqu'à l'enregistrement de la vue. La simple lecture du SQL de référence ne valide pas le parcours sans code.
 - [ ] Construire `energy_report` et `sm_energy_report`, puis associer la source à `conn_energy_report`, connexion à identité fixe, SSO désactivé. Tester l'actualisation et la lecture du rapport avec le compte Viewer.
 - [ ] Effectuer le **test bloquant « Définir une alerte » depuis `energy_report` sur la capacité cible**, avec compte Viewer dans `ws-shared` et Membre dans son espace personnel. Enregistrer `act_energy` dans l'espace personnel, sans copier le rapport. <!-- TODO vérifier -->
 - [ ] Vérifier l'exigence **F64 ou plus** indiquée pour le parcours d'alertes Power BI retenu, ainsi que le paramètre tenant autorisant le bouton. <!-- TODO vérifier --> Prévoir une montée temporaire PAYG en F64, approuvée et chiffrée, puis refaire le test avec exactement les mêmes permissions.
@@ -161,9 +161,9 @@ Les cinq blocs « Comprendre », les extensions et Copilot ne sont pas lus dans 
 
 Le bonus Copilot demande environ 15 minutes **supplémentaires**. Ne pas l'ajouter tacitement à 5 h, ni retirer la seconde pause pour la caser. Si le groupe finit réellement en avance, l'animateur peut l'utiliser sans dépasser l'horaire annoncé.
 
-La variante S3 de le Lab 1 demande **10 minutes supplémentaires**, hors des deux minutages. Elle ne remplace pas les raccourcis des tables de référence ; annoncer sa disponibilité et son emplacement dans le canal de session.
+La variante S3 du Lab 1 demande **10 minutes supplémentaires**, hors des deux minutages. Elle ne remplace pas les raccourcis des tables de référence ; annoncer sa disponibilité et son emplacement dans le canal de session.
 
-## Déclenchement contrôlé en Lab 5
+## Déclenchement contrôlé au Lab 5
 
 Le seuil de **10 000 kWh** est évalué **par région**. La question Q4 de l'agent conserve **20 000 kWh par couple site/jour**. Les deux seuils ont des valeurs et des granularités différentes.
 
@@ -291,7 +291,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 | --- | --- |
 | Préparation de l'introduction, hors texte participant | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la session |
 | 1 | Case schémas, menu `dbo`, propriétés du raccourci et accès cible ; variante S3 facultative : double indirection OneLake vers raccourci S3 et permissions de lecture/connexion |
-| 2 | Nommage/publication du flux ; locale unique avant import et vérification des types détectés ; navigation CSV Lakehouse/Content SharePoint ; Début du mois ; destination Remplacer ; lignes écrites ; planification facultative dans Comprendre |
+| Lab 2 | Nommage/publication du flux ; locale avant import ; Web/Texte-CSV anonyme sur l'URL raw ; variante Content SharePoint ; types détectés ; Début du mois ; destination Remplacer ; lignes écrites ; planification facultative |
 | 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX. |
 | 4 | Libellé agent ; détails de réponse ; instructions françaises ; éditeur et validation d'exemples ; remise à zéro du chat |
 | 5 | Bouton alerte en lecture ; F64/tenant ; condition Devient ; workspace destination ; validation et activation ; ouverture/historique Activator ; latence réelle |
@@ -313,7 +313,7 @@ Hypothèses retenues au-delà des décisions validées :
 2. Les workspaces sources et destinations restent dans la même région pour les connexions qui le nécessitent.
 3. L'année est civile et fixe en 2025 ; le dernier jour est le 31 décembre. Aucune donnée de 2024 n'est inférée.
 4. Les facteurs ont une ligne annuelle et deux colonnes ; trois sites ouvrent pendant 2025, aucun ne ferme.
-5. Le rapport fourni utilise Import avec une connexion à identité fixe. Le modèle personnel de le Lab 7 utilise Direct Lake en SSO.
+5. Le rapport fourni utilise Import avec une connexion à identité fixe. Le modèle personnel du Lab 7 utilise Direct Lake en SSO.
 6. Le groupe bénéficie de ReadAll sur la source. Les permissions fines supplémentaires sont vérifiées, pas automatisées avec une API conjecturale.
 7. L'échantillon Bicycles est disponible ; son mapping vers `event_time`, `station_id`, `bike_count` est testé avant diffusion.
 8. L'option de clonage reste une interface réservée qui échoue avant toute mutation lorsqu'elle est demandée en mode réel.
@@ -326,38 +326,40 @@ Hypothèses retenues au-delà des décisions validées :
 | --- | --- |
 | Génération et contrôles intégrés | Réussis localement sur le schéma anglais ; six tests de reproductibilité, volumes, résultats et états d'alerte réussis |
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
-| Construction MOAW | CLI 1.6.1 ; 11 sections, frontmatter YAML et totaux 180/300 ; 27 références d'images et une bannière à fournir mais non référencée |
-| Rendu navigateur | Introduction, navigation, encadrés, SQL replié/ouvert et trois blocs KQL vérifiés ; ordinateur et mobile 390 px, tableaux défilants ; images absentes prévues |
+| Construction MOAW | CLI 1.6.1 ; construction réussie ; 11 pages nommées et titres de navigation identiques ; frontmatter, auteur unique, 415 étapes et totaux 180/300 contrôlés |
+| Rendu navigateur v3 | Ordinateur 1440 px et mobile 390 px ; six variables avec valeurs par défaut puis personnalisées, conservation entre pages et URL de rapport avec paramètres vérifiées ; lien Q1 corrigé et chargé en HTTP 200 ; trois CTAS du Lab 6 et Takeaways présents |
+| Fichiers publics | Six CSV accessibles anonymement, identiques octet par octet après régénération ; SQL et sources des six cellules du notebook publics et conformes aux fichiers locaux |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
-| Captures, bannière et projet Power BI réel | Non produits ; placeholders et guide uniquement |
+| Captures, schémas, bannière et projet Power BI réel | Contrôle des assets : 85 références, zéro fichier image présent, zéro modification nécessaire ; 72 écrans des Labs 1 à 5 et 10 compléments commentés ; trois schémas séparés restent actifs ; bannière non référencée ; aucun projet Power BI factice |
+| Notebook de préparation | JSON, métadonnées et syntaxe Python contrôlés localement ; exécution Spark/Delta dans Fabric non réalisée |
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.
 
-Après nettoyage du 22 septembre 2026, les 53 commentaires `TODO vérifier` du workshop se répartissent entre les sections 0 à 9 (respectivement 0, 4, 12, 6, 7, 6, 3, 4, 9 et 2). Les dix commentaires orphelins ont été supprimés, sans changer le texte visible ni les étapes. Les trois vérifications d'accès des Labs 1, 4 et 5 restent à effectuer sur tenant ; ce nettoyage ne les valide pas.
+La v3 conserve 53 commentaires `TODO vérifier` : Labs 1 à 8, respectivement 4, 12, 6, 7, 6, 3, 4 et 9 ; bonus Copilot, 2. Les commentaires d'images sont distincts de ces vérifications produit. Les trois vérifications d'accès des Labs 1, 4 et 5 restent à effectuer sur tenant ; la recette documentaire ne les valide pas.
 
-### Bilan des étapes après relecture
+### Bilan des étapes v3
 
 Comptage des lignes numérotées écrites, hors blocs de code, comparé au premier commit `c5ec06a`. Les deux variantes d'ingestion sont comptées dans le total du fichier, même si une seule est suivie. Les répétitions indiquées en prose ne sont pas développées artificiellement.
 
-| Section | Avant | Après |
+| Page | Premier état | V3 |
 | --- | ---: | ---: |
-| 0 | 0 | 0 |
-| 1 | 30 | 47, dont 17 facultatives S3 |
-| 2 | 102 | 84, soit 70 avec une seule source |
-| 3 | 69 | 49 |
-| 4 | 37 | 35 |
-| 5 | 31 | 31 |
-| 6 | 65 | 33 |
-| 7 | 40 | 40 |
-| 8 | 72 | 72 |
-| 9 | 19 | 19 |
-| 10 | 10 | 10 |
-| **Total écrit** | **475** | **420** |
+| Introduction | 0 | 0 |
+| Lab 1 | 30 | 47, dont 17 facultatives S3 |
+| Lab 2 | 102 | 79, soit 65 par Web ou 70 par SharePoint |
+| Lab 3 | 69 | 49 |
+| Lab 4 | 37 | 35 |
+| Lab 5 | 31 | 31 |
+| Lab 6 | 65 | 33 |
+| Lab 7 | 40 | 40 |
+| Lab 8 | 72 | 72 |
+| Bonus | 19 | 19 |
+| Conclusion | 10 | 10 |
+| **Total écrit** | **475** | **415** |
 
-Dans le Lab 2, le parcours réel passe de 88 à 70 étapes avec une seule source, dont une correction de type conditionnelle. Les trois lignes de planification facultative ne sont plus des étapes numérotées ni un critère de réussite. La variante S3 et le bonus Copilot restent hors des 180/300 minutes.
+Dans le Lab 2, une seule source est utilisée, dont une correction de type conditionnelle. La planification facultative n'est pas un critère de réussite. La variante S3 et le bonus Copilot restent hors des 180/300 minutes. Les références de captures ne modifient pas le nombre des étapes.
 
-Hypothèses de cette relecture : l'introduction conserve dix minutes d'accueil mais vise cinq minutes de lecture ; les durées des Labs 2 et 3 restent inchangées pour garder du temps de contrôle ; seuls les dix minutes gagnées en Lab 6 vont à la réserve. Les fichiers et identifiants existants restent stables, y compris les noms historiques des placeholders pipeline. L'exception du point 5 autorise uniquement le changement du seuil régional, sa vérification et la régénération du texte du corrigé : les six CSV sont conservés octet par octet et Q4 reste à 20 000 kWh.
+Hypothèses v3 : l'introduction conserve dix minutes d'accueil ; les durées des labs restent inchangées. Les six CSV sont publics et régénérables, sans modification des valeurs, et Q4 reste à 20 000 kWh. Le notebook prépare aussi l'historique propre nécessaire au rapport, en plus des trois tables de référence/instantané demandées. L'exemple Q1 est téléchargeable pour éviter tout support séparé. Les trois schémas attendus restent actifs sans image factice ; les noms des captures suivent désormais le catalogue par écran. Les paramètres de session ne sont ni des secrets ni un mécanisme d'autorisation.
 
 ## Faire votre premier test de bout en bout
 
@@ -410,7 +412,7 @@ En fermeture, arrêter les règles et flux créés, puis supprimer uniquement le
 | 4 | Chercher et ouvrir la création de « Agent de données Fabric » dans l'espace personnel ; le configurer après l'ingestion | Élément disponible avec la capacité et les paramètres tenant retenus, puis lecture effective des trois tables |
 | 5 | Ouvrir `energy_report` en lecture, créer la règle régionale à 10 000 kWh et choisir le workspace personnel comme destination | Règle enregistrée dans `act_energy`, puis notification personnelle Teams après franchissement réel |
 
-Pour le test de Lab 5, le compte animateur suit « Déclenchement contrôlé » : état `before` observé, cellule 6 de bascule `after`, puis actualisation de `sm_energy_report`. Noter les heures de fin d'actualisation, d'action Activator et de réception Teams. Ne pas assimiler une notification de test à une détection réelle. F64 est un repli à faire approuver et tester, pas un substitut aux permissions.
+Pour le test du Lab 5, le compte animateur suit « Déclenchement contrôlé » : état `before` observé, cellule 6 de bascule `after`, puis actualisation de `sm_energy_report`. Noter les heures de fin d'actualisation, d'action Activator et de réception Teams. Ne pas assimiler une notification de test à une détection réelle. F64 est un repli à faire approuver et tester, pas un substitut aux permissions.
 
 ### Dérouler et chronométrer
 
@@ -418,8 +420,8 @@ Suivre ensuite le workshop dans l'ordre avec le compte participant. Si la vérif
 
 Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/csv/questions_expected_answers.md`. Valider l'exemple Q1 téléchargeable sur le tenant avant la session. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
 
-Le Lab 2 représente **70 étapes avec une seule source**, et non les 84 lignes numérotées du document : mesurer si elle tient en 35 minutes avec les contrôles. Le Lab 8 représente **72 étapes pour 35 minutes** : mesurer avec un profil analyste et consigner le dépassement éventuel. Elle reste hors parcours métiers 3 h ; ne pas la raccourcir ni changer son temps sans retour de répétition.
+Le Lab 2 représente **65 étapes par Web**, ou 70 avec SharePoint, et non les 79 étapes des deux variantes réunies : mesurer s'il tient en 35 minutes avec les contrôles. Le Lab 8 représente **72 étapes pour 35 minutes** : mesurer avec un profil analyste et consigner le dépassement éventuel. Il reste hors parcours métiers 3 h ; ne pas le raccourcir sans retour de répétition.
 
-Pour le parcours complet, poursuivre les Labs 6 à 8 après réussite du tronc commun, puis conclure en Conclusion. Garder S3 et Copilot pour des passes séparées. Le simulateur de compteurs vers Eventstream reste une piste v1.1 du backlog, non implémentée dans cette passe cosmétique.
+Pour le parcours complet, poursuivre les Labs 6 à 8 après réussite du tronc commun, puis ouvrir la page Conclusion. Garder S3 et Copilot pour des passes séparées. Le simulateur de compteurs vers Eventstream reste une piste du backlog, non implémentée dans la v3.
 
 À la fin, suivre la checklist de nettoyage : arrêter les flux, alertes et éventuelles planifications, vérifier le journal avant suppression, puis remettre la capacité de formation dans l'état convenu. Transmettre pour correction les résultats de répétition anonymisés, section et étape à l'appui. Maintenir `published: false` tant que la recette tenant n'est pas terminée.

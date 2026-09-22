@@ -664,7 +664,7 @@ ORDER BY kgco2e DESC, region, month_start;
 
 Le point de terminaison SQL lit les tables Delta. Il peut conserver une définition de vue, mais ne permet pas d'écrire les relevés comme un warehouse. Le lakehouse et la vue ne sont donc pas deux bases contenant deux copies des consommations.
 
-La vue visuelle conserve séparément les kWh électriques et de gaz. Le calcul en kgCO2e reste dans la variante T-SQL repliée, les instructions de l'agent en Lab 4 et la mesure DAX en Lab 7. Exécuter la variante T-SQL remplace `v_energy_monthly` par sa version avec calcul carbone : choisissez une variante, pas deux définitions à cumuler.
+La vue visuelle conserve séparément les kWh électriques et de gaz. Le calcul en kgCO2e reste dans la variante T-SQL repliée, les instructions de l'agent du Lab 4 et la mesure DAX du Lab 7. Exécuter la variante T-SQL remplace `v_energy_monthly` par sa version avec calcul carbone : choisissez une variante, pas deux définitions à cumuler.
 
 Utilisez la vue pour une logique de lecture partagée. Le calcul carbone dépend de la validité des clés et des coefficients. Le moteur ne sait pas qu'une jointure a doublé vos résultats. Une vue agrégée perd aussi le détail : le data agent doit conserver l'accès aux tables pour retrouver un jour anormal.
 
@@ -762,7 +762,7 @@ Pour Q2, cherchez dans les étapes l'usage des deux facteurs. Pour Q4, vérifiez
 
 ### Ajouter un exemple sans écrire de code
 
-Un **exemple de requête** associe une question à une requête de référence. [Téléchargez l'exemple Q1](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/docs/assets/q1-example.sql) ; vous n'avez pas à l'écrire.
+Un **exemple de requête** associe une question à une requête de référence. [Téléchargez l'exemple Q1](assets/q1-example.sql) ; vous n'avez pas à l'écrire.
 
 1. Ouvrez le fichier d'exemple Q1 depuis le lien ci-dessus.
 2. Copiez la requête complète.
@@ -953,7 +953,7 @@ Utilisez une alerte pour inviter à une vérification ou automatiser une répons
 
 </details>
 
-**Parcours métiers :** passez maintenant à la Conclusion, « Conclusion ». **Parcours complet :** poursuivez avec l'extension Entrepôt.
+**Parcours métiers :** passez maintenant à la page « Conclusion ». **Parcours complet :** poursuivez avec le Lab 6.
 
 ---
 
@@ -1212,7 +1212,7 @@ Le format d'affichage arrondit le résultat final. Ne remplacez pas cette expres
 7. Démarrez une nouvelle conversation.
 8. Reposez Q2 en précisant : « Utilisez uniquement sm_energy_lab et sa mesure total_kgco2e. »
 9. Vérifiez la source et la requête DAX affichées dans les étapes.
-10. Comparez la réponse à Q2 et à la requête SQL de le Lab 6.
+10. Comparez la réponse à Q2 et à la requête SQL du Lab 6.
 
 Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source modèle sémantique comme pour un lakehouse. Cela n'empêche pas l'agent de l'interroger. Ses mesures et métadonnées portent la définition métier.
 
@@ -1232,7 +1232,7 @@ Les exemples de requêtes SQL/KQL ne sont pas configurables pour une source mod�
 
 <div class="info" data-title="Deuxième pause : 10 minutes">
 
-> Cette pause appartient au parcours complet de 5 h. Reprenez ensuite à le Lab 8. Le bonus Copilot reste hors minutage.
+> Cette pause appartient au parcours complet de 5 h. Reprenez ensuite au Lab 8. Le bonus Copilot reste hors minutage.
 
 </div>
 
@@ -1440,7 +1440,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 
 ### Générer une requête en langage naturel
 
-1. Ouvrez `qs_sample` créé à le Lab 8.
+1. Ouvrez `qs_sample` créé au Lab 8.
 2. Ouvrez un nouvel onglet.
 3. Ouvrez « Copilot » dans le jeu de requêtes. <!-- TODO vérifier -->
 4. Demandez : « Dans sample_events, comptez les événements par minute sur les trente dernières minutes selon event_time, puis affichez une courbe. »
@@ -1448,7 +1448,7 @@ Ne remplacez pas `df_energy` et ne choisissez pas `consumption` comme destinatio
 6. Vérifiez qu'elle compte des événements et ne somme pas `bike_count`.
 7. Insérez la proposition si elle est en lecture seule et conforme.
 8. Exécutez-la.
-9. Comparez-la à la requête 2 de le Lab 8 sur la même fenêtre.
+9. Comparez-la à la requête 2 du Lab 8 sur la même fenêtre.
 
 <!-- ![Question en français, KQL proposé et résultat comparé à une requête de référence](assets/bonus-02-copilot-query.png) -->
 
