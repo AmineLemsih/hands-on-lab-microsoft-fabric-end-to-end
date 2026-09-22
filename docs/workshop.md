@@ -225,115 +225,75 @@ Vous allez rendre les relevés de Contoso exploitables malgré leurs trous et le
 
 **Durée : 35 min.** Une pause de 15 min suit ce lab.
 
-**Power Query** est l'éditeur de transformations visuelles utilisé par Dataflow Gen2. Une **destination** est la table dans laquelle le flux écrit son résultat.
-
 ### Créer le flux
 
-1. Revenez à votre workspace personnel.
-2. Sélectionnez « Nouvel élément ».
-3. Recherchez « Dataflow Gen2 ».
-4. Sélectionnez « Dataflow Gen2 ».
+Vous allez enregistrer votre préparation dans `df_energy` pour pouvoir la rejouer. Son éditeur, Power Query, vous permet de transformer les données visuellement ; vous réglez d'abord la locale pour lire correctement les points décimaux du fichier.
 
-<!-- ![Sélecteur Dataflow Gen2](assets/lab02-01-dataflow-picker.png) -->
+1. Dans votre workspace `$$lab_ws:ws-lab-<votre identifiant>$$`, sélectionnez **Nouvel élément**, recherchez **Dataflow Gen2** et sélectionnez-le.
 
-5. Nommez le flux `df_energy` dans le champ de nom proposé. <!-- TODO vérifier -->
+  *[capture : sélecteur d'éléments avec Dataflow Gen2]*
 
-<!-- ![Nom df_energy et éditeur initial](assets/lab02-02-dataflow-name.png) -->
+2. Nommez le flux `df_energy` dans le champ de nom proposé. <!-- TODO vérifier -->
 
-6. Choisissez « Options → Paramètres régionaux du dataflow → Anglais (États-Unis) ». <!-- TODO vérifier -->
+  *[capture : éditeur Power Query et nom df_energy]*
 
-<!-- ![Locale Anglais (États-Unis)](assets/lab02-03-regional-settings.png) -->
+3. Dans **Options**, réglez les **Paramètres régionaux du dataflow** sur **Anglais (États-Unis)**, puis revenez à **Obtenir des données**. <!-- TODO vérifier -->
 
-7. Ouvrez « Obtenir des données ».
-
-Utilisez le fichier public du dépôt pour ce lab. La variante SharePoint est réservée à vos propres fichiers au même schéma.
+  *[capture : paramètres régionaux du dataflow, Anglais (États-Unis)]*
 
 ### Importer le fichier du dépôt
 
-1. Recherchez le connecteur « Web » ou « Texte/CSV » permettant une URL. <!-- TODO vérifier -->
-2. Sélectionnez ce connecteur.
+Vous allez lire les relevés directement depuis le dépôt public, sans télécharger ni déposer de fichier dans Fabric. L'accès est anonyme : cette connexion ne demande pas vos identifiants GitHub.
 
-<!-- ![Connecteur Web ou Texte/CSV avec URL](assets/lab02-04-web-connector.png) -->
+1. Dans **Obtenir des données**, recherchez et sélectionnez **Web**, ou **Texte/CSV** avec saisie d'URL selon l'interface. <!-- TODO vérifier -->
 
-3. Collez cette URL : `https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv`.
-4. Choisissez l'authentification « Anonyme ».
+  *[capture : connecteur Web ou Texte/CSV acceptant une URL]*
 
-<!-- ![URL raw publique, authentification anonyme](assets/lab02-05-anonymous-connection.png) -->
+2. Collez `https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv`, choisissez **Anonyme**, puis **Suivant** ou **Se connecter**. <!-- TODO vérifier -->
 
-5. Sélectionnez « Suivant » ou « Se connecter ». <!-- TODO vérifier -->
-6. Choisissez le format « Texte/CSV » si demandé.
-7. Définissez la virgule comme séparateur.
-8. Définissez UTF-8 comme encodage.
-9. Sélectionnez « Transformer les données ». <!-- TODO vérifier -->
+  *[capture : connexion à l'URL raw et authentification Anonyme]*
 
-<!-- ![Aperçu CSV, virgule et UTF-8](assets/lab02-06-csv-preview.png) -->
+3. Dans l'aperçu, choisissez **Texte/CSV** si demandé, la **virgule** comme séparateur et **UTF-8** comme encodage, puis **Transformer les données**. <!-- TODO vérifier -->
 
+  *[capture : aperçu CSV, séparateur virgule et encodage UTF-8]*
 
-Le fichier est également [disponible en téléchargement](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv). L'import par URL ne nécessite pas de téléchargement local.
+Le fichier reste [disponible en téléchargement](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv) pour consultation. Pour le lab, passez directement à **Nettoyer et typer** ; n'ajoutez pas aussi la source SharePoint.
 
 ### Variante : avec vos propres fichiers
 
-Suivez cette variante uniquement pour un fichier SharePoint autorisé au même schéma. Sinon, passez directement à « Nettoyer et typer ».
+Vous pouvez remplacer la source Web par un fichier SharePoint autorisé, avec le même schéma. Les chiffres de contrôle de cet atelier restent ceux du jeu Contoso : avec d'autres données, il faut les recalculer.
 
-1. Recherchez « Dossier SharePoint ».
-2. Sélectionnez ce connecteur.
-3. Saisissez $$sp_site:l'URL de votre site SharePoint$$, pas le lien de partage du fichier.
-4. Choisissez « Compte d'organisation ».
-5. Sélectionnez « Se connecter » si nécessaire.
+1. Dans **Obtenir des données**, choisissez **Dossier SharePoint**. Saisissez $$sp_site:l'URL de votre site SharePoint$$, pas le lien de partage du fichier, puis choisissez **Compte d'organisation**, **Se connecter** si nécessaire et **Suivant**.
 
-<!-- ![Variante SharePoint, compte d'organisation, URL masquée](assets/lab02-07-sharepoint-connection.png) -->
+  *[capture : connexion Dossier SharePoint, compte et URL masqués]*
 
-6. Sélectionnez « Suivant ».
-7. Ouvrez le filtre de la colonne `Name`.
-8. Conservez uniquement `consumption_2025.csv`.
-9. Ouvrez le filtre de `Folder Path`.
-10. Conservez uniquement le dossier contenant votre fichier.
+2. Dans la liste des fichiers, filtrez `Name` sur `consumption_2025.csv` et `Folder Path` sur le dossier contenant votre fichier pour ne garder qu'une ligne.
 
-<!-- ![Variante SharePoint, Name et Folder Path](assets/lab02-08-sharepoint-filter.png) -->
+  *[capture : liste SharePoint filtrée sur Name et Folder Path]*
 
-11. Ouvrez la valeur binaire de la colonne `Content` de l'unique fichier retenu. <!-- TODO vérifier -->
-12. Définissez la virgule comme séparateur.
-13. Définissez UTF-8 comme encodage.
-14. Ouvrez l'éditeur de transformation.
+3. Ouvrez la valeur binaire de `Content`, choisissez la **virgule** et **UTF-8**, puis ouvrez l'éditeur de transformation. <!-- TODO vérifier -->
 
-<!-- ![Variante SharePoint, CSV dans Power Query](assets/lab02-09-sharepoint-content.png) -->
-
-
+  *[capture : contenu CSV du fichier SharePoint dans Power Query]*
 
 ### Nettoyer et typer
 
-Vous devez travailler sur six colonnes : `site_id`, `date`, `year`, `kwh_elec`, `kwh_gas`, `avg_temp`. Si la première ligne contient encore leurs noms, appliquez « Utiliser la première ligne pour les en-têtes ».
+Vous allez retirer les observations inutilisables, puis préparer une date de début de mois pour comparer les consommations. Les six colonnes de départ sont `site_id`, `date`, `year`, `kwh_elec`, `kwh_gas` et `avg_temp`.
 
-1. Renommez la requête `consumption`.
-2. Ouvrez « Accueil ».
-3. Ouvrez « Supprimer les lignes ».
-4. Choisissez « Supprimer les lignes vides ».
-5. Vérifiez les types détectés : `site_id` Texte, `date` Date, `year` Nombre entier, `kwh_elec`, `kwh_gas` et `avg_temp` Nombre décimal.
+1. Dans Power Query, renommez la requête `consumption`. Si les noms des colonnes sont encore sur la première ligne, appliquez **Utiliser la première ligne pour les en-têtes** ; puis choisissez **Accueil > Supprimer les lignes > Supprimer les lignes vides**.
 
-<!-- ![Types détectés des six colonnes](assets/lab02-10-detected-types.png) -->
+  *[capture : requête consumption, en-têtes et suppression des lignes vides]*
 
-6. Corrigez uniquement un type incorrect avec l'icône de type de la colonne. <!-- TODO vérifier -->
+2. Avec l'icône de type des colonnes, corrigez uniquement les types incorrects : `site_id` en **Texte**, `date` en **Date**, `year` en **Nombre entier**, et les trois autres en **Nombre décimal**. La valeur `invalid` peut notamment laisser `kwh_elec` en Texte : convertissez-la avant la suite. <!-- TODO vérifier -->
 
-<!-- ![Correction conditionnelle kwh_elec et erreurs invalid](assets/lab02-11-type-errors.png) -->
+  *[capture : types des six colonnes et erreurs révélées par la conversion]*
 
-7. Sélectionnez les six colonnes.
-8. Ouvrez « Supprimer les lignes ».
-9. Choisissez « Supprimer les erreurs ».
+3. Sélectionnez les six colonnes, puis **Supprimer les lignes > Supprimer les erreurs**.
 
-<!-- ![Étapes de suppression des vides et erreurs](assets/lab02-12-errors-removed.png) -->
+  *[capture : étapes appliquées, suppression des vides puis des erreurs]*
 
-10. Sélectionnez `date`.
-11. Ouvrez « Ajouter une colonne ».
-12. Ouvrez « Date ».
-13. Ouvrez « Mois ».
-14. Choisissez « Début du mois ». <!-- TODO vérifier -->
-15. Renommez la colonne ajoutée `month_start`.
-16. Vérifiez que son type est « Date ».
+4. Sélectionnez `date`, puis **Ajouter une colonne > Date > Mois > Début du mois**. Nommez la nouvelle colonne `month_start` et utilisez le type **Date**. <!-- TODO vérifier -->
 
-<!-- ![month_start de type Date](assets/lab02-13-month-start.png) -->
-
-
-La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez alors cette colonne en Nombre décimal avant de supprimer les erreurs.
+  *[capture : colonne month_start et valeurs au premier jour du mois]*
 
 
 <div class="important" data-title="Une erreur n'est pas une consommation nulle">
@@ -344,88 +304,78 @@ La valeur `invalid` peut conduire à détecter `kwh_elec` comme Texte : corrigez
 
 ### Écrire dans le lakehouse
 
-1. Sélectionnez la requête `consumption`.
-2. Ouvrez « Ajouter une destination de données ».
-3. Choisissez « Lakehouse ».
+Votre préparation est prête ; vous allez écrire son résultat dans `lh_lab`. La méthode **Remplacer** permettra de rejouer le flux sans ajouter une deuxième copie des observations.
 
-<!-- ![Destination Lakehouse](assets/lab02-14-destination-picker.png) -->
+1. Sur la requête `consumption`, choisissez **Ajouter une destination de données > Lakehouse**.
 
-4. Sélectionnez votre workspace personnel.
-5. Sélectionnez `lh_lab`.
-6. Sélectionnez le schéma `dbo`.
-7. Choisissez une nouvelle table.
-8. Saisissez `consumption`.
+  *[capture : choix de la destination Lakehouse]*
 
-<!-- ![lh_lab, dbo, consumption](assets/lab02-15-destination-table.png) -->
+2. Dans le sélecteur, choisissez votre workspace, `lh_lab`, le schéma `dbo`, puis une **Nouvelle table** nommée `consumption`.
 
-9. Choisissez la méthode de mise à jour « Remplacer ». <!-- TODO vérifier -->
-10. Vérifiez la correspondance des sept colonnes.
-11. Validez la destination.
+  *[capture : destination lh_lab.dbo.consumption]*
 
-<!-- ![Sept colonnes et Remplacer](assets/lab02-16-destination-mapping.png) -->
+3. Dans les paramètres de destination, choisissez **Remplacer** et conservez la correspondance des sept colonnes vers les colonnes de même nom, puis validez. <!-- TODO vérifier -->
 
-12. Sélectionnez « Publier » ou « Enregistrer et exécuter » selon la version. <!-- TODO vérifier -->
-13. Exécutez le flux si la publication ne l'a pas déjà lancé.
-14. Ouvrez son historique d'actualisation.
-15. Attendez l'état de réussite.
-16. Contrôlez les lignes écrites dans les détails de l'exécution. <!-- TODO vérifier -->
+  *[capture : correspondance des sept colonnes et méthode Remplacer]*
 
-<!-- ![Exécution réussie et lignes écrites](assets/lab02-17-dataflow-run.png) -->
+4. Dans l'éditeur, choisissez **Publier** ou **Enregistrer et exécuter** selon l'interface. Si la publication n'a pas lancé d'exécution, lancez le flux depuis le workspace. <!-- TODO vérifier -->
 
-17. Ouvrez `lh_lab`.
-18. Actualisez la liste de ses tables.
-19. Ouvrez `consumption`.
+  *[capture : publication du flux et lancement de son exécution]*
 
+<div class="task" data-title="Point de contrôle avant le pipeline">
 
-### Orchestrer et exécuter
-
-1. Revenez à votre workspace personnel.
-2. Sélectionnez « Nouvel élément ».
-3. Choisissez « Pipeline de données ».
-4. Saisissez `pl_energy_daily`.
-5. Sélectionnez « Créer ».
-6. Ouvrez « Activités ».
-7. Ajoutez une activité « Dataflow ».
-
-<!-- ![pl_energy_daily, activité Dataflow](assets/lab02-18-pipeline-canvas.png) -->
-
-8. Sélectionnez cette activité.
-9. Ouvrez ses « Paramètres ».
-10. Sélectionnez votre workspace.
-11. Sélectionnez `df_energy`.
-
-<!-- ![Paramètres de l'activité, df_energy](assets/lab02-19-pipeline-settings.png) -->
-
-12. Enregistrez le pipeline.
-13. Sélectionnez « Exécuter ».
-14. Vérifiez la réussite de l'activité.
-
-<!-- ![Exécution manuelle réussie](assets/lab02-20-pipeline-run.png) -->
-
-
-
-<div class="task" data-title="Point de contrôle">
-
-> Votre fichier imparfait est devenu une table que vous pouvez analyser. Vérifiez les sept colonnes et les **10 840 lignes** de `consumption`, puis la réussite du flux et du pipeline. Après la relance manuelle du pipeline, vous devez toujours retrouver 10 840 lignes : vous avez remplacé les données, pas empilé deux chargements.
+> Dans l'**historique d'actualisation** de `df_energy`, attendez la réussite, puis ouvrez les **détails de l'exécution** : la destination doit avoir reçu **10 840 lignes**. <!-- TODO vérifier --> Dans `lh_lab`, actualisez **Tables > dbo**, puis ouvrez `consumption` : vous retrouvez les sept colonnes, dont `month_start` de type Date au premier jour du mois. L'aperçu peut être limité ; le volume complet se contrôle dans les détails d'exécution, pas en comptant ses lignes visibles.
 
 </div>
 
+*[capture : historique réussi du dataflow et 10 840 lignes écrites]*
+
+*[capture : aperçu de consumption dans le lakehouse avec les sept colonnes]*
+
+### Orchestrer et exécuter
+
+Vous allez relancer la même préparation depuis un pipeline, `pl_energy_daily`. C'est lui qui organise les exécutions ; le nettoyage reste dans `df_energy`.
+
+1. Depuis votre workspace, choisissez **Nouvel élément > Pipeline de données**, nommez-le `pl_energy_daily`, puis sélectionnez **Créer**.
+
+  *[capture : création du pipeline pl_energy_daily]*
+
+2. Sur le canevas du pipeline, ouvrez **Activités** et ajoutez une activité **Dataflow**.
+
+  *[capture : canevas avec une activité Dataflow]*
+
+3. Sélectionnez l'activité ; dans ses **Paramètres**, choisissez votre workspace et le flux `df_energy`.
+
+  *[capture : paramètres de l'activité pointant vers df_energy]*
+
+4. Enregistrez le pipeline, puis sélectionnez **Exécuter**.
+
+  *[capture : lancement manuel du pipeline]*
+
+<div class="task" data-title="Point de contrôle">
+
+> Dans la sortie d'exécution du pipeline, l'activité **Dataflow** doit être réussie. Retrouvez aussi cette nouvelle exécution dans l'historique de `df_energy` : ses détails indiquent toujours **10 840 lignes** écrites dans `lh_lab.dbo.consumption`. La destination est restée en **Remplacer** et la table garde ses **sept colonnes** : vous avez rejoué le nettoyage sans cumuler les chargements.
+
+</div>
+
+*[capture : pipeline réussi et détails de la nouvelle exécution du dataflow]*
+
 ### Si ça bloque
+
+Commencez par l'écran où l'exécution s'arrête : la connexion, la conversion ou la destination. Cela évite de refaire tout le flux pour un seul réglage.
 
 - **Fichier refusé ou import multiple :** vérifiez l'URL raw et l'accès anonyme ; pour SharePoint, contrôlez `Name` et `Folder Path`.
 - **Décimaux ou dates en erreur :** vérifiez la locale de conversion et l'ordre des étapes.
-- **Échec de destination ou doublons :** vérifiez votre workspace, `lh_lab` et la méthode « Remplacer ».
+- **Échec de destination ou doublons :** vérifiez votre workspace, `lh_lab` et la méthode **Remplacer** ; transmettez le message dans le canal Teams $$teams_channel:de l'atelier$$ si l'erreur persiste.
 
 <details>
-<summary>Comprendre : préparer les données et organiser le travail (optionnel, 5 min)</summary>
+<summary>Contexte (optionnel) : préparer les données et organiser le travail (5 min)</summary>
 
 Dataflow Gen2 mémorise des transformations Power Query. À l'exécution, il relit la source et écrit le résultat. Le pipeline orchestre cette exécution ; il ne corrige pas lui-même le fichier.
 
 Utilisez un flux pour des préparations récurrentes accessibles aux analystes. Utilisez un pipeline pour organiser plusieurs activités et leur calendrier. Le mode « Remplacer » convient au petit historique complet du lab. En production, il faut traiter les mises à jour incrémentales, les rejets, les responsabilités et le suivi des coûts. Une donnée absente n'est pas réparée par une planification.
 
-Pour une exécution automatique facultative, ouvrez « Planifier » et choisissez « Quotidienne ». <!-- TODO vérifier -->  
-Définissez l'heure, le fuseau et une date de fin adaptés à votre besoin.  
-Enregistrez la planification ; ne l'activez que si vous souhaitez réellement ces exécutions.
+Pour une exécution automatique facultative, ouvrez **Planifier** et choisissez **Quotidienne**. <!-- TODO vérifier --> Définissez l'heure, le fuseau et une date de fin adaptés à votre besoin, puis enregistrez la planification ; ne l'activez que si vous souhaitez réellement ces exécutions.
 
 </details>
 
