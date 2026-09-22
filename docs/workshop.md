@@ -30,23 +30,55 @@ sections_title:
 
 ## 0. Introduction
 
-**Durée : 10 minutes, dont environ 5 minutes de lecture.**
+Bienvenue dans cet atelier pratique Microsoft Fabric : vous allez construire une chaîne complète de la donnée brute à l'action.  
+Ce lab s'adresse aux analystes métier, chefs de projet, équipes de contrôle de gestion et de responsabilité sociétale ; le tronc commun ne demande pas de programmation.  
+Choisissez le parcours métiers de **3 h** ou le parcours complet de **5 h**, pauses et accompagnement compris.
 
-Contoso est une entreprise fictive qui possède des bureaux, des entrepôts, des usines et des agences. Elle veut comparer leur consommation énergétique et repérer les situations à examiner.
+Une ligne numérotée correspond à une action. Arrêtez-vous à chaque point de contrôle avant de poursuivre.
+
+**Durée de l'introduction : 10 minutes.**
+
+### Ce que vous allez apprendre
+
+- Accéder à des données sans les copier avec les raccourcis OneLake.
+- Transformer un fichier imparfait en table fiable sans code.
+- Croiser et agréger des données en SQL visuel.
+- Interroger vos données en langage naturel et vérifier les réponses.
+- Être notifié quand un seuil est franchi.
+
+Les extensions approfondissent l'entrepôt T-SQL, le modèle sémantique Direct Lake et le temps réel. Copilot est proposé en bonus.
 
 ### Ce que vous allez construire
 
-Vous préparez une analyse vérifiable, puis une alerte, à partir de données synthétiques.
+Contoso est une entreprise fictive multi-sites : bureaux, entrepôts, usines et agences.  
+Ses équipes veulent comparer la consommation énergétique et l'empreinte carbone de leurs bâtiments.  
+Vous partirez de relevés synthétiques pour préparer une table fiable, une analyse et un agent conversationnel.  
+Vous relierez ensuite un rapport à une alerte personnelle, pour examiner une dérive au moment où elle apparaît.
+
+L'objectif est de comprendre **une chaîne complète de la donnée brute à l'action**, rejouable sur vos propres données avec les contrôles et autorisations adaptés.
 
 **Fichier annuel → nettoyage visuel → table commune aux analyses → question métier → réponse vérifiée → décision.**
 
 **Dernier jour disponible → rapport fourni → seuil dépassé → notification Teams personnelle.**
 
-Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont fictifs et ne servent pas à un reporting réel.
+Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont fictifs : les résultats ne constituent pas un reporting réel.
 
 ![Fil rouge : du fichier énergétique à une réponse vérifiée et à une notification](assets/00-learning-path.png)
 
-### Modalités
+### Architecture
+
+![Architecture : source commune en lecture, espace personnel en écriture et alerte personnelle](assets/00-architecture.png)
+
+| Emplacement | Éléments | Votre usage |
+| --- | --- | --- |
+| Dépôt public | `consumption_2025.csv` | Source du flux, accessible anonymement par URL. |
+| Espace commun `$$shared_ws:ws-shared$$` | `lh_source`, tables de référence ; `energy_report` et `sm_energy_report` | Lecture des sources et du rapport préparés. |
+| Votre espace `$$lab_ws:ws-lab-<votre identifiant>$$` | `lh_lab`, `df_energy`, `pl_energy_daily`, `energy_agent`, `act_energy` | Construction de vos propres éléments. |
+| Extensions, dans votre espace | `wh_energy`, `sm_energy_lab`, `es_sample`, `eh_sample`, `act_sample` | Entrepôt SQL, modèle d'analyse et flux d'exemple. |
+
+Les références de `lh_source` deviennent des raccourcis dans `lh_lab`. Le CSV public alimente `df_energy`, puis la table `consumption` (consommation), l'exploration visuelle et `energy_agent`. En parallèle, le modèle commun alimente `energy_report`, puis votre règle Activator et Teams.
+
+### Les deux parcours
 
 | Parcours | Public et format | Sections | Temps réservé |
 | --- | --- | --- | ---: |
@@ -54,31 +86,23 @@ Le rapport vous est fourni dans l'espace commun. Les facteurs carbone sont ficti
 | **Parcours complet 5 h** | Analystes et journée d'upskilling en présentiel | 0 à 8, puis 10 ; lire les cinq blocs « Comprendre » | 300 min, dont 25 min de pauses et 25 min d'aide |
 | **Bonus Copilot** | Selon le temps disponible et les paramètres du tenant | 9 | Environ 15 min supplémentaires, hors des deux minutages |
 
-### Prérequis participant
+### Prérequis
 
-- Un navigateur récent, avec Fabric en français.
 - Un compte professionnel de votre organisation.
-- Le rôle **Membre** sur votre workspace personnel.
-- Le rôle **Lecteur** sur l'espace commun `$$shared_ws:ws-shared$$`.
+- Le rôle **Membre** sur `$$lab_ws:ws-lab-<votre identifiant>$$`, rattaché à une capacité Fabric payante **F2 ou supérieure**, avec les fonctionnalités du lab activées.
+- L'accès en lecture au workspace commun `$$shared_ws:ws-shared$$` et à ses sources préparées.
+- Un navigateur récent, avec Fabric en français.
 - L'accès à $$teams_channel:le canal Teams de l'atelier$$ pour l'entraide et à vos notifications personnelles.
 
-### Conventions et aide
+### Auteur
 
-- Conservez les **identifiants en anglais**, même si le texte est français ; votre workspace est `$$lab_ws:ws-lab-<votre identifiant>$$`.
-- Une ligne numérotée correspond à une action ; les libellés d'interface sont entre « guillemets ».
-- Arrêtez-vous à chaque **point de contrôle** avant de poursuivre.
-- Pour demander de l'aide, indiquez section, étape et message d'erreur à $$contact:votre animateur$$ dans $$teams_channel:le canal Teams de l'atelier$$.
+**[Amine Lemsih](https://github.com/AmineLemsih)**  
+Cloud Solution Architect Data & AI, Microsoft.
 
 <details>
-<summary>Contexte (optionnel) : les briques utilisées</summary>
+<summary>Contexte (optionnel) : glossaire et unités</summary>
 
 Un **workspace**, ou espace de travail, regroupe les éléments Fabric et leurs droits d'accès. Une **capacité** est la ressource de calcul partagée par ces éléments. Un **tenant** est l'environnement de votre organisation.
-
-| Emplacement | Éléments | Votre usage |
-| --- | --- | --- |
-| Espace commun `$$shared_ws:ws-shared$$` | `lh_source`, fichiers et tables de référence ; `energy_report` et son modèle `sm_energy_report` | Lecture. |
-| Votre espace `$$lab_ws:ws-lab-<votre identifiant>$$` | `lh_lab`, `df_energy`, `pl_energy_daily`, `energy_agent`, `act_energy` | Création et modification de vos propres éléments. |
-| Extensions, dans votre espace | `wh_energy`, `sm_energy_lab`, `es_sample`, `eh_sample`, `act_sample` | Entrepôt SQL, modèle d'analyse et flux d'exemple. |
 
 **OneLake** est le stockage logique commun de Fabric. Un **lakehouse** organise des fichiers et des tables dans OneLake. Une **table Delta** est un ensemble de fichiers de données avec un journal assurant la cohérence des écritures.
 
@@ -86,23 +110,15 @@ Dans `lh_source`, la table `sites` (sites) décrit les bâtiments. La table `emi
 
 Un **raccourci OneLake** référence une table existante sans en créer une copie indépendante. **Dataflow Gen2** nettoie les données par des actions visuelles. Un **pipeline** enchaîne et planifie des activités. Un **data agent** transforme une question en requête sur les données autorisées. **Activator** surveille une condition et lance une action.
 
-**Architecture textuelle :** `lh_source` référence → raccourcis dans `lh_lab` ; CSV → `df_energy` → `consumption` ; `pl_energy_daily` lance le flux ; SQL visuel et `energy_agent` lisent les tables. En parallèle, `lh_source` → `sm_energy_report` à identité fixe → `energy_report` → `act_energy` personnel → Teams.
-
-![Architecture : source commune en lecture, espace personnel en écriture et alerte personnelle](assets/00-architecture.png)
-
 **SSO**, ou authentification unique, signifie que le moteur utilise votre identité. Une **identité fixe** utilise celle d'une connexion autorisée, comme pour le modèle du rapport commun.
 
-Les lakehouses, warehouses, tables et colonnes du lab utilisent des lettres, chiffres et underscores, sans espace ni tiret. Les tirets de `ws-lab-...` concernent le workspace. Les items comme `lh_lab` portent le même nom pour chacun, dans des workspaces séparés.
+Les identifiants techniques restent en anglais, même si le texte est français. Les lakehouses, warehouses, tables et colonnes utilisent des lettres, chiffres et underscores. Les tirets de `ws-lab-...` concernent le workspace.
 
 Un **kWh** mesure une quantité d'énergie. Un **kW** mesure une puissance. Un **kgCO2e** exprime une masse de gaz à effet de serre ramenée à un équivalent CO2. Multiplier les kWh par un facteur en kgCO2e/kWh donne une estimation en kgCO2e.
 
 Le fichier annuel couvre l'année civile 2025. Le « dernier jour disponible » est le 31 décembre 2025, pas aujourd'hui. Les deux énergies sont additionnables en kWh, mais elles n'ont pas le même facteur carbone. Les lignes supprimées au nettoyage sont des observations manquantes, pas des consommations égales à zéro.
 
 </details>
-
-### Auteur
-
-**Amine Lemsih** : conception et rédaction de l'atelier. Contact : **@aminelemsih**.
 
 ---
 
