@@ -28,13 +28,11 @@ sections_title:
 
 # Product Hands-on Lab - Microsoft Fabric de bout en bout
 
-## Introduction
-
 Bienvenue ! Dans cet atelier, vous allez construire de bout en bout une chaîne de données dans Microsoft Fabric : partir d'un fichier brut, en faire une table fiable, l'interroger en langage naturel et recevoir une alerte quand un seuil est franchi. Le tout sans écrire une ligne de code dans le parcours principal.
 
 Que vous travailliez dans l'analyse métier, la gestion de projet, le contrôle de gestion ou la RSE, cet atelier vous invite à découvrir ce que Fabric change concrètement dans votre travail quotidien avec la donnée. Vous avancerez pas à pas, avec les mêmes données et un résultat à vérifier à chaque lab.
 
-### Ce que vous allez apprendre
+## Ce que vous allez apprendre
 
 À la fin de l'atelier, vous saurez :
 
@@ -46,7 +44,7 @@ Que vous travailliez dans l'analyse métier, la gestion de projet, le contrôle 
 
 Les labs optionnels vont plus loin : entrepôt T-SQL, modèle sémantique Direct Lake, temps réel. Copilot est proposé en bonus.
 
-### Ce que vous allez construire
+## Ce que vous allez construire
 
 Vous travaillez pour Contoso, une entreprise fictive qui possède des bureaux, des entrepôts, des usines et des agences. Ses équipes veulent comparer la consommation énergétique et l'empreinte carbone de leurs bâtiments, et surtout être prévenues quand la consommation dérive.
 
@@ -58,11 +56,11 @@ Les données sont synthétiques et les facteurs carbone fictifs : les résultats
 
 ![Fil rouge : du fichier énergétique à une réponse vérifiée et à une notification](assets/00-learning-path.png)
 
-### Durée et rythme
+## Durée et rythme
 
 L'atelier dure **3 heures** : cinq labs de 15 à 35 minutes, une pause de 15 minutes après le Lab 2, et du temps pour les questions. Les Labs 6 à 8 sont optionnels : ils approfondissent l'entrepôt T-SQL, le modèle sémantique Direct Lake et le temps réel, pour ceux qui veulent aller plus loin ou pour une journée d'upskilling. Copilot est proposé en bonus.
 
-### Architecture
+## Architecture
 
 ![Architecture : source commune en lecture, espace personnel en écriture et alerte personnelle](assets/00-architecture.png)
 
@@ -75,7 +73,7 @@ L'atelier dure **3 heures** : cinq labs de 15 à 35 minutes, une pause de 15 min
 
 Les tables de référence de `lh_source` sont vues depuis votre lakehouse `lh_lab` par des raccourcis, sans copie. Le fichier public alimente votre flux `df_energy`, qui produit la table `consumption`, que vous explorez et que votre agent `energy_agent` interroge. De son côté, le rapport commun `energy_report` porte votre alerte `act_energy`, qui vous notifie dans Teams.
 
-### Prérequis
+## Prérequis
 
 - Un compte professionnel de votre organisation.
 - Le rôle **Membre** sur votre workspace `$$lab_ws:ws-lab-<votre identifiant>$$`, rattaché à une capacité Fabric payante **F2 ou supérieure**, avec les fonctionnalités du lab activées.
@@ -85,7 +83,7 @@ Les tables de référence de `lh_source` sont vues depuis votre lakehouse `lh_la
 
 Deux conventions pour la route : une ligne numérotée correspond à une action ; à chaque point de contrôle, vérifiez que vous voyez la même chose que nous avant de continuer.
 
-### Auteur
+## Auteur
 
 **[Amine Lemsih](https://github.com/AmineLemsih)**  
 Cloud Solution Architect Data & AI, Microsoft.
