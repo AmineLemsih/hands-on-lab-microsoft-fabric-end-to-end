@@ -683,34 +683,25 @@ Vous avez terminé le parcours principal : rendez-vous à la Conclusion, ou cont
 
 **Pourquoi c'est important pour Contoso**
 
-Certaines équipes souhaitent gérer leurs analyses avec des tables et des requêtes SQL.  
-Un entrepôt leur fournit une surface d'écriture et de lecture adaptée à cette pratique.
+Vous allez retrouver les données de Contoso dans un environnement conçu pour les équipes qui travaillent en SQL. En copiant les tables propres dans un entrepôt, vous pourrez comparer cette façon d'analyser les données à l'exploration visuelle du Lab 3.
 
 **Objectif :** copier les données propres dans un warehouse et vérifier trois requêtes T-SQL.
 
 **Durée : 30 min, lab optionnel.**
 
-Un **warehouse**, ou entrepôt, est un stockage analytique organisé en tables et piloté par SQL. **T-SQL** est le dialecte SQL utilisé par le warehouse Fabric. À partir de cette extension, des requêtes commentées sont fournies à copier-coller.
+Dans cette extension, vous utiliserez **T-SQL**, le dialecte SQL du warehouse Fabric. Les requêtes commentées sont fournies : vous les exécuterez puis vous confronterez leurs résultats aux analyses déjà réalisées.
 
 ### Charger les tables en T-SQL
 
-1. Ouvrez votre workspace personnel.
-2. Sélectionnez « Nouvel élément ».
-3. Choisissez « Warehouse » ou « Entrepôt ». <!-- TODO vérifier -->
-4. Saisissez `wh_energy`.
-5. Sélectionnez « Créer ».
-6. Ouvrez une « Nouvelle requête SQL » dans `wh_energy`.
-7. Collez les trois instructions ci-dessous dans l'éditeur.
-8. Sélectionnez uniquement la première instruction, jusqu'au point-virgule.
-9. Sélectionnez « Exécuter ».
-10. Sélectionnez uniquement la deuxième instruction.
-11. Sélectionnez « Exécuter ».
-12. Sélectionnez uniquement la troisième instruction.
-13. Sélectionnez « Exécuter ».
-14. Actualisez l'explorateur du warehouse.
-15. Vérifiez la présence de `consumption`, `sites` et `emission_factors` sous `dbo`.
+Vous allez créer `wh_energy` dans le même workspace que `lh_lab`, puis y copier les tables nécessaires aux analyses. Cette fois, il s'agit bien de copies : contrairement aux raccourcis, ces tables auront leur propre contenu dans le warehouse.
 
-Le nom en trois parties désigne le lakehouse `lh_lab` du même workspace, son schéma `dbo` et sa table. <!-- TODO vérifier -->
+1. Dans votre workspace `$$lab_ws:ws-lab-<votre identifiant>$$`, choisissez **Nouvel élément > Warehouse** ou **Entrepôt**, nommez-le `wh_energy`, puis sélectionnez **Créer**. <!-- TODO vérifier -->
+
+2. Dans `wh_energy`, ouvrez une **Nouvelle requête SQL** et collez les trois instructions ci-dessous. Sélectionnez la première instruction jusqu'au point-virgule et choisissez **Exécuter** ; répétez séparément pour la deuxième, puis la troisième.
+
+  *[capture : éditeur du warehouse avec une instruction de création sélectionnée et exécutée]*
+
+Le nom `lh_lab.dbo.consumption` désigne le lakehouse `lh_lab` du même workspace, son schéma `dbo` et sa table. <!-- TODO vérifier --> Ces instructions créent des tables nouvelles : si une table existe déjà, ne la supprimez pas et passez à son contrôle avant de relancer sa création.
 
 ```sql
 -- Copier l'historique nettoyé dans une nouvelle table du warehouse.
@@ -726,15 +717,19 @@ CREATE TABLE dbo.emission_factors AS
 SELECT * FROM lh_lab.dbo.emission_factors;
 ```
 
-Les types de destination sont déduits de la sélection ; vérifiez les dates et les nombres dans l'explorateur. <!-- TODO vérifier --> Ces instructions créent des tables nouvelles : si une table existe déjà, ne la supprimez pas et passez à son contrôle avant de relancer sa création.
+<div class="task" data-title="Point de contrôle du chargement">
+
+> Dans l'**explorateur de `wh_energy`**, actualisez **Tables > dbo** : `consumption`, `sites` et `emission_factors` doivent apparaître. Développez leurs colonnes et comparez les types à ceux de `lh_lab`, notamment les dates, les consommations et la précision des facteurs. Les types sont déduits de la sélection ; un chargement réussi ne dispense pas de ce contrôle. <!-- TODO vérifier -->
+
+</div>
+
+*[capture : tables du warehouse et types des colonnes, dont les facteurs d'émission]*
 
 ### Exécuter trois requêtes guidées
 
-1. Ouvrez `wh_energy`.
-2. Sélectionnez « Nouvelle requête SQL ».
-3. Collez la requête 1.
-4. Sélectionnez « Exécuter ».
-5. Comparez le nombre de lignes et la somme électrique au corrigé.
+Vous allez retrouver les volumes, le classement carbone et les jours de forte consommation déjà étudiés. Chaque requête répond à une question différente ; contrôlez son résultat avant de passer à la suivante.
+
+1. Dans `wh_energy`, ouvrez une **Nouvelle requête SQL**, collez la requête 1 ci-dessous et sélectionnez **Exécuter**.
 
 ```sql
 -- Requête 1 : contrôler le volume et les totaux observés en 2025.
@@ -745,12 +740,15 @@ FROM dbo.consumption
 WHERE [date] >= '2025-01-01' AND [date] < '2026-01-01';
 ```
 
-Vous attendez **<span data-expected="clean_rows">10 840</span> observations**, **<span data-expected="electricity_kwh">2 896 164,51</span> kWh électriques** et **<span data-expected="gas_kwh">1 686 455,14</span> kWh de gaz**.
+<div class="task" data-title="Point de contrôle des consommations">
 
-1. Ouvrez une seconde requête SQL.
-2. Collez la requête 2.
-3. Exécutez-la.
-4. Comparez le classement régional à la réponse Q2 de l'agent.
+> Dans la **grille de résultats** de la requête 1, `observation_count` doit valoir **<span data-expected="clean_rows">10 840</span>**, `electricity_kwh` **<span data-expected="electricity_kwh">2 896 164,51</span>** et `gas_kwh` **<span data-expected="gas_kwh">1 686 455,14</span>**. Les deux sommes sont en kWh : vous retrouvez les observations nettoyées, pas un historique reconstitué.
+
+</div>
+
+*[capture : résultat de la requête 1, nombre d'observations et totaux électriques et gaz]*
+
+2. Ouvrez une seconde **Nouvelle requête SQL**, collez la requête 2, puis sélectionnez **Exécuter** pour comparer les régions en kgCO2e.
 
 ```sql
 -- Requête 2 : appliquer le facteur de chaque énergie pour la bonne année.
@@ -765,12 +763,15 @@ GROUP BY sites.region
 ORDER BY total_kgco2e DESC, sites.region;
 ```
 
-Les Hauts-de-France arrivent en tête, avec **<span data-expected="top_region_kgco2e">133 453,59</span> kgCO2e fictifs**. Un résultat deux fois trop grand indique une erreur de données ou de jointure, pas une nouvelle découverte métier.
+<div class="task" data-title="Point de contrôle du classement carbone">
 
-1. Ouvrez une troisième requête SQL.
-2. Collez la requête 3.
-3. Exécutez-la.
-4. Comparez les <span data-expected="peak_count">six</span> couples au corrigé de Q4.
+> Dans la **grille de résultats** de la requête 2, les Hauts-de-France arrivent en tête avec **<span data-expected="top_region_kgco2e">133 453,59</span> kgCO2e fictifs**. Comparez ce classement à Q2 du Lab 4. Un résultat deux fois trop grand indique une erreur de données ou de jointure, pas une nouvelle découverte métier.
+
+</div>
+
+*[capture : classement régional de la requête 2, Hauts-de-France en tête]*
+
+3. Ouvrez une troisième **Nouvelle requête SQL**, collez la requête 3 et sélectionnez **Exécuter** pour retrouver les dépassements par site et par jour.
 
 ```sql
 -- Requête 3 : chercher les dépassements au grain site/jour, pas région/an.
@@ -783,13 +784,19 @@ WHERE consumption.[date] >= '2025-01-01' AND consumption.[date] < '2026-01-01'
 ORDER BY total_kwh DESC, consumption.site_id, consumption.[date];
 ```
 
+<div class="task" data-title="Point de contrôle des dépassements">
+
+> Dans la **grille de résultats** de la requête 3, retrouvez les **<span data-expected="peak_count">six</span> couples site/jour** du corrigé de Q4. Comparez `site_id`, la date et `total_kwh` : le contrôle porte sur chaque site à une date donnée, pas sur une somme régionale.
+
+</div>
+
+*[capture : résultat de la requête 3, sites et dates des dépassements]*
+
 ### Conserver une vue
 
-1. Ouvrez une nouvelle requête SQL dans `wh_energy`.
-2. Collez cette définition.
-3. Exécutez-la seule.
-4. Actualisez l'explorateur.
-5. Ouvrez `dbo.v_energy_monthly`.
+Vous allez conserver le calcul mensuel pour le réutiliser sans recopier la requête. Cette vue appartient au warehouse ; celle du lakehouse reste distincte, même si elle porte le même nom.
+
+1. Dans `wh_energy`, ouvrez une **Nouvelle requête SQL**, collez la définition ci-dessous et exécutez-la seule.
 
 ```sql
 -- Cette vue est dans le warehouse, distincte de celle du lakehouse.
@@ -804,9 +811,17 @@ JOIN dbo.emission_factors AS factors ON factors.[year] = consumption.[year]
 GROUP BY sites.region, consumption.month_start;
 ```
 
-<!-- ![Résultats SQL contrôlés et vue mensuelle dans le warehouse](assets/lab06-sql-results.png) -->
+<div class="task" data-title="Point de contrôle de la vue">
+
+> Actualisez les **vues** dans l'explorateur de `wh_energy` et ouvrez `dbo.v_energy_monthly`. Retrouvez `region`, `month_start`, `total_kwh` et `kgco2e`. Vous avez enregistré une définition de lecture au-dessus des tables copiées, pas une nouvelle copie de ses résultats.
+
+</div>
+
+*[capture : vue v_energy_monthly du warehouse et colonnes du résultat]*
 
 ### Lakehouse ou warehouse ?
+
+Vous avez maintenant essayé deux façons de travailler sur les mêmes données. Utilisez ce tableau pour choisir selon le besoin de l'équipe, plutôt que de multiplier les copies par défaut.
 
 | Besoin | Choix à examiner |
 | --- | --- |
@@ -819,11 +834,13 @@ Dans cette extension, vous avez **copié** les tables pour apprendre l'entrepôt
 
 <div class="task" data-title="Point de contrôle">
 
-> Vous devez voir les trois tables et `v_energy_monthly` dans `wh_energy`. `consumption` contient <span data-expected="clean_rows">10 840</span> lignes, `sites` <span data-expected="site_count">30</span> et `emission_factors` <span data-expected="factor_rows">une</span>. Les trois requêtes retrouvent les valeurs attendues.
+> Dans **Tables > dbo** de `wh_energy`, ouvrez les aperçus de `sites` et `emission_factors` : vous devez retrouver respectivement **<span data-expected="site_count">30</span> lignes** et **<span data-expected="factor_rows">une</span> ligne**. La requête 1 confirme **<span data-expected="clean_rows">10 840</span> lignes** pour `consumption`. La vue `v_energy_monthly` est présente et les trois requêtes retrouvent les résultats attendus : vous savez maintenant contrôler une copie avant de l'utiliser pour une analyse.
 
 </div>
 
 ### Si ça bloque
+
+Commencez par distinguer un problème d'accès à la source, de table déjà présente ou de surface SQL utilisée. Cela évite de supprimer une table correcte pour relancer tout le chargement.
 
 - **Écriture SQL refusée :** vérifiez que vous êtes dans `wh_energy`, pas dans le point de terminaison SQL du lakehouse.
 - **Source introuvable :** vérifiez `lh_lab` dans le même workspace et les tables de son point de terminaison SQL.
@@ -832,13 +849,7 @@ Dans cette extension, vous avez **copié** les tables pour apprendre l'entrepôt
 <details>
 <summary>Contexte (optionnel) : copier par pipeline</summary>
 
-Un pipeline peut aussi copier ces tables avec une activité « Copier les données ».
-La source est `lh_lab` et la destination est `wh_energy`, dans votre espace.
-Les activités `copy_consumption`, `copy_sites` et `copy_emission_factors` peuvent être regroupées dans `pl_energy_warehouse`.
-Ce mécanisme convient à des copies récurrentes dont vous suivez les exécutions.
-Dans cet exercice, les trois instructions T-SQL suffisent : aucun pipeline supplémentaire n'est à créer.
-
-<!-- ![Alternative de copie par pipeline entre lh_lab et wh_energy](assets/lab06-pipeline-option.png) -->
+Pour organiser des copies récurrentes, un pipeline peut utiliser une activité **Copier les données**, de `lh_lab` vers `wh_energy` dans votre espace. Les activités `copy_consumption`, `copy_sites` et `copy_emission_factors` pourraient être regroupées dans `pl_energy_warehouse`. Dans cet exercice, les trois instructions T-SQL suffisent : aucun pipeline supplémentaire n'est à créer.
 
 </details>
 
