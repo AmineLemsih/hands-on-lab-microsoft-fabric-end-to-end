@@ -361,7 +361,37 @@ Hypothèses de cette relecture : l'introduction conserve dix minutes d'accueil m
 
 ## Faire votre premier test de bout en bout
 
-Prévoir un temps de préparation distinct du parcours chronométré. Utiliser deux comptes dans deux profils de navigateur : un compte animateur pour préparer les sources, et un **compte participant distinct** pour les manipulations. Tester avec le compte administrateur seul masquerait les problèmes de droits. Garder les résultats de cette répétition dans un support privé, sans nom de client ni identifiant de tenant dans le dépôt.
+Prévoir un temps de préparation distinct du parcours chronométré. Avec un seul compte, suivre la variante **Autonomie** ci-dessous pour vérifier les manipulations. Pour valider ensuite les restrictions de la session guidée, utiliser deux comptes distincts : animateur et participant. Tester uniquement avec le compte créateur ne valide pas Viewer + ReadAll ni l'alerte depuis un rapport en lecture. Garder les résultats de répétition dans un support privé, sans identifiant de tenant dans le dépôt.
+
+### Variante Autonomie : un compte, un workspace
+
+Cette variante prépare les mêmes tables de démonstration sans script REST, liste de participants ni dépôt manuel de CSV. Elle est destinée à un test individuel ou à un apprentissage autonome. La préparation, y compris le rapport, reste hors des 3 h / 5 h de manipulation.
+
+1. Ouvrir Fabric avec son compte d'organisation.
+2. Créer un workspace personnel de démonstration, ou conserver celui déjà créé, avec droit de création d'items.
+3. Vérifier qu'il est rattaché à une capacité Fabric payante active et que les licences nécessaires sont disponibles.
+4. Dans ce workspace, créer `lh_source` avec les schémas activés.
+5. Télécharger [setup_lh_source.ipynb](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/setup/setup_lh_source.ipynb).
+6. Importer le notebook **dans le même workspace** suivant [setup/README.md](../setup/README.md#préparer-lh_source-avec-le-notebook).
+7. Attacher `lh_source` comme lakehouse par défaut.
+8. Exécuter les cellules 2 à 4 ; laisser `apply_after = False` en cellule 6.
+9. Vérifier les quatre tables Delta et leurs volumes : 30, 1, 10 840 et 30 lignes.
+10. Construire `energy_report` et son modèle dans ce même workspace avec [report/README.md](../report/README.md), avant le Lab 5.
+11. Ouvrir le workshop avec `shared_ws` et `lab_ws` renseignés avec **le même nom de workspace**.
+12. Suivre le Lab 1 : créer `lh_lab`, puis ses raccourcis OneLake vers `lh_source` de ce workspace.
+13. Poursuivre le Lab 2 avec l'URL publique, puis les autres labs ; ne pas utiliser les tables préchargées de `lh_source` comme destination de son Dataflow personnel.
+
+Exemple fictif :
+
+<https://aka.ms/ws?src=gh:AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/docs/&vars=shared_ws:ws-lab-demo,lab_ws:ws-lab-demo,contact:vous-m%C3%AAme>
+
+Sans canal d'atelier, utiliser ses notes personnelles ; la notification du Lab 5 est destinée à son propre compte Teams. Ouvrir `energy_report` dans le même workspace si `report_link` n'est pas renseigné. Les identifiants techniques `lh_source`, `lh_lab` et les tables restent inchangés ; seule la séparation des workspaces disparaît.
+
+Pour l'alerte : créer et activer la règle, attendre l'observation de `before`, puis exécuter la cellule 6 avec `apply_after = True`. Remettre le paramètre à False et actualiser `sm_energy_report`. Pour revenir à l'état initial, relancer les cellules 2 à 4. Ne pas réinitialiser la table entre le franchissement et sa détection.
+
+Ne pas s'attribuer Fabric Administrator pour commencer : ce rôle tenant n'est pas le rôle Administrateur du workspace. Si le data agent ou les alertes sont indisponibles, faire vérifier les paramètres concernés par une personne autorisée. Un succès avec son propre compte reste un test fonctionnel, pas une preuve que les permissions du groupe de participants sont correctes.
+
+En fermeture, arrêter les règles et flux créés, puis supprimer uniquement les éléments de démonstration prévus. Un workspace créé manuellement n'est pas dans le journal du script de suppression ; ne pas supposer qu'il sera nettoyé par celui-ci. Ne jamais supprimer un workspace préexistant qui contient d'autres travaux.
 
 ### Préparer une session à un participant
 
