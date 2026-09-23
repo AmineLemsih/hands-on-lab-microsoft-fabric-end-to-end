@@ -156,11 +156,13 @@ Si l'assistant n'accepte qu'une table à la fois, créez `sites`, puis recommenc
 
 <div class="task" data-title="Point de contrôle">
 
-> Sous **Tables** de `lh_lab`, `sites` et `emission_factors` apparaissent avec l'icône de raccourci. Ouvrez `sites` : l'aperçu montre **<span data-expected="site_count">30</span> lignes**, avec les colonnes `site_id`, `region` et `opening_date`. Ouvrez `emission_factors` : **<span data-expected="factor_rows">une</span> seule ligne**, l'année **2025** et les coefficients **<span data-expected="electricity_factor">0,055</span>** et **<span data-expected="gas_factor">0,205</span>**. Dans les **Propriétés** d'un raccourci, la cible reste `lh_source` dans `$$shared_ws:ws-shared$$`. Aucune copie n'a été lancée : vous lisez la donnée là où elle est. <!-- TODO vérifier -->
+> Sous **Tables > dbo** de `lh_lab`, ouvrez `sites` : le compteur de l'aperçu indique **<span data-expected="site_count">30</span> lignes**, avec les colonnes `site_id`, `region` et `opening_date`. Ouvrez `emission_factors` : **<span data-expected="factor_rows">une</span> seule ligne**, l'année **2025** et les coefficients **<span data-expected="electricity_factor">0,055</span>** et **<span data-expected="gas_factor">0,205</span>**. L'interface peut afficher un point décimal et des zéros supplémentaires : les valeurs restent les mêmes.
+>
+> Dans **Table properties** (propriétés de la table), les champs **Workspace** et **Lakehouse** décrivent l'emplacement dans votre espace, donc `lh_lab`, pas la cible du raccourci. Consultez **Shortcut Type** dans ce volet pour identifier le raccourci ; **Type: Managed** ne suffit pas à conclure qu'il s'agit d'une copie. Pour vérifier la cible, ouvrez le menu de la table puis **Manage shortcut** (gérer le raccourci) : contrôlez **Target location** et **Target subpath** vers `lh_source` dans `$$shared_ws:ws-shared$$`, puis la table sous `Tables/dbo`. Ne modifiez rien dans ce dialogue. Le raccourci référence les données sources sans en créer une table indépendante. <!-- TODO vérifier -->
 
 </div>
 
-*[capture : propriétés du raccourci, cible lh_source sans identifiant privé]*
+*[capture : dialogue Manage shortcut, cible lh_source et table sous Tables/dbo, identifiants privés masqués]*
 
 ### Variante : lire une source S3 (10 min, si disponible)
 
