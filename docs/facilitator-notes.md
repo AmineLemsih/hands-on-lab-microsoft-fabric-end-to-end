@@ -45,6 +45,7 @@ L'exemple Q1 est disponible dans [assets/q1-example.sql](assets/q1-example.sql).
 - [ ] Exécuter la simulation de [préparation](../setup/README.md), vérifier les noms, puis autoriser séparément les écritures réelles. Conserver le journal local.
 - [ ] Vérifier Membre sur chaque workspace personnel et Viewer sur le workspace commun.
 - [ ] Partager **explicitement `lh_source` avec le groupe**, option `ReadAll`, « Lire toutes les données Apache Spark » / « Lire toutes les données OneLake » selon l'interface. <!-- TODO vérifier --> Ce partage ajoute Read mais n'accorde pas Write. Tester le raccourci avec un compte participant, pas l'administrateur.
+- [ ] Dans l'assistant de raccourci OneLake, conserver **Passthrough identity** sur l'écran **Connection method**, entre le choix de `lh_source` et celui des tables. Ne pas utiliser **Delegated identity** comme contournement des droits manquants. Ce réglage est distinct de la connexion à identité fixe du modèle de rapport commun. Voir la [procédure de création d'un raccourci OneLake](https://learn.microsoft.com/fabric/onelake/shortcuts/create-onelake-shortcut).
 - [ ] Vérifier les politiques de sécurité OneLake et, si elles sont actives, le rôle de lecture de la source. Tester Direct Lake en SSO depuis le modèle personnel et ses raccourcis.
 - [ ] Si la variante S3 est retenue, créer dans « Fichiers » de `lh_source` un raccourci vers un bucket de démonstration autorisé, avec une clé d'accès limitée à la lecture des fichiers et à leur parcours. Stocker la clé dans une connexion Fabric, jamais dans le lien ni le dépôt ; prévoir sa rotation/révocation après l'atelier.
 - [ ] Tester à J-7 la **double indirection** : raccourci OneLake de `lh_lab` vers le raccourci S3 de `lh_source`, avec le compte participant et ses droits de connexion/cible. <!-- TODO vérifier --> Annoncer la variante uniquement après lecture réussie des fichiers via ce chemin ; sinon la sauter, sans exposer la clé aux participants.
@@ -261,7 +262,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 | Section ou support | Vérifications regroupées |
 | --- | --- |
 | Préparation de l'introduction, hors texte participant | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la session |
-| 1 | Case schémas, menu `dbo`, propriétés du raccourci et accès cible ; variante S3 facultative : double indirection OneLake vers raccourci S3 et permissions de lecture/connexion |
+| 1 | Case schémas, menu `dbo`, méthode de connexion Passthrough identity, propriétés du raccourci et accès cible ; variante S3 facultative : double indirection OneLake vers raccourci S3 et permissions de lecture/connexion |
 | Lab 2 | Nommage/publication du flux ; locale avant import ; Web/Texte-CSV anonyme sur l'URL raw ; variante Content SharePoint ; types détectés ; Début du mois ; destination Remplacer ; lignes écrites ; planification facultative |
 | 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX. |
 | 4 | Libellé agent ; détails de réponse ; instructions françaises ; éditeur et validation d'exemples ; remise à zéro du chat |
@@ -297,9 +298,9 @@ Hypothèses retenues au-delà des décisions validées :
 | --- | --- |
 | Génération et contrôles intégrés | Neuf tests locaux : reproductibilité, volumes, résultats, états d'alerte, référence expected_values.md et comparaison des chiffres du workshop ; dérives documentaires et valeurs non balisées testées par cas négatifs |
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
-| Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 104 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
+| Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 105 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
 | Rendu et liens | Variables avec valeurs par défaut et personnalisées ; `s3_shortcut` testé ; lien Fabric sans tracking dans le rendu, lien Q1 chargé en HTTP 200 ; encadrés task et contextes repliés contrôlés |
-| Relecture par écran | Tous les labs et le bonus : introductions de sous-sections, étapes par écran, contrôles localisés et contextes repliés ; 59 étapes dans les Labs 1 à 5, 35 dans les options ; SQL, DAX, KQL, demandes à Copilot et valeurs attendues conservés |
+| Relecture par écran | Tous les labs et le bonus : introductions de sous-sections, étapes par écran, contrôles localisés et contextes repliés ; 60 étapes dans les Labs 1 à 5, 35 dans les options ; SQL, DAX, KQL, demandes à Copilot et valeurs attendues conservés |
 | Fichiers publics | Six CSV accessibles anonymement, identiques octet par octet après régénération ; SQL et sources des six cellules du notebook publics et conformes aux fichiers locaux |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
@@ -317,7 +318,7 @@ Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'ét
 | Page | Avant | Par écran |
 | --- | ---: | ---: |
 | Introduction | 0 | 0 |
-| Lab 1 | 47 | 11, dont 3 facultatives S3 |
+| Lab 1 | 47 | 12, dont 3 facultatives S3 |
 | Lab 2 | 79 | 21, soit 18 avec une seule source |
 | Lab 3 | 49 | 9 |
 | Lab 4 | 35 | 11 |
@@ -327,9 +328,9 @@ Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'ét
 | Lab 8 | 72 | 15 |
 | Bonus | 19 | 6 |
 | Conclusion | 10 | 10 |
-| **Total écrit** | **415** | **104** |
+| **Total écrit** | **415** | **105** |
 
-Les Labs 1 à 5 passent de 241 lignes numérotées à 59 étapes-écrans ; le chemin sans S3 et avec une seule source d'ingestion en compte 53. Ce regroupement ne réduit ni le travail à réaliser ni le budget des contrôles. La planification facultative n'est pas un critère de réussite ; S3 et Copilot restent hors des 180 minutes.
+Les Labs 1 à 5 passent de 241 lignes numérotées à 60 étapes-écrans, avec le choix de méthode de connexion OneLake ajouté au Lab 1 ; le chemin sans S3 et avec une seule source d'ingestion en compte 54. Ce regroupement ne réduit ni le travail à réaliser ni le budget des contrôles. La planification facultative n'est pas un critère de réussite ; S3 et Copilot restent hors des 180 minutes.
 
 Les Labs 6 à 8 et le bonus passent de 164 lignes numérotées à 35 étapes-écrans. Les requêtes et la formule DAX restent inchangées ; les vérifications sont réparties dans les encadrés au moment où elles sont nécessaires. Le contrôle du modèle sémantique précise la demande du total annuel à l'agent en plus de Q2. La partie KQL du bonus suppose que le Lab 8 a été réalisé ; elle n'est pas comptée comme terminée si ses données sont absentes.
 

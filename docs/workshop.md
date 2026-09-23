@@ -144,11 +144,13 @@ Les tables `sites` et `emission_factors` existent déjà dans le lakehouse commu
 
   *[capture : catalogue OneLake avec lh_source sélectionné]*
 
-3. Développez les tables du schéma `dbo`, cochez `sites` et `emission_factors`, puis sélectionnez **Suivant**.
+3. Dans **Connection method** (méthode de connexion), conservez **Passthrough identity**, indiqué comme recommandé, puis sélectionnez **Suivant**. Le raccourci utilisera l'identité de l'utilisateur et ses droits sur `lh_source` ; ne choisissez pas **Delegated identity**, qui utiliserait une identité de connexion partagée.
+
+4. Développez les tables du schéma `dbo`, cochez `sites` et `emission_factors`, puis sélectionnez **Suivant**.
 
   *[capture : assistant de raccourci avec les deux tables cochées]*
 
-4. Gardez les noms `sites` et `emission_factors` dans le résumé, puis sélectionnez **Créer**.
+5. Gardez les noms `sites` et `emission_factors` dans le résumé, puis sélectionnez **Créer**.
 
 Si l'assistant n'accepte qu'une table à la fois, créez `sites`, puis recommencez pour `emission_factors`.
 
@@ -166,7 +168,7 @@ Un raccourci fonctionne aussi vers un stockage externe. Si le raccourci `$$s3_sh
 
 1. Dans `lh_lab`, ouvrez le menu **…** de **Fichiers**, puis **Nouveau raccourci** et **Microsoft OneLake**.
 
-2. Sélectionnez `$$shared_ws:ws-shared$$`, puis `lh_source` et, sous **Fichiers**, `$$s3_shortcut:s3_demo$$`. Sélectionnez **Suivant**, gardez le nom proposé et sélectionnez **Créer**. <!-- TODO vérifier -->
+2. Sélectionnez `$$shared_ws:ws-shared$$`, puis `lh_source`. Si l'écran **Connection method** apparaît, conservez **Passthrough identity** pour ce raccourci OneLake, puis sélectionnez **Suivant**. Sous **Fichiers**, choisissez `$$s3_shortcut:s3_demo$$`, sélectionnez **Suivant**, gardez le nom proposé et sélectionnez **Créer**. <!-- TODO vérifier -->
 
 3. Ouvrez `$$s3_shortcut:s3_demo$$` dans `lh_lab` et parcourez les fichiers.
 
