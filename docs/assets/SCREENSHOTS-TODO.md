@@ -26,7 +26,7 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 
 | Lab | Indications de capture | Contenu |
 | --- | ---: | --- |
-| Lab 1 | 6 | Création, raccourcis, cible source et fichiers S3 |
+| Lab 1 | 7 | Création, raccourcis, méthode de connexion, cible source et fichiers S3 |
 | Lab 2 | 8 | Locale, connexion, aperçu, types, mois, destination, résultat et filtre SharePoint |
 | Lab 3 | 6 | Jointures, colonnes développées, regroupement et vue |
 | Lab 4 | 6 | Tables sélectionnées, réponses, instructions et validation de l'exemple |
@@ -35,7 +35,7 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 | Lab 7 | 6 | Tables du modèle, Direct Lake/SSO, relations, mesure et source de l'agent |
 | Lab 8 | 8 | Source, destination, mappage, résultats KQL et règle Activator |
 | Bonus Copilot | 4 | Source distincte, proposition de transformation, KQL et comparaison |
-| **Total** | **56** | 32 dans le parcours principal et 24 dans les options ; variantes et contrôles compris |
+| **Total** | **57** | 33 dans le parcours principal et 24 dans les options ; variantes et contrôles compris |
 
 Après avoir réalisé et anonymisé un écran, ajoutez son PNG ici, puis remplacez la ligne *[capture : …]* correspondante par une référence Markdown :
 

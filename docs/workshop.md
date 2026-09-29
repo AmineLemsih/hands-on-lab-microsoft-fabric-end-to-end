@@ -128,11 +128,11 @@ Tout ce que vous construirez pendant l'atelier vivra dans votre workspace `$$lab
 
 4. Nommez-le `lh_lab`, laissez **Schémas de lakehouse** activé, puis sélectionnez **Créer**. <!-- TODO vérifier -->
 
-  *[capture : dialogue de création de lh_lab, schémas activés]*
+  ![Dialogue de création de lh_lab, schémas activés](assets/lab01-lakehouse-dialog.png)
 
 Le lakehouse s'ouvre sur son explorateur : une zone **Tables**, pour les données structurées, et une zone **Fichiers**, pour tout le reste. Les deux sont vides pour l'instant.
 
-*[capture : lakehouse lh_lab vide, avec Tables et Fichiers]*
+![Lakehouse lh_lab vide, avec Tables et Fichiers](assets/lab01-lakehouse-explorer.png)
 
 ### Créer les raccourcis vers les références
 
@@ -142,13 +142,15 @@ Les tables `sites` et `emission_factors` existent déjà dans le lakehouse commu
 
 2. Choisissez **Microsoft OneLake** comme source, puis le workspace `$$shared_ws:ws-shared$$` et le lakehouse `lh_source`. Sélectionnez **Suivant**.
 
-  *[capture : catalogue OneLake avec lh_source sélectionné]*
+  ![Catalogue OneLake avec lh_source sélectionné](assets/lab01-onelake-catalog.png)
 
 3. Dans **Connection method** (méthode de connexion), conservez **Passthrough identity**, indiqué comme recommandé, puis sélectionnez **Suivant**. Le raccourci utilisera l'identité de l'utilisateur et ses droits sur `lh_source` ; ne choisissez pas **Delegated identity**, qui utiliserait une identité de connexion partagée.
 
+  ![Connection method, Passthrough identity recommandé et sélectionné](assets/lab01-connection-method.png)
+
 4. Développez les tables du schéma `dbo`, cochez `sites` et `emission_factors`, puis sélectionnez **Suivant**.
 
-  *[capture : assistant de raccourci avec les deux tables cochées]*
+  ![Assistant de raccourci avec les deux tables sites et emission_factors cochées](assets/lab01-shortcut-tables.png)
 
 5. Gardez les noms `sites` et `emission_factors` dans le résumé, puis sélectionnez **Créer**.
 
@@ -162,7 +164,7 @@ Si l'assistant n'accepte qu'une table à la fois, créez `sites`, puis recommenc
 
 </div>
 
-*[capture : dialogue Manage shortcut, cible lh_source et table sous Tables/dbo, identifiants privés masqués]*
+![Dialogue Manage shortcut, cible lh_source et table sous Tables/dbo](assets/lab01-shortcut-target.png)
 
 ### Variante : lire une source S3 (10 min, si disponible)
 

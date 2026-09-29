@@ -304,7 +304,7 @@ Hypothèses retenues au-delà des décisions validées :
 | Fichiers publics | Six CSV accessibles anonymement, identiques octet par octet après régénération ; SQL et sources des six cellules du notebook publics et conformes aux fichiers locaux |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
-| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; 56 indications textuelles à remplacer par des captures réelles, dont 32 pour les Labs 1 à 5 et 24 pour les options ; seule la capture de répétition garde une référence commentée ; bannière non référencée ; aucun projet Power BI factice |
+| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; six captures réelles intégrées au Lab 1 (création, raccourcis, méthode de connexion, cible source) ; 51 indications textuelles restantes à remplacer, dont 1 pour la variante S3 du Lab 1, 26 pour les Labs 2 à 5 et 24 pour les options ; seule la capture de répétition garde une référence commentée ; bannière non référencée ; aucun projet Power BI factice |
 | Notebook de préparation | JSON, métadonnées et syntaxe Python contrôlés localement ; exécution Spark/Delta dans Fabric non réalisée |
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.
