@@ -215,21 +215,19 @@ Vous allez rendre les relevés de Contoso exploitables malgré leurs trous et le
 
 ### Créer le flux
 
-Vous allez enregistrer votre préparation dans `df_energy` pour pouvoir la rejouer. Son éditeur, Power Query, vous permet de transformer les données visuellement ; vous réglez d'abord la locale pour lire correctement les points décimaux du fichier.
+Vous allez enregistrer votre préparation dans `df_energy` pour pouvoir la rejouer. Son éditeur, Power Query, s'ouvre d'abord sur le choix d'une source. Les paramètres régionaux seront précisés lors de la conversion des colonnes, après l'import, pour interpréter correctement les points décimaux du fichier.
 
 1. Dans votre workspace `$$lab_ws:ws-lab-<votre identifiant>$$`, sélectionnez **Nouvel élément**, recherchez **Dataflow Gen2** et sélectionnez-le.
 
 2. Nommez le flux `df_energy` dans le champ de nom proposé. <!-- TODO vérifier -->
 
-3. Dans **Options**, réglez les **Paramètres régionaux du dataflow** sur **Anglais (États-Unis)**, puis revenez à **Obtenir des données**. <!-- TODO vérifier -->
-
-  *[capture : paramètres régionaux du dataflow, Anglais (États-Unis)]*
+L'écran initial propose notamment **Import from a Text/CSV file** et **Get data from another source**. Vous n'avez pas de réglage global à chercher avant de connecter le fichier.
 
 ### Importer le fichier du dépôt
 
 Vous allez lire les relevés directement depuis le dépôt public, sans télécharger ni déposer de fichier dans Fabric. L'accès est anonyme : cette connexion ne demande pas vos identifiants GitHub.
 
-1. Dans **Obtenir des données**, recherchez et sélectionnez **Web**, ou **Texte/CSV** avec saisie d'URL selon l'interface. <!-- TODO vérifier -->
+1. Depuis l'écran initial, sélectionnez **Get data from another source** (obtenir des données d'une autre source), puis recherchez **Web** ou **Texte/CSV** (**Text/CSV**) avec saisie d'URL selon l'interface. <!-- TODO vérifier -->
 
 2. Collez `https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv`, choisissez **Anonyme**, puis **Suivant** ou **Se connecter**. <!-- TODO vérifier -->
 
@@ -257,15 +255,21 @@ Vous pouvez remplacer la source Web par un fichier SharePoint autorisé, avec le
 
 Vous allez retirer les observations inutilisables, puis préparer une date de début de mois pour comparer les consommations. Les <span data-expected="raw_columns">six</span> colonnes de départ sont `site_id`, `date`, `year`, `kwh_elec`, `kwh_gas` et `avg_temp`.
 
-1. Dans Power Query, renommez la requête `consumption`. Si les noms des colonnes sont encore sur la première ligne, appliquez **Utiliser la première ligne pour les en-têtes** ; puis choisissez **Accueil > Supprimer les lignes > Supprimer les lignes vides**.
+1. Dans Power Query, renommez la requête `consumption`. Dans **Étapes appliquées** (**Applied steps**), supprimez l'étape automatique **Type modifié** (**Changed type**) si elle existe, pour repartir des valeurs du fichier avant conversion ; conservez la promotion des en-têtes. Si leurs noms sont encore sur la première ligne, appliquez **Utiliser la première ligne pour les en-têtes**, puis choisissez **Accueil > Supprimer les lignes > Supprimer les lignes vides**.
 
-2. Avec l'icône de type des colonnes, corrigez uniquement les types incorrects : `site_id` en **Texte**, `date` en **Date**, `year` en **Nombre entier**, et les trois autres en **Nombre décimal**. La valeur `invalid` peut notamment laisser `kwh_elec` en Texte : convertissez-la avant la suite. <!-- TODO vérifier -->
+2. Définissez `site_id` en **Texte** et `year` en **Nombre entier**. Sélectionnez ensemble `kwh_elec`, `kwh_gas` et `avg_temp`, puis faites un clic droit sur un en-tête et choisissez **Modifier le type > Utiliser les paramètres régionaux** (**Change type > Using locale**). Dans le dialogue, choisissez **Nombre décimal** (**Decimal number**) et **Anglais (États-Unis)** (**English (United States)**), puis validez. <!-- TODO vérifier -->
+
+  *[capture : conversion des colonnes avec Using locale, Decimal number et English (United States)]*
+
+3. Sur la colonne `date`, utilisez le même chemin **Modifier le type > Utiliser les paramètres régionaux**, avec le type **Date** et **Anglais (États-Unis)**, puis validez. La langue de l'interface et le format affiché ne suffisent pas à garantir une conversion correcte ; c'est ce paramètre qui fixe l'interprétation du texte. <!-- TODO vérifier -->
 
   *[capture : types des <span data-expected="raw_columns">six</span> colonnes et erreurs révélées par la conversion]*
 
-3. Sélectionnez les <span data-expected="raw_columns">six</span> colonnes, puis **Supprimer les lignes > Supprimer les erreurs**.
+La valeur `invalid` de `kwh_elec` devient une erreur de conversion : c'est attendu. Ne supprimez les erreurs qu'après avoir appliqué les types et les paramètres régionaux ci-dessus.
 
-4. Sélectionnez `date`, puis **Ajouter une colonne > Date > Mois > Début du mois**. Nommez la nouvelle colonne `month_start` et utilisez le type **Date**. <!-- TODO vérifier -->
+4. Sélectionnez les <span data-expected="raw_columns">six</span> colonnes, puis **Supprimer les lignes > Supprimer les erreurs**.
+
+5. Sélectionnez `date`, puis **Ajouter une colonne > Date > Mois > Début du mois**. Nommez la nouvelle colonne `month_start` et utilisez le type **Date**. <!-- TODO vérifier -->
 
   *[capture : colonne month_start et valeurs au premier jour du mois]*
 

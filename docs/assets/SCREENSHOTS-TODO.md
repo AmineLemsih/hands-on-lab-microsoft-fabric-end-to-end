@@ -27,7 +27,7 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 | Lab | Indications de capture | Contenu |
 | --- | ---: | --- |
 | Lab 1 | 7 | Création, raccourcis, méthode de connexion, cible source et fichiers S3 |
-| Lab 2 | 8 | Locale, connexion, aperçu, types, mois, destination, résultat et filtre SharePoint |
+| Lab 2 | 8 | Connexion, aperçu, filtre SharePoint, conversion avec locale, types, mois, destination et résultat |
 | Lab 3 | 6 | Jointures, colonnes développées, regroupement et vue |
 | Lab 4 | 6 | Tables sélectionnées, réponses, instructions et validation de l'exemple |
 | Lab 5 | 6 | État initial, condition, destination, franchissement, Teams et historique |
