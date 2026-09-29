@@ -1,6 +1,6 @@
 # Captures à réaliser
 
-Une capture seulement pour un **écran où l'on peut se tromper** ou un **résultat à reconnaître**. Jamais pour un menu, un bouton évident ou une page d'accueil. Viser **6 à 8 captures par lab**, variantes comprises ; ne pas en ajouter pour atteindre un quota dans un lab court. Les indications *[capture : …]* placées dans [le workshop](../workshop.md) font foi. S3 et SharePoint restent facultatifs.
+Une capture seulement pour un **écran où l'on peut se tromper** ou un **résultat à reconnaître**. Jamais pour un menu, un bouton évident ou une page d'accueil. Viser **6 à 8 captures par lab**, variantes comprises ; ne pas en ajouter pour atteindre un quota dans un lab court. Les indications *[capture : …]* placées dans [le workshop](../workshop.md) font foi. La variante S3 reste facultative.
 
 Format : PNG, **largeur 1600 px**, hauteur adaptée sans réduire le texte, interface française. Encadrer en **rouge** le contrôle ou le résultat à repérer ; garder assez de contexte pour reconnaître l'écran. Nom : `<lab>-<sujet>.png`, sujet anglais décrivant l'écran, sans numéro d'étape. Ne pas présenter une image recomposée comme une capture d'un comportement testé.
 
@@ -27,7 +27,7 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 | Lab | Indications de capture | Contenu |
 | --- | ---: | --- |
 | Lab 1 | 7 | Création, raccourcis, méthode de connexion, cible source et fichiers S3 |
-| Lab 2 | 8 | Connexion, aperçu, filtre SharePoint, conversion avec locale, types, mois, destination et résultat |
+| Lab 2 | 6 | Connexion, aperçu, typage automatique contrôlé, mois, destination et résultat |
 | Lab 3 | 6 | Jointures, colonnes développées, regroupement et vue |
 | Lab 4 | 6 | Tables sélectionnées, réponses, instructions et validation de l'exemple |
 | Lab 5 | 6 | État initial, condition, destination, franchissement, Teams et historique |
@@ -35,7 +35,7 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 | Lab 7 | 6 | Tables du modèle, Direct Lake/SSO, relations, mesure et source de l'agent |
 | Lab 8 | 8 | Source, destination, mappage, résultats KQL et règle Activator |
 | Bonus Copilot | 4 | Source distincte, proposition de transformation, KQL et comparaison |
-| **Total** | **57** | 33 dans le parcours principal et 24 dans les options ; variantes et contrôles compris |
+| **Total** | **55** | 31 dans le parcours principal et 24 dans les options ; variantes et contrôles compris |
 
 Après avoir réalisé et anonymisé un écran, ajoutez son PNG ici, puis remplacez la ligne *[capture : …]* correspondante par une référence Markdown :
 

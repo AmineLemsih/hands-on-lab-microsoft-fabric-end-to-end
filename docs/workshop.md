@@ -215,7 +215,7 @@ Vous allez rendre les relevés de Contoso exploitables malgré leurs trous et le
 
 ### Créer le flux
 
-Vous allez enregistrer votre préparation dans `df_energy` pour pouvoir la rejouer. Son éditeur, Power Query, s'ouvre d'abord sur le choix d'une source. Les paramètres régionaux seront précisés lors de la conversion des colonnes, après l'import, pour interpréter correctement les points décimaux du fichier.
+Vous allez enregistrer votre préparation dans `df_energy` pour pouvoir la rejouer. Son éditeur, Power Query, s'ouvre d'abord sur le choix d'une source et peut détecter les types automatiquement. Vous conserverez ce typage s'il est correct ; une conversion avec paramètres régionaux ne sera nécessaire qu'en cas de mauvaise interprétation des nombres ou des dates.
 
 1. Dans votre workspace `$$lab_ws:ws-lab-<votre identifiant>$$`, sélectionnez **Nouvel élément**, recherchez **Dataflow Gen2** et sélectionnez-le.
 
@@ -237,37 +237,27 @@ Vous allez lire les relevés directement depuis le dépôt public, sans téléch
 
   *[capture : aperçu CSV, séparateur virgule et encodage UTF-8]*
 
-Le fichier reste [disponible en téléchargement](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv) pour consultation. Pour le lab, passez directement à **Nettoyer et typer** ; n'ajoutez pas aussi la source SharePoint.
-
-### Variante : avec vos propres fichiers
-
-Vous pouvez remplacer la source Web par un fichier SharePoint autorisé, avec le même schéma. Les chiffres de contrôle de cet atelier restent ceux du jeu Contoso : avec d'autres données, il faut les recalculer.
-
-1. Dans **Obtenir des données**, choisissez **Dossier SharePoint**. Saisissez $$sp_site:l'URL de votre site SharePoint$$, pas le lien de partage du fichier, puis choisissez **Compte d'organisation**, **Se connecter** si nécessaire et **Suivant**.
-
-2. Dans la liste des fichiers, filtrez `Name` sur `consumption_2025.csv` et `Folder Path` sur le dossier contenant votre fichier pour ne garder qu'une ligne.
-
-  *[capture : liste SharePoint filtrée sur Name et Folder Path]*
-
-3. Ouvrez la valeur binaire de `Content`, choisissez la **virgule** et **UTF-8**, puis ouvrez l'éditeur de transformation. <!-- TODO vérifier -->
+Le fichier reste [disponible en téléchargement](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv) pour consultation. Poursuivez avec cette source unique dans **Nettoyer et typer**.
 
 ### Nettoyer et typer
 
-Vous allez retirer les observations inutilisables, puis préparer une date de début de mois pour comparer les consommations. Les <span data-expected="raw_columns">six</span> colonnes de départ sont `site_id`, `date`, `year`, `kwh_elec`, `kwh_gas` et `avg_temp`.
+Vous allez conserver les types déjà corrects, retirer les observations inutilisables, puis ajouter un début de mois pour l'analyse. Les <span data-expected="raw_columns">six</span> colonnes de départ sont `site_id`, `date`, `year`, `kwh_elec`, `kwh_gas` et `avg_temp`. Un aperçu sans erreur visible ne signifie pas que tout le fichier est propre : les premières lignes affichées ne couvrent pas toutes les observations.
 
-1. Dans Power Query, renommez la requête `consumption`. Dans **Étapes appliquées** (**Applied steps**), supprimez l'étape automatique **Type modifié** (**Changed type**) si elle existe, pour repartir des valeurs du fichier avant conversion ; conservez la promotion des en-têtes. Si leurs noms sont encore sur la première ligne, appliquez **Utiliser la première ligne pour les en-têtes**, puis choisissez **Accueil > Supprimer les lignes > Supprimer les lignes vides**.
+<div class="task" data-title="Point de contrôle du typage automatique">
 
-2. Définissez `site_id` en **Texte** et `year` en **Nombre entier**. Sélectionnez ensemble `kwh_elec`, `kwh_gas` et `avg_temp`, puis faites un clic droit sur un en-tête et choisissez **Modifier le type > Utiliser les paramètres régionaux** (**Change type > Using locale**). Dans le dialogue, choisissez **Nombre décimal** (**Decimal number**) et **Anglais (États-Unis)** (**English (United States)**), puis validez. <!-- TODO vérifier -->
+> Dans **Applied steps** (étapes appliquées), Power Query peut avoir créé **Promoted headers** puis **Changed column type**. Dans les en-têtes de l'aperçu, attendez **ABC** pour `site_id`, le **calendrier** pour `date`, **123** pour `year` et **1.2** pour `kwh_elec`, `kwh_gas` et `avg_temp`. Comparez aussi les valeurs affichées à celles du CSV : le bon type ne suffit pas si un séparateur décimal a été mal interprété. Si ces contrôles sont corrects, **gardez l'étape automatique** : inutile de la supprimer ou de la refaire.
 
-  *[capture : conversion des colonnes avec Using locale, Decimal number et English (United States)]*
+</div>
 
-3. Sur la colonne `date`, utilisez le même chemin **Modifier le type > Utiliser les paramètres régionaux**, avec le type **Date** et **Anglais (États-Unis)**, puis validez. La langue de l'interface et le format affiché ne suffisent pas à garantir une conversion correcte ; c'est ce paramètre qui fixe l'interprétation du texte. <!-- TODO vérifier -->
+  *[capture : types des <span data-expected="raw_columns">six</span> colonnes et étape Changed column type conservée]*
 
-  *[capture : types des <span data-expected="raw_columns">six</span> colonnes et erreurs révélées par la conversion]*
+1. Renommez la requête `consumption` si nécessaire. Si les noms des colonnes sont encore sur la première ligne, appliquez **Utiliser la première ligne pour les en-têtes** ; sinon, conservez les en-têtes déjà promus.
 
-La valeur `invalid` de `kwh_elec` devient une erreur de conversion : c'est attendu. Ne supprimez les erreurs qu'après avoir appliqué les types et les paramètres régionaux ci-dessus.
+2. Choisissez **Accueil > Supprimer les lignes > Supprimer les lignes vides** (**Home > Remove rows > Remove blank rows**). Cette transformation traitera tout le fichier lors de l'exécution, même si aucune ligne vide n'est visible dans l'aperçu actuel.
 
-4. Sélectionnez les <span data-expected="raw_columns">six</span> colonnes, puis **Supprimer les lignes > Supprimer les erreurs**.
+3. **Seulement si un type ou une conversion est incorrect**, corrigez la colonne concernée : `site_id` en **Texte**, `year` en **Nombre entier**, `date` en **Date**, les consommations et la température en **Nombre décimal**. Pour les dates ou nombres mal interprétés, repartez de l'étape précédant la conversion fautive, puis utilisez **Modifier le type > Utiliser les paramètres régionaux** (**Change type > Using locale**) avec **Anglais (États-Unis)**. N'ajoutez pas une nouvelle conversion au-dessus de valeurs déjà altérées. Si les types et les valeurs sont corrects, passez directement à l'étape suivante. <!-- TODO vérifier -->
+
+4. Sélectionnez les <span data-expected="raw_columns">six</span> colonnes, puis **Supprimer les lignes > Supprimer les erreurs** (**Remove rows > Remove errors**). Le texte `invalid` dans `kwh_elec` devient une erreur quand la colonne est numérique ; ne la laissez pas en Texte pour faire disparaître les erreurs. Cette suppression s'appliquera aussi aux lignes qui ne sont pas actuellement affichées.
 
 5. Sélectionnez `date`, puis **Ajouter une colonne > Date > Mois > Début du mois**. Nommez la nouvelle colonne `month_start` et utilisez le type **Date**. <!-- TODO vérifier -->
 
@@ -279,6 +269,8 @@ La valeur `invalid` de `kwh_elec` devient une erreur de conversion : c'est atten
 > Le fichier contient <span data-expected="blank_rows">55</span> enregistrements vides et <span data-expected="invalid_rows">55</span> valeurs `invalid`. Ne remplacez pas ces erreurs par zéro. Les <span data-expected="rejected_rows">110</span> observations sont exclues de l'analyse. Les lignes à zéro avant l'ouverture d'un site sont valides et restent présentes. L'aperçu Power Query peut être limité : ne confondez pas son nombre de lignes avec le volume complet.
 
 </div>
+
+Le réglage **Data type detection: Based on first 200 rows** de l'import choisit les types sur un échantillon ; il ne nettoie pas le fichier complet. Pour examiner les erreurs sans modifier la requête, activez **View > Column quality** si disponible et vérifiez le périmètre du profilage. Le contrôle décisif reste le volume écrit après exécution : **<span data-expected="clean_rows">10 840</span> lignes**.
 
 ### Écrire dans le lakehouse
 
@@ -324,7 +316,8 @@ Vous allez relancer la même préparation depuis un pipeline, `pl_energy_daily`.
 
 Commencez par l'écran où l'exécution s'arrête : la connexion, la conversion ou la destination. Cela évite de refaire tout le flux pour un seul réglage.
 
-- **Fichier refusé ou import multiple :** vérifiez l'URL raw et l'accès anonyme ; pour SharePoint, contrôlez `Name` et `Folder Path`.
+- **Fichier refusé :** vérifiez l'URL raw du CSV annuel et l'accès anonyme.
+- **Aucune erreur visible :** le typage automatique et l'aperçu ne prouvent pas l'absence de défauts ; conservez les étapes de suppression des lignes vides et des erreurs, puis contrôlez le volume écrit.
 - **Décimaux ou dates en erreur :** vérifiez la locale de conversion et l'ordre des étapes.
 - **Échec de destination ou doublons :** vérifiez votre workspace, `lh_lab` et la méthode **Remplacer** ; transmettez le message dans le canal Teams $$teams_channel:de l'atelier$$ si l'erreur persiste.
 

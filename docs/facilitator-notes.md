@@ -24,7 +24,6 @@ La table `consumption` (consommation) contient les observations annuelles nettoy
 | `teams_channel` | de l'atelier (accueil) | Nom du canal uniquement, sans « le canal » ; la conclusion garde son libellé de repli |
 | `contact` | votre animateur | Nom ou moyen de contact de l'animateur |
 | `report_link` | le rapport energy_report dans l'espace commun | Lien du rapport publié |
-| `sp_site` | l'URL de votre site SharePoint | URL du site, uniquement pour la variante de données propres |
 | `s3_shortcut` | `s3_demo` | Nom du raccourci S3 déjà préparé sous Fichiers de `lh_source`, uniquement si la variante est disponible |
 
 Sur une URL de lecture sans paramètres, la syntaxe est `?vars=shared_ws:ws-shared,teams_channel:Atelier%20Contoso`. Sur le lien court qui contient déjà `?src=...`, ajouter **`&vars=`**, jamais un second `?` :
@@ -52,7 +51,7 @@ L'exemple Q1 est disponible dans [assets/q1-example.sql](assets/q1-example.sql).
 - [ ] Contrôler les paramètres tenant Copilot / Azure OpenAI intégré et data agents, leurs groupes autorisés et leur disponibilité régionale. Les libellés et règles de traitement/stockage interrégional doivent être vérifiés dans la documentation courante et avec l'organisation. <!-- TODO vérifier --> Ne pas activer une option cross-geo sans approbation.
 - [ ] Créer un data agent de test sur les tables du lab. Vérifier les six questions, les instructions françaises, l'exemple validé et l'affichage des requêtes. Aucun secret Azure OpenAI n'est nécessaire pour le chat intégré.
 - [ ] Exécuter l'exemple téléchargeable Q1 sur le tenant et valider **2 896 164,51 kWh électriques observés en 2025**. Vérifier sa compatibilité avec la source `lh_lab` sélectionnée par le participant.
-- [ ] Répéter les variantes CSV et annoncer la source retenue dans le canal de session. Vérifier locale décimale, suppression des erreurs et nombre final de lignes.
+- [ ] Répéter l'import du CSV public. Vérifier les types et les valeurs détectés, conserver le typage automatique s'il est correct, puis contrôler la suppression des lignes vides et des erreurs et le volume final.
 - [ ] Répéter les opérations visuelles du Lab 3 jusqu'à l'enregistrement de la vue. La simple lecture du SQL de référence ne valide pas le parcours sans code.
 - [ ] Construire `energy_report` et `sm_energy_report`, puis associer la source à `conn_energy_report`, connexion à identité fixe, SSO désactivé. Tester l'actualisation et la lecture du rapport avec le compte Viewer.
 - [ ] Effectuer le **test bloquant « Définir une alerte » depuis `energy_report` sur la capacité cible**, avec compte Viewer dans `ws-shared` et Membre dans son espace personnel. Enregistrer `act_energy` dans l'espace personnel, sans copier le rapport. <!-- TODO vérifier -->
@@ -190,7 +189,7 @@ Les passages ci-dessous ont été retirés du texte participant lors de la relec
 | 0, prérequis et conventions | Vérifier la capacité payante active, les licences de lecture/création et le partage Read + ReadAll de `lh_source`, ainsi que la lecture de `energy_report` et de son modèle à identité fixe. L'accès à la source des raccourcis reste nécessaire au modèle personnel en SSO. Rappeler de ne publier aucun jeton, mot de passe, URL privée ou message d'erreur sensible dans le dépôt. Les prérequis participant ne remplacent pas la checklist d'accès J-7. |
 | 1, dépannage | « L'animateur contrôle le rôle Viewer. » ; « L'animateur adapte le chemin si le lakehouse source est sans schémas. » Vérifier aussi ReadAll et sa propagation si l'item est visible mais sa donnée refusée. |
 | 2, contrôle et pause | Accompagner le contrôle des lignes écrites si les détails d'exécution sont difficiles à lire ; « L'animateur annonce l'heure de reprise. » |
-| 2, planification | La fréquence quotidienne, l'heure/fuseau/date de fin et l'enregistrement restent dans le contexte optionnel. Aucun planning n'est exigé au point de contrôle. Après l'import, retirer l'étape automatique Type modifié si présente, puis convertir les colonnes numériques et la date avec Utiliser les paramètres régionaux / Anglais (États-Unis), avant de supprimer les erreurs. La valeur `invalid` doit produire une erreur, pas masquer une conversion incorrecte des autres valeurs. |
+| 2, planification | La fréquence quotidienne, l'heure/fuseau/date de fin et l'enregistrement restent dans le contexte optionnel. Aucun planning n'est exigé au point de contrôle. Après l'import, conserver Changed column type si les types et les valeurs sont corrects. Corriger avec une locale explicite uniquement en cas d'écart, depuis les valeurs précédant la conversion fautive. La valeur `invalid` doit produire une erreur dans kwh_elec numérique ; les suppressions des lignes vides et des erreurs restent nécessaires même si elles ne sont pas visibles dans l'aperçu. |
 | 3, vue et contrôle | « Toutes les transformations doivent pouvoir être traduites en SQL par l'éditeur ; l'animateur vérifie ce parcours visuel avant la session. » ; « L'animateur dispose du corrigé calculé pour comparer les résultats. » Ne pas substituer du SQL au parcours visuel sans l'annoncer. |
 | 4, exemple et dépannage | « Si Q1 n'est pas correcte, l'animateur la vérifie avec vous avant l'ajout. » ; « L'animateur vérifie la capacité payante, la région et les paramètres tenant des data agents et de l'IA. » ; « Testez les instructions en français avant diffusion. » La capacité d'essai ne suffit pas au parcours prévu. |
 | 4, préparation de Q1 après relecture | L'exemple Q1 téléchargeable est validé à J-7. Le participant conserve uniquement le collage et la validation de l'exemple dans l'interface. |
@@ -263,7 +262,7 @@ Les commentaires `<!-- TODO vérifier -->` restent près de l'instruction concer
 | --- | --- |
 | Préparation de l'introduction, hors texte participant | Libellé ReadAll ; droits/chemin d'alerte lecteur ; licences et capacité de la session |
 | 1 | Case schémas, menu `dbo`, méthode de connexion Passthrough identity, propriétés du raccourci et accès cible ; variante S3 facultative : double indirection OneLake vers raccourci S3 et permissions de lecture/connexion |
-| Lab 2 | Nommage/publication du flux ; accueil Get data from another source ; Web/Texte-CSV anonyme sur l'URL raw ; variante Content SharePoint ; retrait du typage automatique puis conversion avec locale explicite ; Début du mois ; destination Remplacer ; lignes écrites ; planification facultative |
+| Lab 2 | Nommage/publication du flux ; accueil Get data from another source ; Web/Texte-CSV anonyme sur l'URL raw ; contrôle du typage automatique et correction conditionnelle avec locale ; nettoyage sur le fichier complet ; Début du mois ; destination Remplacer ; lignes écrites ; planification facultative |
 | 3 | Accès endpoint SQL ; deux jointures externes gauches ; regroupement région/mois et sommes séparées ; chargement actif et sauvegarde de vue. Le carbone reste dans la variante SQL, l'agent et DAX. |
 | 4 | Libellé agent ; détails de réponse ; instructions françaises ; éditeur et validation d'exemples ; remise à zéro du chat |
 | 5 | Bouton alerte en lecture ; F64/tenant ; condition Devient ; workspace destination ; validation et activation ; ouverture/historique Activator ; latence réelle |
@@ -298,28 +297,28 @@ Hypothèses retenues au-delà des décisions validées :
 | --- | --- |
 | Génération et contrôles intégrés | Neuf tests locaux : reproductibilité, volumes, résultats, états d'alerte, référence expected_values.md et comparaison des chiffres du workshop ; dérives documentaires et valeurs non balisées testées par cas négatifs |
 | Préparation/suppression | 18 tests hors ligne réussis avec API simulées ; aucun `--apply` réel exécuté |
-| Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 105 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
+| Construction MOAW | CLI 1.6.1 ; 11 pages nommées ; menu de 0. Introduction à 10. Conclusion ; auteur unique ; 102 étapes écrites ; parcours principal de 180 min, labs optionnels de 30/25/35 min |
 | Rendu et liens | Variables avec valeurs par défaut et personnalisées ; `s3_shortcut` testé ; lien Fabric sans tracking dans le rendu, lien Q1 chargé en HTTP 200 ; encadrés task et contextes repliés contrôlés |
-| Relecture par écran | Tous les labs et le bonus : introductions de sous-sections, étapes par écran, contrôles localisés et contextes repliés ; 60 étapes dans les Labs 1 à 5, 35 dans les options ; SQL, DAX, KQL, demandes à Copilot et valeurs attendues conservés |
+| Relecture par écran | Tous les labs et le bonus : introductions de sous-sections, étapes par écran, contrôles localisés et contextes repliés ; 57 étapes dans les Labs 1 à 5, 35 dans les options ; SQL, DAX, KQL, demandes à Copilot et valeurs attendues conservés |
 | Fichiers publics | Six CSV accessibles anonymement, identiques octet par octet après régénération ; SQL et sources des six cellules du notebook publics et conformes aux fichiers locaux |
 | Permissions, six questions d'agent, SQL/DAX/KQL dans Fabric | Non exécutés sur tenant ; répétition obligatoire |
 | Alerte lecteur, capacité et réception Teams | Non testés sur tenant ; gate J-7 bloquant |
-| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; six captures réelles intégrées au Lab 1 (création, raccourcis, méthode de connexion, cible source) ; 51 indications textuelles restantes à remplacer, dont 1 pour la variante S3 du Lab 1, 26 pour les Labs 2 à 5 et 24 pour les options ; seule la capture de répétition garde une référence commentée ; bannière non référencée ; aucun projet Power BI factice |
+| Captures, schémas, bannière et projet Power BI réel | Trois schémas présents ; six captures réelles intégrées au Lab 1 (création, raccourcis, méthode de connexion, cible source) ; 49 indications textuelles restantes à remplacer, dont 1 pour la variante S3 du Lab 1, 24 pour les Labs 2 à 5 et 24 pour les options ; seule la capture de répétition garde une référence commentée ; bannière non référencée ; aucun projet Power BI factice |
 | Notebook de préparation | JSON, métadonnées et syntaxe Python contrôlés localement ; exécution Spark/Delta dans Fabric non réalisée |
 
 Les résultats de vérification locale et leurs limites sont à actualiser avant chaque diffusion. Le statut `published: false` demeure tant que le lab n'a pas été testé sur tenant.
 
-La réécriture conserve 52 commentaires `TODO vérifier` : Labs 1 à 8, respectivement 4, 12, 5, 7, 6, 3, 4 et 9 ; bonus Copilot, 2. Les deux marqueurs de navigation vers l'endpoint SQL du Lab 3 ont été réunis sur la même étape, pas considérés comme validés. Les trois vérifications d'accès des Labs 1, 4 et 5 restent à effectuer sur tenant ; la recette documentaire ne les valide pas.
+La réécriture conserve 50 commentaires `TODO vérifier` : Labs 1 à 8, respectivement 4, 10, 5, 7, 6, 3, 4 et 9 ; bonus Copilot, 2. La variante d'ingestion supprimée n'est plus à vérifier ; les marqueurs regroupés ne valent pas validation des opérations. Les trois vérifications d'accès des Labs 1, 4 et 5 restent à effectuer sur tenant ; la recette documentaire ne les valide pas.
 
 ### Bilan de la réécriture par écran
 
-Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'état avant les réécritures par écran (`ea17ac0`). Les deux variantes d'ingestion sont comptées dans le total du fichier, même si une seule est suivie. Les contrôles et les répétitions des questions ne sont pas artificiellement comptés comme autant de clics.
+Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'état avant les réécritures par écran (`ea17ac0`). L'ingestion utilise désormais uniquement le CSV public ; la correction conditionnelle des types reste comptée. Les contrôles et les répétitions des questions ne sont pas artificiellement comptés comme autant de clics.
 
 | Page | Avant | Par écran |
 | --- | ---: | ---: |
 | Introduction | 0 | 0 |
 | Lab 1 | 47 | 12, dont 3 facultatives S3 |
-| Lab 2 | 79 | 21, soit 18 avec une seule source |
+| Lab 2 | 79 | 18, dont une correction de type conditionnelle |
 | Lab 3 | 49 | 9 |
 | Lab 4 | 35 | 11 |
 | Lab 5 | 31 | 7 |
@@ -328,9 +327,9 @@ Comptage des lignes numérotées écrites, hors blocs de code, comparé à l'ét
 | Lab 8 | 72 | 15 |
 | Bonus | 19 | 6 |
 | Conclusion | 10 | 10 |
-| **Total écrit** | **415** | **105** |
+| **Total écrit** | **415** | **102** |
 
-Les Labs 1 à 5 passent de 241 lignes numérotées à 60 étapes-écrans, avec le choix de méthode de connexion OneLake ajouté au Lab 1 ; le chemin sans S3 et avec une seule source d'ingestion en compte 54. Ce regroupement ne réduit ni le travail à réaliser ni le budget des contrôles. La planification facultative n'est pas un critère de réussite ; S3 et Copilot restent hors des 180 minutes.
+Les Labs 1 à 5 passent de 241 lignes numérotées à 57 étapes-écrans, avec le choix de méthode de connexion OneLake ajouté au Lab 1 ; le chemin sans S3 en compte 54. Ce regroupement ne réduit ni le travail à réaliser ni le budget des contrôles. La planification facultative n'est pas un critère de réussite ; S3 et Copilot restent hors des 180 minutes.
 
 Les Labs 6 à 8 et le bonus passent de 164 lignes numérotées à 35 étapes-écrans. Les requêtes et la formule DAX restent inchangées ; les vérifications sont réparties dans les encadrés au moment où elles sont nécessaires. Le contrôle du modèle sémantique précise la demande du total annuel à l'agent en plus de Q2. La partie KQL du bonus suppose que le Lab 8 a été réalisé ; elle n'est pas comptée comme terminée si ses données sont absentes.
 
@@ -377,7 +376,7 @@ En fermeture, arrêter les règles et flux créés, puis supprimer uniquement le
 3. Vérifier Membre sur l'espace personnel, Viewer sur l'espace commun, puis partager `lh_source` avec ReadAll au groupe participant. Vérifier que le compte n'hérite pas d'un rôle plus élevé par un autre groupe.
 4. Importer le notebook [setup_lh_source.ipynb](../setup/setup_lh_source.ipynb), l'attacher à `lh_source` et exécuter les cellules 2 à 4. Les CSV sont déjà publics ; la génération locale sert seulement à les régénérer à l'identique.
 5. Construire et publier le vrai `energy_report` selon [report/README.md](../report/README.md), avec son modèle à identité fixe ; aucun rapport Power BI prêt à importer n'est livré dans le kit.
-6. Préparer le lien de session. Choisir une seule variante d'ingestion et omettre S3 et Copilot pour la première passe.
+6. Préparer le lien de session. Utiliser le CSV public pour l'ingestion et omettre S3 et Copilot pour la première passe.
 
 ### Vérifier d'abord les trois points bloquants
 
@@ -395,7 +394,7 @@ Suivre ensuite le workshop dans l'ordre avec le compte participant. Si la vérif
 
 Noter pour chaque section : durée réelle, étape bloquante, libellé observé, résultat attendu/obtenu et message d'erreur. Vérifier les 10 840 lignes après ingestion et relance manuelle du pipeline, les 72 couples région/mois, puis les six questions avec `data/csv/questions_expected_answers.md`. Valider l'exemple Q1 téléchargeable sur le tenant avant la session. Ne pas confondre son seuil Q4 de 20 000 kWh par site/jour avec l'alerte régionale de 10 000 kWh.
 
-Le Lab 2 représente **18 étapes-écrans avec une seule source**, Web ou SharePoint, et non les 21 étapes des deux variantes réunies : mesurer s'il tient en 35 minutes avec les contrôles. Le Lab 8 compte désormais **15 étapes-écrans pour 35 minutes**, sans réduire les manipulations ni les contrôles : mesurer avec un profil analyste et consigner le dépassement éventuel. Il reste optionnel, hors des 3 h ; ne pas le raccourcir sans retour de répétition.
+Le Lab 2 représente **18 étapes-écrans avec le CSV public**, dont une correction conditionnelle des types : mesurer s'il tient en 35 minutes avec les contrôles. Le Lab 8 compte désormais **15 étapes-écrans pour 35 minutes**, sans réduire les manipulations ni les contrôles : mesurer avec un profil analyste et consigner le dépassement éventuel. Il reste optionnel, hors des 3 h ; ne pas le raccourcir sans retour de répétition.
 
 Après le Lab 5, ouvrir la page Conclusion, ou poursuivre avec les labs optionnels retenus avant de conclure. Garder S3 et Copilot pour des passes séparées. Le simulateur de compteurs vers Eventstream reste une piste du backlog, non implémentée.
 

@@ -23,7 +23,7 @@ La graine vaut `2025`. Les six CSV et [expected_values.md](csv/expected_values.m
 | `questions_expected_answers.md` | 6 questions | Corrigé numérique et totaux régionaux avant/après |
 | `expected_values.md` | 26 valeurs identifiées | Référence calculée et versionnée pour les chiffres du workshop |
 
-Format CSV : UTF-8 avec BOM, séparateur virgule, point décimal, dates ISO `YYYY-MM-DD`. Dans Power Query français, convertir les décimaux avec les paramètres régionaux « Anglais (États-Unis) ». Les régions restent des noms géographiques français. Les codes d'activité restent en anglais.
+Format CSV : UTF-8 avec BOM, séparateur virgule, point décimal, dates ISO `YYYY-MM-DD`. Dans Power Query, conserver les types automatiquement détectés si les types et les valeurs sont corrects. En cas d'erreur de conversion, repartir des valeurs source et utiliser les paramètres régionaux « Anglais (États-Unis) ». Les régions restent des noms géographiques français. Les codes d'activité restent en anglais.
 
 ## Vérifier les chiffres du workshop
 
@@ -117,8 +117,6 @@ Pour préparer la source commune, importer [setup_lh_source.ipynb](../setup/setu
 Il prépare `sites` (30 lignes), `emission_factors` (une ligne), `consumption` (10 840 lignes nettoyées, avec `month_start`) et `consumption_latest_day` (30 lignes dans l'état `before`). Le participant recrée lui-même `consumption` dans `lh_lab` depuis le CSV imparfait, sans exécuter ce notebook pendant le tronc commun.
 
 **Accès OneLake obligatoire :** donner Viewer au groupe sur `ws-shared` **et partager explicitement `lh_source` avec ce groupe**. Activer l'option qui accorde `ReadAll`, « Lire toutes les données Apache Spark » / « Lire toutes les données OneLake » selon l'interface. <!-- TODO vérifier --> Le partage ajoute aussi `Read`. Il ne donne aucun droit d'écriture. Cela permet les raccourcis et Direct Lake sur OneLake en SSO. Si la sécurité OneLake est activée, faire valider également ses rôles de lecture. Tester avec un compte participant. [Permissions du lakehouse](https://learn.microsoft.com/fabric/data-engineering/lakehouse-sharing) ; [sécurité Direct Lake](https://learn.microsoft.com/fabric/fundamentals/direct-lake-security-integration).
-
-Pour SharePoint, déposer uniquement `consumption_2025.csv` dans une bibliothèque accessible aux participants. Transmettre l'URL du **site** par la variable `sp_site` du lien de session. Le connecteur « Dossier SharePoint » attend l'URL du site, pas un lien de partage du CSV.
 
 ## Préparer les tables du rapport
 
