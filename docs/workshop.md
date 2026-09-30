@@ -231,11 +231,11 @@ Vous allez lire les relevés directement depuis le dépôt public, sans téléch
 
 2. Collez `https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv`, choisissez **Anonyme**, puis **Suivant** ou **Se connecter**. <!-- TODO vérifier -->
 
-  *[capture : connexion à l'URL raw et authentification Anonyme]*
+  ![Connexion au CSV public par URL, authentification Anonymous](assets/lab02-anonymous-connection.png)
 
 3. Dans l'aperçu, choisissez **Texte/CSV** si demandé, la **virgule** comme séparateur et **UTF-8** comme encodage, puis **Transformer les données**. <!-- TODO vérifier -->
 
-  *[capture : aperçu CSV, séparateur virgule et encodage UTF-8]*
+  ![Aperçu du CSV, encodage UTF-8, séparateur Comma et détection des types](assets/lab02-csv-preview.png)
 
 Le fichier reste [disponible en téléchargement](https://raw.githubusercontent.com/AmineLemsih/hands-on-lab-microsoft-fabric-end-to-end/main/data/csv/consumption_2025.csv) pour consultation. Poursuivez avec cette source unique dans **Nettoyer et typer**.
 
@@ -249,7 +249,7 @@ Vous allez conserver les types déjà corrects, retirer les observations inutili
 
 </div>
 
-  *[capture : types des <span data-expected="raw_columns">six</span> colonnes et étape Changed column type conservée]*
+![Types des colonnes dans Power Query et étape Changed column type conservée](assets/lab02-detected-types.png)
 
 1. Renommez la requête `consumption` si nécessaire. Si les noms des colonnes sont encore sur la première ligne, appliquez **Utiliser la première ligne pour les en-têtes** ; sinon, conservez les en-têtes déjà promus.
 
@@ -261,7 +261,7 @@ Vous allez conserver les types déjà corrects, retirer les observations inutili
 
 5. Faites un clic droit sur `date` et choisissez **Duplicate column** (dupliquer la colonne). Renommez la copie `month_start`, puis, sur cette copie uniquement, choisissez **Transform column > Month > Start of month**. Conservez le type **Date**. La colonne `date` doit garder le jour du relevé : si vous l'avez déjà transformée en début de mois, retirez cette transformation dans **Applied steps** avant de la dupliquer. <!-- TODO vérifier -->
 
-  *[capture : colonne month_start et valeurs au premier jour du mois]*
+  ![Colonnes date et month_start distinctes, début du mois calculé sur la copie](assets/lab02-month-start.png)
 
 
 <div class="important" data-title="Une erreur n'est pas une consommation nulle">
@@ -280,9 +280,11 @@ Votre préparation est prête ; vous allez écrire son résultat dans `lh_lab`. 
 
 2. Dans le sélecteur, choisissez votre workspace, `lh_lab`, le schéma `dbo`, puis une **Nouvelle table** nommée `consumption`.
 
+  ![Sélection de lh_lab, schéma dbo et nouvelle table consumption, workspaces privés masqués](assets/lab02-lakehouse-destination.png)
+
 3. Dans les paramètres de destination, choisissez **Remplacer** et conservez la correspondance des <span data-expected="clean_columns">sept</span> colonnes vers les colonnes de même nom, puis validez. <!-- TODO vérifier -->
 
-  *[capture : correspondance des <span data-expected="clean_columns">sept</span> colonnes et méthode Remplacer]*
+  ![Méthode Replace sélectionnée et correspondance des colonnes vers la destination](assets/lab02-destination-mapping.png)
 
 4. Dans l'éditeur, choisissez **Enregistrer et exécuter** (**Save and run**) pour enregistrer `df_energy` et lancer son chargement.
 
@@ -338,7 +340,9 @@ Vous savez maintenant lancer le traitement à la demande. **Schedule** permet de
 
 3. Dans **Failure notifications**, repérez où sélectionner votre compte professionnel comme destinataire. Pour cette découverte, annulez l'ajout sans enregistrer de planification active. Si un essai automatique a été convenu dans le canal Teams $$teams_channel:de l'atelier$$, enregistrez et activez la planification, observez l'exécution dans le suivi, puis désactivez-la après le test.
 
-*[capture : Schedule de pl_energy_daily, fréquence, fuseau, fin et Failure notifications, destinataire masqué]*
+![Schedule de pl_energy_daily, fréquence Daily, dates, fuseau et Failure notifications](assets/lab02-pipeline-schedule.png)
+
+La capture montre le formulaire avant enregistrement. Remplacez la date de fin très éloignée proposée par défaut par celle de votre essai ; ne recopiez pas ces dates pour la session.
 
 <div class="task" data-title="Point de contrôle de la planification">
 

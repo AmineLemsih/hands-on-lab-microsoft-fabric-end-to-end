@@ -27,7 +27,7 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 | Lab | Indications de capture | Contenu |
 | --- | ---: | --- |
 | Lab 1 | 7 | Création, raccourcis, méthode de connexion, cible source et fichiers S3 |
-| Lab 2 | 7 | Connexion, aperçu, typage automatique contrôlé, mois, destination, résultat et Schedule |
+| Lab 2 | 8 | Connexion, aperçu, typage automatique contrôlé, mois, choix de destination, correspondance, résultat et Schedule |
 | Lab 3 | 6 | Jointures, colonnes développées, regroupement et vue |
 | Lab 4 | 6 | Tables sélectionnées, réponses, instructions et validation de l'exemple |
 | Lab 5 | 6 | État initial, condition, destination, franchissement, Teams et historique |
@@ -35,7 +35,9 @@ Les emplacements sont intégrés dans les pages, au plus près de l'écran ou du
 | Lab 7 | 6 | Tables du modèle, Direct Lake/SSO, relations, mesure et source de l'agent |
 | Lab 8 | 8 | Source, destination, mappage, résultats KQL et règle Activator |
 | Bonus Copilot | 4 | Source distincte, proposition de transformation, KQL et comparaison |
-| **Total** | **56** | 32 dans le parcours principal et 24 dans les options ; variantes et contrôles compris |
+| **Total** | **57** | 33 dans le parcours principal et 24 dans les options ; variantes et contrôles compris |
+
+Le Lab 1 contient six captures intégrées et le Lab 2 en contient sept. Il reste à fournir la capture S3 du Lab 1 et celle du pipeline réussi avec ses détails d'exécution au Lab 2. Les images livrées pour le Lab 2 sont en anglais, comme l'interface du déroulé ; les originaux sont conservés localement, avec des copies de publication annotées et anonymisées si nécessaire.
 
 Après avoir réalisé et anonymisé un écran, ajoutez son PNG ici, puis remplacez la ligne *[capture : …]* correspondante par une référence Markdown :
 
