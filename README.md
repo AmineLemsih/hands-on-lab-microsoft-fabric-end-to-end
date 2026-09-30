@@ -24,7 +24,7 @@ Le **bonus Copilot** demande environ 15 minutes supplémentaires, si le temps et
 
 La **variante S3** du Lab 1 demande 10 minutes supplémentaires, hors minutage, uniquement si elle est proposée dans la session.
 
-Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline ; la planification reste dans le contexte optionnel. La préparation de l'environnement et du rapport se fait avant la session.
+Le Lab 2 conserve son créneau de 35 minutes avec exécution manuelle du pipeline et découverte de **Schedule** et **Failure notifications**. L'activation d'une récurrence reste facultative et doit être arrêtée après l'essai. La préparation de l'environnement et du rapport se fait avant la session.
 
 ## Architecture
 
@@ -70,7 +70,7 @@ Contrôle de construction, après génération des données :
 moaw build docs/workshop.md -d data/out/workshop.build.md
 ```
 
-Ajoutez les captures réelles anonymisées en remplaçant les lignes *[capture : …]* pendant le déroulé ; [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md) décrit les 55 emplacements, dont 31 pour les Labs 1 à 5 et 24 pour les options, limités aux écrans à risque et aux résultats à reconnaître. Exécutez ensuite `python tools/check_assets.py` pour synchroniser les références Markdown insérées. `--check --summary` contrôle l'état sans écrire ; les indications textuelles ne sont pas transformées automatiquement. Aucun fichier image vide ou fausse capture ne doit être ajouté.
+Ajoutez les captures réelles anonymisées en remplaçant les lignes *[capture : …]* pendant le déroulé ; [docs/assets/SCREENSHOTS-TODO.md](docs/assets/SCREENSHOTS-TODO.md) décrit les 56 emplacements, dont 32 pour les Labs 1 à 5 et 24 pour les options, limités aux écrans à risque et aux résultats à reconnaître. Exécutez ensuite `python tools/check_assets.py` pour synchroniser les références Markdown insérées. `--check --summary` contrôle l'état sans écrire ; les indications textuelles ne sont pas transformées automatiquement. Aucun fichier image vide ou fausse capture ne doit être ajouté.
 
 ## Pour les animateurs
 

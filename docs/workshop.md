@@ -259,7 +259,7 @@ Vous allez conserver les types déjà corrects, retirer les observations inutili
 
 4. Sélectionnez les <span data-expected="raw_columns">six</span> colonnes, puis **Supprimer les lignes > Supprimer les erreurs** (**Remove rows > Remove errors**). Le texte `invalid` dans `kwh_elec` devient une erreur quand la colonne est numérique ; ne la laissez pas en Texte pour faire disparaître les erreurs. Cette suppression s'appliquera aussi aux lignes qui ne sont pas actuellement affichées.
 
-5. Sélectionnez `date`, puis **Ajouter une colonne > Date > Mois > Début du mois**. Nommez la nouvelle colonne `month_start` et utilisez le type **Date**. <!-- TODO vérifier -->
+5. Faites un clic droit sur `date` et choisissez **Duplicate column** (dupliquer la colonne). Renommez la copie `month_start`, puis, sur cette copie uniquement, choisissez **Transform column > Month > Start of month**. Conservez le type **Date**. La colonne `date` doit garder le jour du relevé : si vous l'avez déjà transformée en début de mois, retirez cette transformation dans **Applied steps** avant de la dupliquer. <!-- TODO vérifier -->
 
   *[capture : colonne month_start et valeurs au premier jour du mois]*
 
@@ -270,7 +270,7 @@ Vous allez conserver les types déjà corrects, retirer les observations inutili
 
 </div>
 
-Le réglage **Data type detection: Based on first 200 rows** de l'import choisit les types sur un échantillon ; il ne nettoie pas le fichier complet. Pour examiner les erreurs sans modifier la requête, activez **View > Column quality** si disponible et vérifiez le périmètre du profilage. Le contrôle décisif reste le volume écrit après exécution : **<span data-expected="clean_rows">10 840</span> lignes**.
+Le réglage **Data type detection: Based on first 200 rows** de l'import choisit les types sur un échantillon ; il ne nettoie pas le fichier complet. Pour examiner les erreurs sans modifier la requête, activez **View > Column quality** si disponible et vérifiez le périmètre du profilage. Après exécution, le résultat attendu sur la table complète est **<span data-expected="clean_rows">10 840</span> lignes** ; le nombre de lignes de l'aperçu ne permet pas de le confirmer.
 
 ### Écrire dans le lakehouse
 
@@ -284,17 +284,33 @@ Votre préparation est prête ; vous allez écrire son résultat dans `lh_lab`. 
 
   *[capture : correspondance des <span data-expected="clean_columns">sept</span> colonnes et méthode Remplacer]*
 
-4. Dans l'éditeur, choisissez **Publier** ou **Enregistrer et exécuter** selon l'interface. Si la publication n'a pas lancé d'exécution, lancez le flux depuis le workspace. <!-- TODO vérifier -->
+4. Dans l'éditeur, choisissez **Enregistrer et exécuter** (**Save and run**) pour enregistrer `df_energy` et lancer son chargement.
 
 <div class="task" data-title="Point de contrôle avant le pipeline">
 
-> Dans l'**historique d'actualisation** de `df_energy`, attendez la réussite, puis ouvrez les **détails de l'exécution** : la destination doit avoir reçu **<span data-expected="clean_rows">10 840</span> lignes**. <!-- TODO vérifier --> Dans `lh_lab`, actualisez **Tables > dbo**, puis ouvrez `consumption` : vous retrouvez les <span data-expected="clean_columns">sept</span> colonnes, dont `month_start` de type Date au premier jour du mois. L'aperçu peut être limité ; le volume complet se contrôle dans les détails d'exécution, pas en comptant ses lignes visibles.
+> Dans **Recent runs** (exécutions récentes) de `df_energy`, attendez l'état **Succeeded** (réussi). Dans `lh_lab`, actualisez **Tables > dbo**, puis ouvrez `consumption` : retrouvez les <span data-expected="clean_columns">sept</span> colonnes, dont `month_start` de type Date au premier jour du mois, tandis que `date` conserve le jour du relevé.
+>
+> **`Showing 1000 rows` signifie que l'aperçu est limité, pas que la table contient seulement mille lignes.** Pour chercher le volume chargé, ouvrez l'exécution de `df_energy` depuis son heure de début, puis l'activité d'écriture vers `lh_lab.dbo.consumption` dans **Activities**, et consultez **Activity statistics > Rows written** si ce compteur est fourni. <!-- TODO vérifier --> Le résultat attendu est **<span data-expected="clean_rows">10 840</span> lignes** ; certains connecteurs n'affichent que des octets. Si le compteur manque, contrôlez la table complète avec le comptage en lecture seule ci-dessous, ou faites réaliser ce contrôle via le canal Teams $$teams_channel:de l'atelier$$. Un statut réussi ne suffit pas à valider le volume.
 
 </div>
 
+<details>
+<summary>Contexte (optionnel) : compter les lignes de la table complète</summary>
+
+Si le suivi ne fournit pas le nombre de lignes, ouvrez le **point de terminaison d'analytique SQL** de `lh_lab`, attendez la synchronisation de `dbo.consumption`, puis collez cette requête dans **Nouvelle requête SQL** et exécutez-la. Elle lit la table complète sans la modifier ; vous n'avez pas à écrire la requête vous-même.
+
+```sql
+SELECT COUNT_BIG(*) AS observation_count
+FROM dbo.consumption;
+```
+
+La grille de résultats contient un seul total, `observation_count`, attendu à **<span data-expected="clean_rows">10 840</span>**. Ce n'est pas le compteur d'un aperçu. Réutilisez ce même comptage après la relance par le pipeline pour vérifier que la table n'a pas grossi.
+
+</details>
+
 ### Orchestrer et exécuter
 
-Vous allez relancer la même préparation depuis un pipeline, `pl_energy_daily`. C'est lui qui organise les exécutions ; le nettoyage reste dans `df_energy`.
+Vous allez relancer la même préparation depuis un pipeline, `pl_energy_daily`. C'est lui qui organise les exécutions ; le nettoyage reste dans `df_energy`. Une fois cette exécution manuelle réussie, vous pourrez découvrir sa planification dans **Schedule**.
 
 1. Depuis votre workspace, choisissez **Nouvel élément > Pipeline de données**, nommez-le `pl_energy_daily`, puis sélectionnez **Créer**.
 
@@ -306,11 +322,29 @@ Vous allez relancer la même préparation depuis un pipeline, `pl_energy_daily`.
 
 <div class="task" data-title="Point de contrôle">
 
-> Dans la sortie d'exécution du pipeline, l'activité **Dataflow** doit être réussie. Retrouvez aussi cette nouvelle exécution dans l'historique de `df_energy` : ses détails indiquent toujours **<span data-expected="clean_rows">10 840</span> lignes** écrites dans `lh_lab.dbo.consumption`. La destination est restée en **Remplacer** et la table garde ses **<span data-expected="clean_columns">sept</span> colonnes** : vous avez rejoué le nettoyage sans cumuler les chargements.
+> Dans la **sortie d'exécution du pipeline**, l'activité **Dataflow** doit être réussie. Retrouvez aussi cette nouvelle exécution dans **Recent runs** de `df_energy` et, si disponible, son compteur **Rows written** pour la destination. La destination doit rester en **Remplacer** et la table garder ses **<span data-expected="clean_columns">sept</span> colonnes**. Le volume complet attendu après relance est toujours **<span data-expected="clean_rows">10 840</span> lignes** : réutilisez le comptage ci-dessus pour confirmer l'absence de cumul. **`Showing 1000 rows` ne permet pas de vérifier ce résultat.**
 
 </div>
 
 *[capture : pipeline réussi et détails de la nouvelle exécution du dataflow]*
+
+### Découvrir la planification du pipeline
+
+Vous savez maintenant lancer le traitement à la demande. **Schedule** permet de programmer cette même exécution ; **Failure notifications** avertit par courriel si une exécution planifiée échoue. La découverte de ces réglages fait partie du lab, mais leur activation reste facultative pour éviter des exécutions et des coûts après l'atelier.
+
+1. Dans le workspace, ouvrez le menu **…** de **`pl_energy_daily`**, puis **Schedule** ; vous pouvez aussi passer par les paramètres du pipeline et leur rubrique **Schedule**. Vérifiez le nom de l'élément : vous planifiez le pipeline, pas directement `df_energy`. <!-- TODO vérifier -->
+
+2. Dans **Schedules**, ouvrez l'ajout d'une planification. Repérez la fréquence **Daily** (quotidienne), l'heure, le fuseau horaire et les dates de début et de fin ; préparez une première exécution future et une fin adaptée à la session. Ne validez pas encore l'activation.
+
+3. Dans **Failure notifications**, repérez où sélectionner votre compte professionnel comme destinataire. Pour cette découverte, annulez l'ajout sans enregistrer de planification active. Si un essai automatique a été convenu dans le canal Teams $$teams_channel:de l'atelier$$, enregistrez et activez la planification, observez l'exécution dans le suivi, puis désactivez-la après le test.
+
+*[capture : Schedule de pl_energy_daily, fréquence, fuseau, fin et Failure notifications, destinataire masqué]*
+
+<div class="task" data-title="Point de contrôle de la planification">
+
+> Dans **Schedule** de `pl_energy_daily`, vous savez où définir les prochaines exécutions et leurs notifications d'échec. Sans test convenu, aucune planification ne doit rester active ; après un essai, vérifiez sa désactivation. Ne planifiez pas aussi `df_energy` : vous déclencheriez le même nettoyage par deux chemins indépendants. Les **Failure notifications** concernent les échecs des exécutions **planifiées**, pas ceux de votre lancement manuel ; elles ne remplacent ni le suivi d'exécution ni l'alerte métier Teams du Lab 5.
+
+</div>
 
 ### Si ça bloque
 
@@ -328,7 +362,7 @@ Dataflow Gen2 mémorise des transformations Power Query. À l'exécution, il rel
 
 Utilisez un flux pour des préparations récurrentes accessibles aux analystes. Utilisez un pipeline pour organiser plusieurs activités et leur calendrier. Le mode « Remplacer » convient au petit historique complet du lab. En production, il faut traiter les mises à jour incrémentales, les rejets, les responsabilités et le suivi des coûts. Une donnée absente n'est pas réparée par une planification.
 
-Pour une exécution automatique facultative, ouvrez **Planifier** et choisissez **Quotidienne**. <!-- TODO vérifier --> Définissez l'heure, le fuseau et une date de fin adaptés à votre besoin, puis enregistrez la planification ; ne l'activez que si vous souhaitez réellement ces exécutions.
+La planification ne garantit pas que les données sont correctes : un traitement peut réussir techniquement et produire un mauvais résultat métier. Gardez donc le contrôle des volumes et des colonnes en plus des notifications d'échec, et désactivez les récurrences de démonstration à la fin de la session.
 
 </details>
 
